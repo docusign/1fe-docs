@@ -1,0 +1,70 @@
+---
+title: Context
+description: 'Context utils API'
+---
+
+## `platform.context.self`
+
+Answers the question about who you are.
+
+#### Type
+
+```ts
+{
+  widgetId;
+  version;
+}
+```
+
+#### Example
+
+```tsx
+import { platformProps } from '@1fe/shell';
+
+function MySimpleComponent(props: WidgetProps) {
+  return (
+    <div>
+      <h1>Who am I?</h1>
+      <pre>widgetId: {platformProps.context.self.widgetId}</pre>
+      <pre>widgetVersion: {platformProps.context.self.version}</pre>
+    </div>
+  );
+}
+```
+
+---
+
+## `platform.context.getHost`
+
+Answers the question about who is hosting you.
+
+This is only offered for insights and logging purposes.
+
+:::danger
+Writing logic depending on the host is **NOT** okay. It is highly recommended to write functionality in a way that can be toggled on/off by prop-driven configuration.
+
+It is better to write your widget in a way that it can be hosted by any widget.
+:::
+
+#### Type
+
+```ts
+function getHost(): {
+  id: widgetId;
+};
+```
+
+#### Example
+
+```tsx
+import { platformProps } from '@1fe/shell';
+
+function MySimpleComponent(props: WidgetProps) {
+  return (
+    <div>
+      <h1>Who is hosting me?</h1>
+      <pre>widgetId: {platformProps.context.getHost().id}</pre>
+    </div>
+  );
+}
+```

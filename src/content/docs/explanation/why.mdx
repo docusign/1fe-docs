@@ -1,0 +1,77 @@
+---
+title: Why 1FE?
+description: Do we really need another FrontEnd standard?
+---
+
+There are already multiple standards and patterns set across the industry and more-so at a given Organization. The point of 1FE is to not be the next standard, but to be a self-defined and distributed platform for to bring your Organization's existing standards together and aligning on the best practices.
+
+1FE, as the name suggests, implies 1-way to FrontEnd across your Organization. This is not to say that 1FE is the only way to do FrontEnd, but it is the way that your Organization has decided to do FrontEnd. This is a key distinction that allows for the flexibility of the platform to be extended and customized to fit your Organization's needs.
+
+1FE is **NOT** just a JS framework, it is a Platform and set of Standards and best practices that can be implemented in any framework or library. The goal is to provide a consistent and predictable way to build and maintain FrontEnd applications across your Organization to allow:
+
+- Isolated and independent sandboxed components. 
+- Microfrontends with micro-repositories.
+- Reduction of Guest-development.
+- Consistent and Predictable development.
+- Maximize reuse across the Organization.
+- Simplify the onboarding process for new developers.
+- Reduce the cognitive load of maintaining multiple standards.
+- Increase the speed of development and deployment.
+- Provide an unparalleled DX for developers.
+- Abstract complexity away.
+- Provide a separation between Platform and Product.
+- Provide a clear path to upgrade and migrate applications.
+
+
+### Who is 1FE for?
+
+1FE is not built to be adopted by an individual, but rather a UI Platform team at an Organization. The goal is to provide an Ecosystem that allows the team to build and maintain tooling, guidance, and standards that can be utilized by the rest of the Organization without any effort or overhead. A few examples of the decisions that the 1FE team would make are:
+
+**Code Authoring**
+
+- What version of NodeJS to use for build/tooling?
+- What version of TypeScript to use?
+- What version of React to use?
+- What ESLint rules to enable for strict / non-strict mode?
+
+**Testing**
+
+- What Unit Testing framework to use?
+- What the centralized configuration for it looks like?
+
+
+**Build**
+
+- What bundler tool to use?
+- What the centralized configuration for it looks like?
+- How to handle CSS/SCSS/LESS?
+- How to handle Images/Fonts?
+- What libraries are common enough to be externalized? (Load once, cache forever)
+
+**Deployment**
+
+> Abstracted away from Product teams
+
+- What CI/CD technologies to use?
+- What CDN Provider to use?
+- How to bundle and deploy assets?
+- What caching strategies to use?
+- How to optimize assets for performance?
+
+
+**Runtime**
+
+- What authentication strategies to enable via configs?
+- What routes to enable via configs per Product?
+
+
+**Utils**
+
+- What utility helper functions to make available Out Of The Box?
+- What UI Logger to use?
+- What Error Handling strategy to use?
+- What Analytics provider to use?
+- What A/B Testing and Experimentation platform to use?
+
+
+**Monitoring**

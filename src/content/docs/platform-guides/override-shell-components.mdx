@@ -1,0 +1,65 @@
+---
+title: Overriding 1FE Shell Components
+description: 'Need custom components for shell loader and error page?'
+---
+
+The shell has two visual components that can be overridden if custom components are needed. Otherwise, the default components will be used.
+
+## `OneFEShellOptions.components.getLoader`
+
+:::note
+The loader component is rendered when the shell is loading a widget.
+:::
+
+Here is a simple example of how to override the loader component with a custom component.
+
+```tsx
+import renderOneFEShell from '@devhub/1fe-shell';
+import { Spin } from 'antd'; 
+
+renderOneFEShell({
+  components: {
+    getLoader: () => <Spin />,
+  }
+});
+```
+
+## `OneFEShellOptions.components.getError`
+
+:::note
+The error component is shown when:
+- The shell fails to load a widget
+- There is no plugin associated with the route
+- The 1FE error boundary is hit
+:::
+
+**Types**
+
+
+```ts
+type OneFEErrorComponentProps = {
+  type?: 'error' | 'notFound';
+  plugin?: PluginConfig;
+  message?: string;
+};
+```
+
+Here is a simple example of how to override the error component.
+
+```tsx
+import renderOneFEShell from '@devhub/1fe-shell';
+import { Spin } from 'antd'; 
+
+renderOneFEShell({
+  components: {
+    getError: ({ type, plugin, message }: OneFEErrorComponentProps) => (
+      <>
+        <h1>Custom Error Page</h1>
+        <p>{type === 'notFound' ? 'Looks like this page is not here' : 'An error has occurred'}</p>
+        <p>{plugin}</p>
+        <p>{message}</p>
+      </>
+    ),
+  }
+});
+```

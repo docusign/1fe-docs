@@ -1,0 +1,52 @@
+---
+title: Externalizing Common Libraries
+description: 'How to externalize a library'
+---
+
+To externalize a library from ALL widget bundles, add the library metadata to `cdn.libraries.managed` of your Live Configurations. 
+
+After adding the library information, 1fe/cli will automatically externalize the library from all widget bundles, and will be provided by the 1fe runtime to all widgets.
+
+## `cdn.libraries.managed` example
+
+**Type**
+```tsx
+type ExternalLibConfig = {
+  id: string;
+  name: string;
+  version: string;
+  path: string;
+  isPreloaded: boolean;
+  type: 'external';
+};
+```
+
+**Live Configurations**
+```json
+{
+  "cdn": {
+    "libraries": {
+      "basePrefix": "https://your-cdn.net/libs/",
+      "managed": [
+        {
+          "id": "lodash",
+          "name": "lodash",
+          "version": "4.17.21",
+          "isPreloaded": true,
+          "path": "lodash.js",
+          "type": "external"
+        }
+      ]
+    }
+  }
+}
+```
+
+
+This snippet will empower 1FE to do the following:
+
+1. 1fe/cli will externalize lodash when building widget bundles
+
+2. 1fe/shell will preload lodash from `https://your-cdn.net/libs/lodash/4.17.21/lodash.js` at runtime.
+
+

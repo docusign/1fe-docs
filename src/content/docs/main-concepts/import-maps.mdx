@@ -1,0 +1,52 @@
+---
+title: Import Maps
+description: Import Maps
+sidebar:
+  order: 3
+---
+
+import { FcDownload, FcMindMap } from 'react-icons/fc';
+
+The 1FE runtime uses SystemJS in conjunction with import maps to dynamically load widgets and their dependencies. This allows for a more flexible and efficient way to manage dependencies in a micro-frontend architecture.
+
+### <FcDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What is SystemJS
+
+**SystemJS** is a JavaScript module loader that supports both **ES Modules (ESM)** and **CommonJS** modules. It's typically used when building projects where you want to load modules dynamically within the browser.
+
+### <FcMindMap style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What are Import Maps
+
+**Import maps** are a browser feature that let you control how JavaScript module specifiers (like 'react' or '@lib/utils') are resolved.
+
+### Simple Example
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import SystemJS from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.10.0/dist/s.min.js"></script>
+
+  <!-- Define the Import Map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "widget1": "https://cdn.skypack.dev/react",
+    }
+  }
+  </script>
+</head>
+<body>
+  <h1>SystemJS + Import Maps Example</h1>
+
+  <script type="module">
+    // Use SystemJS to import modules as defined by the import map
+    System.import('widget1').then(widgetModule => {
+      console.log('Widget loaded:', widgetModule);
+    }).catch(err => console.error('Error loading Widget:', err));
+  </script>
+</body>
+</html>
+```
+
+
+

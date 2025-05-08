@@ -1,0 +1,144 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="icon" type="image/x-icon" href="/public/favicon.svg">
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --primary: #4CC9F0;
+    --primary-light: #72EFDD;
+    --secondary: #7B61FF;
+    --accent: #F72585;
+    --accent-yellow: #FF9E00;
+    --dark: #10111A;
+    --dark-blue: #171928;
+    --light: #10111A;
+    --gray: #10111A;
+  }
+
+  @font-face {
+        font-family: 'DSIndigo';
+        src: url('https://docucdn-a.akamaihd.net/olive/fonts/3.0.0/DSIndigo-Regular.woff2') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DSIndigo';
+  }
+  
+  body {
+    background-color: var(--dark);
+    color: var(--light);
+    line-height: 1.6;
+    background: linear-gradient(135deg, #fbfbfb 0%, #ffffff 100%);
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(123, 97, 255, 0.15) 0%, rgba(16, 17, 26, 0) 50%),
+                radial-gradient(circle at bottom right, rgba(76, 201, 240, 0.15) 0%, rgba(16, 17, 26, 0) 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes glow1 {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0.9;
+    }
+  }
+  
+  @keyframes glow2 {
+    0% {
+      transform: scale(1.2);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0.8;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    
+    .illustration-container {
+      height: 300px;
+      order: -1;
+    }
+    
+    .laptop {
+      left: 50%;
+      transform: translateX(-50%) perspective(800px) rotateY(-15deg) rotateX(15deg);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .nav-links {
+      display: none;
+    }
+    
+    .hero-text h1 {
+      font-size: 36px;
+    }
+    
+    .hero-stats {
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .cloud {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import { Badge } from '@astrojs/starlight/components';
+import RussianDollImg from "../../../assets/russian-doll.png";
+
+---
+<div>
+    <div class="made-by-wrapper">
+        <Badge text="Team B" variant="note" class="made-by" />
+    </div>
+    <div class="section">
+        <div class="content">
+            <h2>Is this your Organization?</h2>
+
+            <h4>Products/Teams (Layer 1)</h4>
+            <ul>
+                <li>Backend for serving & proxying</li>
+                <li>Frontend shell + layout</li>
+                <li>PR Checks & release processes</li>
+                <li>Testing frameworks</li>
+                <li>Release calendar</li>
+                <li>Guest dev sub-experiences (occasionally dynamically)</li>
+                <li>Deployment Pipeline</li>
+                <li>CDN hosting of bundled assets</li>
+            </ul>
+
+            <h4>Web Utilities (Layer 2)</h4>
+
+            <ul>
+                <li>Internationalization (i18n)</li>
+                <li>Analytics (Mixpanel)</li>
+                <li>State Management (Redux, Reactor, Recoil)</li>
+                <li>UX Components (deviations from/migrations to Olive, Ink)</li>
+                <li>UI Logging (KazMon, DataDog)</li>
+                <li>Calling the backend (fetch, sockets, graphql)</li>
+                <li>Experimentation (Optimizely, LaunchDarkly)</li>
+                <li>Feature Flag Mgmt (DSS, OneConfig, NDSE Optimizely flag service)</li>
+                <li>Time manipulation (tools like momentjs)</li>
+                <li>Navigation (internal and external)</li>
+                <li>Component <-> Component communication</li>
+                <li>Authentication checks</li>
+                <li>Browser information</li>
+                <li>User information (settings)</li>
+                <li>Execution metadata information (context of where Widget / Plugin is being executed)</li>
+            </ul>
+        </div>
+        <div>
+            <Image src={RussianDollImg} alt="Why" class="image" />
+        </div>
+    </div>
+</div>
+
+<style>
+    .section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        border-top: 2px dashed var(--sl-color-accent);
+        margin-top: 0px !important;
+    }
+
+    .content {
+        padding: 4rem 2rem;
+        flex-grow: 1;
+
+        h2 {
+            padding-bottom: 2rem;
+        }
+    }
+
+	@media (max-width: 50rem) {
+        .section {
+            flex-direction: column-reverse;
+            align-items: center;
+        }
+    }
+
+    .image {
+        padding-top: 8rem;
+        width: 20rem;
+    }
+
+    .made-by-wrapper {
+        display: flex;
+        justify-content: end;
+    }
+
+    .made-by {
+        padding: 0.25rem 0.5rem;
+        border-radius: 8px 8px 0 0;
+    }
+</style>

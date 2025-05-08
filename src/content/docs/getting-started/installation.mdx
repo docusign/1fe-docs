@@ -1,0 +1,46 @@
+---
+title: Create a new 1FE App
+description: Installing 1FE
+sidebar:
+  order: 1
+  badge:
+    text: Start here
+    variant: default
+---
+
+import { SlWrench, SlAnchor, SlCloudDownload } from "react-icons/sl";
+
+## <SlAnchor style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Pre-requisites
+
+- Node.js 22.x.x+
+- Yarn 4.x.x+
+
+## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Manual Installation
+
+##### 1. Clone or fork the 1FE monorepo:
+
+  ```bash
+  git clone https://github.com/docusign/dev-hub.git
+  ```
+
+##### 2. Install and Build dependencies at the root:
+  ```bash
+  cd dev-hub && yarn && yarn build
+  ```
+
+##### 3. Run the starter app development server
+
+  ```bash
+  cd apps/starter-app && yarn dev
+  ```
+  
+ Visit `http://localhost:3001/app1` to view your application.
+
+## <SlWrench style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Automatic Installation (WIP)
+
+Coming Soon!
+
+
+
+
+

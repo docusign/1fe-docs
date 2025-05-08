@@ -1,0 +1,59 @@
+---
+title: Default Content-Security-Policy
+description: 'How to support a default Content-Security-Policy within your 1FE instance'
+---
+
+Are there some Content-Security-Policy (CSP) sources that all plugins need across your organization? A good example would be where your widget bundles are hosted. Add those sources to your default CSP!
+
+:::tip
+Any plugin specific CSP can be defined in the plugin's `.1fe.config.ts` file. The CSP defined in the plugin will extend the default CSP provided by the shell.
+:::
+
+## CSP Types
+
+```ts
+type CSPPerEnvironment = {
+  scriptSrc?: string[];
+  connectSrc?: string[];
+  imgSrc?: string[];
+  objectSrc?: string[];
+  frameSrc?: string[];
+  styleSrc?: string[];
+  frameAncestors?: string[];
+  mediaSrc?: string[];
+  workerSrc?: string[];
+  formAction?: string[];
+  fontSrc?: string[];
+};
+
+type OneFECSP = {
+  enforced?: CSPPerEnvironment;
+  reportOnly?: CSPPerEnvironment;
+};
+
+type OneFEServerOptions = {
+  ...
+  csp?: {
+      defaultCSP: OneFECSP;
+  };
+};
+```
+
+## `OneFEServerOptions.csp`
+
+Here is a simple example on how to add an *enforced* CSP source.
+
+```tsx
+import renderOneFEShell from '@devhub/1fe-shell';
+
+oneFEServer({
+  ...
+  csp: {
+    defaultCSP: {
+      enforced: {
+        scriptSrc: ['self', 'https://your-cdn.com'],
+      }
+    }
+  }
+});
+```

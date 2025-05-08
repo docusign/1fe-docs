@@ -1,0 +1,45 @@
+---
+title: ONE Front End
+description: Get started building your docs site with Starlight.
+template: splash
+hero:
+  tagline: A self-defined and distributed platform for FrontEnd standardization!
+  image:
+    file: ../../assets/1fe-logo.svg
+  actions:
+    - text: Getting Started
+      link: ./guides/getting-started/
+      icon: right-arrow
+    - text: Docusign Developer Hub
+      link: https://developers.docusign.com/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+import Runtime from "../../components/landing/sections/runtime.astro";
+import AnimatedText from "../../components/landing/sections/animated-text.astro";
+import Recursive from "../../components/landing/sections/recursive.astro";
+
+<AnimatedText />
+<Runtime />
+<Recursive />
+
+
+## Next steps
+
+<CardGrid stagger>
+	<Card title="Managing Configs" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+	<Card title="Building a Widget" icon="add-document">
+		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	</Card>
+	<Card title="Configure your runtime" icon="setting">
+		Edit your `sidebar` and other config in `astro.config.mjs`.
+	</Card>
+	<Card title="The CLI" icon="open-book">
+		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	</Card>
+</CardGrid>

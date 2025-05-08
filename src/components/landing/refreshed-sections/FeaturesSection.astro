@@ -1,0 +1,69 @@
+---
+import HeroIllustration from "./HeroIllustration.astro";
+---
+
+<section class="features-section">
+  <div class="container">
+    <div class="what-we-do">WHAT WE DO</div>
+    <div class="flex-row">
+      <HeroIllustration />
+      <div class="flex-column">
+        <h2 class="features-headline">A Dynamic Runtime.</h2>
+        <p class="features-description">The 1FE Runtime is alive! It pulls and orchestrates widgets independently to stitch together dynamic pages that are constructed on the fly based on configurations or complex business logic. A living and breathing Ecosystem, when deployed, does not need to be restarted when widgets release. The Runtime provides contextual data and web helper utilities, defined by YOU, to widgets to help them render and interact with the page.</p>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<style>
+  .features-section {
+    padding: 100px 0 80px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .features-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+  }
+  
+  .what-we-do {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .features-headline {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .features-description {
+    font-size: 16px;
+    color: var(--gray);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+</style>

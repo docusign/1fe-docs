@@ -1,0 +1,33 @@
+---
+title: Adding Authentication within 1FE
+description: 'Implementing Auth Callbacks at the Shell layer'
+---
+
+Within 1FE Shell, there are two supported callbacks for authentication.
+
+`isAuthedCallback` is invoked when the shell is loading a plugin that requires authentication. `unauthedCallback` is invoked when `isAuthedCallback` returns false.
+
+:::tip
+Plugins can configure authentication within their `.1fe.config.ts` file
+:::
+
+## `Example`
+
+Let's assume a cookie-less token-based authentication model. Here is an example snippet where we check localStorage for the existance of a token. If the token does not exist, we will redirect the user to /logout route.
+
+```tsx
+import renderOneFEShell from '@devhub/1fe-shell';
+
+renderOneFEShell({
+  auth: {
+    isAuthedCallback: (widgetId: string): boolean => {
+      const token = localStorage.getItem(`${widgetId}-authToken`);
+      return !!token;
+    },
+    unauthedCallback: (widgetId: string) => {
+      console.log(widgetId, ' is not authenticated.');
+      window.location.href = '/logout';
+    },
+  },
+});
+```

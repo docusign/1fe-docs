@@ -1,0 +1,184 @@
+---
+title: Event Bus
+description: 'Event Bus implementation'
+---
+
+_Asyncronously emit events with `platform.utils.eventBus`_
+
+:::tip[Data management]
+Before using Event Bus, make sure to consider other ways to transmit information that could be more appropriate for your use case. Below are a couple of suggestions in ascending level of complexity.
+
+**Props**: Should be considered first, if you have a shallow application where you can pass simple data through react props in a unidirectional way within the same application, this will be the simplest way to go.
+
+**Context**: In a situation where you need to pass props down several times to get the data to its destination, but it is not overly complex data, you may want to consider useContext. You do not need to maintain a central store, unlike redux.
+
+**EventBus**: Specifically great for unidirectional transfer of data from plugin/widget to widget, with data that is less centralized than redux.
+
+**Redux**: Redux is great for complex data that needs to be shared across multiple widgets, and is a great if you want to have a centralized location foryour data.
+:::
+
+Platform Props will handle the instantiation of Event Bus before users are given the ability to call the below utilities.
+
+## Your events are an API
+
+:::caution
+An event via eventbus is part of your widget's API. Since you cannot predict how many host widgets are consuming and utilizing their eventBus, we must avoid breaking changes to the event payload. It should be treated just as we would props and other API contracts.
+
+This consideration is especially important for pinned widgets, who will be rendered alongside older versions of their own widget.
+:::
+
+## `EventMap Type`
+
+The EventMap is to be created by the user, and will contain the types that will be transmitted for each event. When publishing and subscribing, users will specify the event name they are interested in.
+
+`example`
+
+```ts
+type EventMap = {
+  firstEvent: { name: string; age: number };
+  secondEvent: { pasta: 'linguini' | 'ravioli' | 'penne' };
+};
+```
+
+## `useSubscribe`
+
+```ts
+useSubscribe<EventMap, K extends keyof EventMap>({
+    eventName,
+    listener,
+  }): void
+```
+
+A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted
+
+##### Parameters
+
+**@param** `param.eventName` The name of the event to subscribe to
+
+**@param** `param.listener` The listener function to be called when the event is published
+
+**@example** `useSubscribe({ eventName: 'event-name', listener: (data) => {} })`
+
+**@returns** `void`
+
+## `subscribe`
+
+:::danger
+If you subscribe to the same event multiple times, you will receive multiple updates.
+This can happen if you use `subscribe` in a React component that re-renders multiple times or in a React hook that is called multiple times.
+
+Please use `useSubscribe` instead of `subscribe` inside of React components.
+:::
+
+```ts
+subscribe<EventMap, K extends keyof EventMap>(
+  eventName: K;
+  listener: (data: EventPublishPayload<EventMap[K]>) => void;
+}): UnsubscribeFunction;
+```
+
+To be called from the subscriber widget to start a subscription.
+
+##### Parameters
+
+`eventName` - `string, keyof EventMap`
+
+The event name to be subscribed to. Must be defined within the relevant event map type
+
+`listener` - `(data: EventPublishPayload<EventMap[K]>) => void`
+
+The function that will be called when some data is published. The function takes in data dependent on the type definied the the EventMap.
+
+```ts
+type EventPublishPayload<K> = {
+  eventInfo: {
+    sender: {
+      id: string;
+    };
+    timestamp: number;
+  };
+  data: K;
+};
+```
+
+##### Return Value
+
+`UnsubscribeFunction` - `() => void`
+
+The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
+
+## `publish`
+
+```ts
+ publish<EventMap, K extends keyof EventMap>({
+    targetWidgetId,
+    eventName,
+    data,
+  }): void
+```
+
+To be called from the publishing widget to send data to a subscribed widget.
+
+##### Parameters
+
+`targetWidgetId` - `string`
+
+The widgetId of the subscribing widget you would like to publish to.
+
+`eventName` - `string, keyof EventMap`
+
+The event name to be published to. Must be defined within the relevant event map type.
+
+`data` - `EventMap[K]`
+
+Data to be published to the subscribing widget. This should follow the type defined for the event ID in the event map.
+
+## Example
+
+```ts
+// PublisherWidget1.tsx
+...
+ type WidgetEvents = {
+    event1: { param1: string };
+    event2: { param1: string, param2: number };
+  };
+...
+<Button
+  onClick={() => {
+    platformProps.utils.eventBus.publish<WidgetEvents, 'event2'>({
+      targetWidgetId: '@example/widget2',
+      eventName: 'event2',
+      data: { param1: 'Testing Testing', param2: '123' },
+    });
+  }}
+/>
+...
+```
+
+```ts
+// SubscriberWidget2.tsx
+const [event2Data, setEvent2Data] = useState<event2Type | null>(null);
+const listener = (data: event2Type) => setEvent2Data(data);
+
+// Subscribe to event2
+// A hook wrapper around subscribe that handles React lifecycle
+// Will auto unsubscribe when the component is unmounted
+useSubscribe<
+    WidgetEve2267
+    'event2'
+  >({
+    eventName: 'event2',
+    listener,
+  });
+
+ type event2Type =  { param1: string, param2: number }
+ type WidgetEvents = {
+    event1: { param1: string };
+    event2: event2Type;
+  };
+...
+<>
+  Result: {event2Data}
+</>
+...
+```

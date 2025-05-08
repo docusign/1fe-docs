@@ -1,0 +1,105 @@
+---
+title: 1FE Shell Reference
+description: 1FE Shell Reference
+---
+
+The 1fe/shell package exposes a function `renderOneFEShell` that will load the plugin associated with the route, inject contextualized props, and render it within the app shell.
+
+### Simple Usage Example
+```tsx
+import renderOneFEShell from '@devhub/1fe-server';
+
+renderOneFEShell({
+  utils: {
+    initializeLogger: (widgetId: string) => ({
+      logger: {
+        log: (message: string) => {
+          console.log(widgetId, message);
+        }
+      },
+    }),
+  },
+  auth: {
+    isAuthedCallback: (widgetId: string): boolean => {
+      return !!localStorage.getItem(`${widgetId}-token`);
+    },
+    unauthedCallback: (widgetId: string) => {
+      console.log(widgetId, ' is not authenticated.');
+      window.location.href = '/logout';
+    },
+  },
+  routes: {
+    defaultRoute: '/app1'
+  }
+});
+```
+
+### `utils` (optional)
+
+**Type**
+```tsx
+type OneFEUtils = {
+  [key: string]: (widgetId: string) => any;
+};
+```
+
+A map of utility functions that will be injected into the widget's props. The key is the name of the utility and the value is a function that takes the widget ID as an argument and returns the utility. Each function within the map will be invoked when a widget is loaded and the return value will be injected as platform props.
+
+### `auth` (optional)
+
+**Type**
+```tsx
+type OneFEAuth = {
+  isAuthedCallback: (widgetId: string) => boolean;
+  unauthedCallback: (widgetId: string) => void;
+};
+```
+
+`isAuthedCallback` will be invoked by 1fe/shell when a plugin is being loaded. It should return a boolean indicating whether the user is authenticated or not.
+
+`unauthedCallback` will be invoked by 1fe/shell when a plugin is being loaded and the user is not authenticated. This should always be defined if `isAuthedCallback` is defined.
+
+### `shellLogger` (optional)
+
+**Type**
+```tsx
+type OneFEShellLogger = {
+  log: (logObject: OneFELogObject) => void;
+  error: (logObject: OneFELogObject) => void;
+  logPlatformUtilUsage?: boolean;
+  redactSensitiveData?: boolean;
+};
+```
+
+`log` This will be invoked when a log is emitted from the shell.
+
+`error` This will be invoked when an error is emitted from the shell.
+
+`logPlatformUtilUsage` (optional): Whether or not to log the usage of platform utilities. Defaults to false.
+
+`redactSensitiveData` (optional): Whether or not to redact sensitive data from the logs. Defaults to false.
+
+### `routes` (optional)
+
+**Type**
+```tsx
+type OneFERoutes = {
+  defaultRoute: `/${string}`;
+};
+```
+
+`defaultRoute`: The default route to load when no route is provided. Bathtub will be the default route if enabled. Otherwise, this will be the default route.
+
+### `components` (optional)
+
+**Type**
+```tsx
+type OneFEComponents = {
+  getLoader?: () => JSX.Element;
+  getError?: (props: OneFEErrorComponentProps | undefined) => JSX.Element;
+};
+```
+
+`getLoader` (optional): Custom loader component to be shown when a widget is being loaded.
+
+`getError` (optional): Custom error component to be shown when in an error state (e.g a widget fails to load)

@@ -1,0 +1,87 @@
+---
+import Logo from './Logo.astro';
+---
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">
+        <Logo />
+      </div>
+      <div class="auth-buttons">
+        <a href="getting-started/installation/" class="cta-button">Getting Started</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header {
+    padding: 24px 0;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .nav-links {
+    font-family: 'DSIndigo';
+    display: flex;
+    gap: 32px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: var(--light);
+    font-weight: 500;
+    transition: color 0.2s;
+    font-size: 14px;
+  }
+  
+  .nav-links a:hover {
+    color: var(--primary);
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  
+  .login-button {
+    text-decoration: none;
+    color: var(--light);
+    font-weight: 500;
+    transition: color 0.2s;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 6px;
+  }
+  
+  .login-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .cta-button {
+    font-family: 'DSIndigo';
+    background-color: rgb(61, 80, 245);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-size: 14px;
+  }
+</style>

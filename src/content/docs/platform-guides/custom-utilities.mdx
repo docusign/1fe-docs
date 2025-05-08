@@ -1,0 +1,33 @@
+---
+title: Custom Utilities
+description: 'How to support custom utilities within your 1FE instance'
+---
+
+Need to add a custom utility that will be consumed by multiple widgets? This guide will show you how to do that.
+
+## `OneFEShellOptions.utils`
+
+:::note
+1FE shell will automatically invoke each defined utility when bootstrapping a widget and provide the return value to the widget via platform props.
+:::
+
+Here is an example on how to add a custom widget logger. 
+
+```tsx
+import renderOneFEShell from '@devhub/1fe-shell';
+
+renderOneFEShell({
+  utils: {
+    initializeLogger: (widgetId: string) => ({
+      logger: {
+        log: (message: string) => {
+          console.log(widgetId, message);
+        },
+        error: (message: string) => {
+          console.error(widgetId, message);
+        },
+      },
+    }),
+  }
+});
+```
