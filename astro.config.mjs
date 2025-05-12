@@ -47,5 +47,5 @@ export default defineConfig({
 	base: isLocalDevelopment ? '' : GITHUB_PAGES_BASE,
 	site: isLocalDevelopment
 	  ? `http://localhost:${DEV_PORT}`
-	  : 'https://github.docusignhq.com',
+	  : 'https://1fe.com',
 });
