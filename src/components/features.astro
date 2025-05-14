@@ -1,0 +1,77 @@
+---
+import Badge from "@components/ui/badge.astro";
+import { Icon } from "astro-icon/components";
+
+const features = [
+  {
+    title: "Application Shell",
+    description:
+      "Orchestrate and execute your front end experiences with a single application.",
+    icon: "fluent:fluid-24-regular",
+  },
+  {
+    title: "CI/CD",
+    description:
+      "Define common ci/cd templates once with a ready-made templates. Application teams will get them for free.",
+    icon: "fluent:vehicle-ship-24-regular",
+  },
+  {
+    title: "Application Security",
+    description:
+      "Allow developers to extend a configurable baseline Content-Security-Policy.",
+    icon: "fluent:shield-task-24-regular",
+  },
+  {
+    title: "Common Utilities",
+    description:
+      "Customize and extend a common set of web utilities and props that will be shared with all front end experiences.",
+    icon: "fluent:box-multiple-24-regular",
+  },
+  {
+    title: "Development Tooling",
+    description:
+      "Once onboarded, application developers can enjoy a shared set of tools to accelerate development, investigate issues, monitor performance and much more.",
+    icon: "fluent:wrench-24-regular",
+  },
+  {
+    title: "Shared Dependencies",
+    description:
+      "1FE offers a system to easily centralize and manage shared dependencies between products. Easily inject and cache dependencies for performance boosts.",
+    icon: "fluent:branch-fork-24-regular",
+  },
+];
+---
+
+<!-- <div class="mt-16">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    We have got more awesome <span class="text-indigo-600">features</span>
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    Use this section to highlight not so important features of your product.
+  </p>
+</div> -->
+<div class="mt-24 max-w-3xl mx-auto flex flex-col items-center justify-center">
+  <Badge color="purple">Only Do it Once</Badge>
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-4 text-center">
+    Standardize Solutions
+  </h2>
+  <p class="text-lg mt-4 text-slate-600 text-center [text-wrap:pretty]">
+    Standardize solutions across your organization. Application teams maintain their independence while gaining the benefits of self-defined standardized solutions through 1FE.
+  </p>
+</div>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-8 md:gap-16">
+  {
+    features.map((item) => (
+      <div class="flex flex-col gap-4 items-start group hover:bg-slate-50 hover:border-slate-100 border border-transparent rounded-lg transition-all md:-m-5 p-5">
+        <div class="mt-1 bg-indigo-50 border shadow shadow-indigo-100/50 border-indigo-100 transition-colors rounded-lg grid place-items-center  p-2 w-10 h-10 shrink-0">
+          <Icon class="text-indigo-500" name={item.icon} size={24} />
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
+          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>

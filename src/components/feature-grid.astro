@@ -1,0 +1,111 @@
+---
+import { Picture, Image } from "astro:assets";
+import Card from "@components/card.astro";
+import IntegrationImg from "../assets/integrations.svg?url";
+import FeatureImgOne from "../assets/features/runtime-execution.png";
+import FeatureImgTwo from "../assets/features/cli3.svg";
+import TemplateImg from "../assets/hero-source.svg";
+import FeatureImgThree from "../assets/features/live-development.svg";
+---
+
+<div class="mt-24">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Everything you need to <span class="text-indigo-600">build a Micro Frontend</span>
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    1FE comes batteries included. Once set up, your application developers can easily plug into this ecosystem and inherit build, deployment, and runtime benefits for "free".
+  </p>
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-5 mt-16 gap-10">
+  <Card class="lg:col-span-3" color="purple">
+    <Fragment slot="image">
+      <Picture
+        src={FeatureImgOne}
+        alt="Feature image"
+        formats={["avif", "webp"]}
+        class="h-full w-full object-contain"
+        loading="lazy"
+      />
+    </Fragment>
+    <span slot="badge">Runtime</span>
+    <span slot="title">Runtime Execution</span>
+    <span slot="desc">
+      1FE comes with a single App Shell that provides common utilities and handles runtime execution and orchestration of front end experiences.
+    </span>
+  </Card>
+  <Card class="lg:col-span-2" color="indigo">
+    <Fragment slot="image">
+      <!-- // svg image. cannot use <picture/> as of now -->
+      <Image
+        src={FeatureImgTwo}
+        alt="Feature image"
+        width="909"
+        height="823"
+        class="h-full w-full object-contain"
+        loading="lazy"
+      />
+    </Fragment>
+    <span slot="badge">Build</span>
+    <span slot="title">CLI Supertool</span>
+    <span slot="desc">
+      Developer CLI tooling that abstracts all build, development, and bundling needs for your front end development.</span
+    >
+  </Card>
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-10">
+  <Card color="indigo" size="sm">
+    <Fragment slot="image">
+      <Image
+        src={FeatureImgThree}
+        alt="Feature image"
+        width="909"
+        height="823"
+        class="h-full w-full object-contain"
+        loading="lazy"
+      />
+    </Fragment>
+    <span slot="badge">Develop</span>
+    <span slot="title">Supercharged Development</span>
+    <span slot="desc">
+      Supercharge developer productivity with various 1FE devtools. Live Development, Contract Validations and more!</span
+    >
+  </Card>
+
+  <Card color="purple" size="sm">
+    <Fragment slot="image">
+      <Picture
+        src={TemplateImg}
+        alt="Feature image"
+        formats={["avif", "webp"]}
+        class="h-full w-full object-contain"
+        loading="lazy"
+      />
+    </Fragment>
+    <span slot="badge">Templates</span>
+    <span slot="title">Out of the Box Templates</span>
+    <span slot="desc">
+      Tailor the out of the box deployment and application templates to your needs. </span
+    >
+  </Card>
+
+  <Card size="sm">
+    <Fragment slot="image">
+      <!-- // svg image. cannot use <picture/> as of now -->
+      <Image
+        src={IntegrationImg}
+        alt="Feature image"
+        width="909"
+        height="823"
+        class="h-full w-full object-contain"
+        loading="lazy"
+      />
+    </Fragment>
+    <span slot="badge">Unify</span>
+    <span slot="title">Central Governance</span>
+    <span slot="desc">
+      Maintain central governance and standards for your Micro Frontend with 1FE.</span
+    >
+  </Card>
+</div>

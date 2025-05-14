@@ -1,0 +1,69 @@
+---
+import { Image } from "astro:assets";
+import Container from "@components/container.astro";
+import { Icon } from "astro-icon/components";
+
+import logo from "../assets/1fe-logo.svg";
+
+const { margin } = Astro.props;
+
+const footermenu = {
+  resources: [
+    {
+      title: "Documentation",
+      path: "#",
+    },
+    {
+      title: "Blog",
+      path: "#",
+    },
+  ],
+};
+---
+
+<footer
+  class:list={[
+    "py-14 bg-slate-100 border-t border-slate-100",
+    margin && "mt-10",
+  ]}>
+  <Container>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <Image
+        src={logo}
+        alt="Feature image"
+        width="120"
+        class="object-contain"
+        loading="lazy"
+      />
+      <div>
+        <h3 class="font-medium text-sm text-slate-800">Resources</h3>
+        <div class="flex flex-col mt-3">
+          {
+            footermenu.resources.map((item) => (
+              <a
+                href={item.path || "#"}
+                class="py-2 text-sm text-slate-600 hover:text-indigo-600">
+                {item.title}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </Container>
+
+  <div class="mt-14 pt-8 px-5 border-t border-slate-200">
+    <Container>
+      <p class="text-center text-sm text-slate-600 [text-wrap:balance]">
+        Copyright © {new Date().getFullYear()} Astroship. All rights reserved.
+      </p>
+      <p class="text-center text-xs text-slate-600 mt-2">
+        <a href="/terms" class="hover:text-indigo-500"> Terms</a> ・ <a
+          href="/privacy"
+          class="hover:text-indigo-500">
+          Privacy</a
+        >
+      </p>
+    </Container>
+  </div>
+</footer>

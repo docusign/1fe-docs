@@ -1,23 +1,27 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
-import astroIcon from 'astro-icon';
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import starlight from '@astrojs/starlight';
-
 import react from '@astrojs/react';
-
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
+import icon from "astro-icon";
+import { sidebarConfig } from "./config-utils/sidebar";
 
-import {
-	DEV_PORT,
-	GITHUB_PAGES_BASE,
-	isLocalDevelopment,
-  } from './config-utils/constants';
-import { sidebarConfig } from './config-utils/sidebar';
+const DEV_PORT = 8432;
+const isLocalDevelopment = process.env.NODE_ENV === 'development';
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [
-		starlight({
+  server: {
+		port: DEV_PORT,
+	},
+	output: "static",
+	base: '/',
+	site: isLocalDevelopment
+	  ? `http://localhost:${DEV_PORT}`
+	  : 'https://1fe.com',
+  integrations: [starlight({
 			title: 'Docs',
 			social: {
 				github: 'https://github.com/docusign/1fe',
@@ -26,26 +30,11 @@ export default defineConfig({
 			  src: './src/assets/1fe-logo.svg',
 			},
 			sidebar: sidebarConfig,
-			customCss: [
-                // Path to your Tailwind base styles:
-                './src/styles/global.css',
-			],
 			expressiveCode: {
 			  // You can optionally override the plugin's default settings here
 			  frames: {},
 			  plugins: [pluginLineNumbers()],
 			  themes: ['dracula', 'github-light'],
 			},
-		}), 
-		react(),
-		astroIcon()
-	],
-	server: {
-		port: DEV_PORT,
-	},
-	output: "static",
-	base: isLocalDevelopment ? '' : GITHUB_PAGES_BASE,
-	site: isLocalDevelopment
-	  ? `http://localhost:${DEV_PORT}`
-	  : 'https://1fe.com',
+		}),tailwind(), mdx(), icon(), react(), sitemap()],
 });

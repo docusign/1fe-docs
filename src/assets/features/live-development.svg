@@ -1,0 +1,91 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f5f5f5" rx="10" ry="10"/>
+  
+  <!-- Code Editor Panel -->
+  <rect x="20" y="20" width="360" height="360" fill="white" rx="6" ry="6" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Code Editor Top Bar -->
+  <rect x="20" y="20" width="360" height="30" fill="#f0f0f0" rx="6" ry="6"/>
+  
+  <!-- Window Controls -->
+  <circle cx="40" cy="35" r="6" fill="#FF6057"/>
+  <circle cx="60" cy="35" r="6" fill="#FFBD2E"/>
+  <circle cx="80" cy="35" r="6" fill="#27C93F"/>
+  
+  <!-- Editor Title -->
+  <text x="200" y="41" font-family="monospace" font-size="12" text-anchor="middle" fill="#666">app.js</text>
+  
+  <!-- Code Lines -->
+  <text x="30" y="70" font-family="monospace" font-size="12" fill="#666">import React from 'react';</text>
+  <text x="30" y="90" font-family="monospace" font-size="12" fill="#666">import './styles.css';</text>
+  <text x="30" y="110" font-family="monospace" font-size="12" fill="#666"></text>
+  <text x="30" y="130" font-family="monospace" font-size="12" fill="#666">function App() {</text>
+  <text x="30" y="150" font-family="monospace" font-size="12" fill="#666">  return (</text>
+  <text x="30" y="170" font-family="monospace" font-size="12" fill="#666">    &lt;div className="app"&gt;</text>
+  
+  <!-- Animated Line - This will change -->
+  <text x="30" y="190" font-family="monospace" font-size="12" fill="#e91e63" id="changingLine">      &lt;h1&gt;Hello World&lt;/h1&gt;</text>
+  
+  <text x="30" y="210" font-family="monospace" font-size="12" fill="#666">    &lt;/div&gt;</text>
+  <text x="30" y="230" font-family="monospace" font-size="12" fill="#666">  );</text>
+  <text x="30" y="250" font-family="monospace" font-size="12" fill="#666">}</text>
+  <text x="30" y="270" font-family="monospace" font-size="12" fill="#666"></text>
+  <text x="30" y="290" font-family="monospace" font-size="12" fill="#666">export default App;</text>
+  
+  <!-- Terminal Section -->
+  <rect x="20" y="330" width="360" height="50" fill="#282c34" rx="4" ry="4"/>
+  <text x="30" y="355" font-family="monospace" font-size="12" fill="#27C93F">$ yarn dev - Live Development Enabled</text>
+  <text x="30" y="370" font-family="monospace" font-size="11" fill="#61dafb" id="hmrMessage">Waiting for changes...</text>
+  
+  <!-- Browser Panel -->
+  <rect x="420" y="20" width="360" height="360" fill="white" rx="6" ry="6" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Browser Top Bar -->
+  <rect x="420" y="20" width="360" height="30" fill="#f0f0f0" rx="6" ry="6"/>
+  
+  <!-- Browser Controls -->
+  <circle cx="440" cy="35" r="6" fill="#FF6057"/>
+  <circle cx="460" cy="35" r="6" fill="#FFBD2E"/>
+  <circle cx="480" cy="35" r="6" fill="#27C93F"/>
+  
+  <!-- Browser URL Bar -->
+  <rect x="500" y="25" width="250" height="20" rx="10" ry="10" fill="#e6e6e6"/>
+  <text x="625" y="39" font-family="monospace" font-size="10" text-anchor="middle" fill="#666">https://your-live-env.com</text>
+  
+  <!-- Browser Content -->
+  <rect x="420" y="50" width="360" height="330" fill="white"/>
+  
+  <!-- App Container -->
+  <rect x="450" y="100" width="300" height="200" rx="4" ry="4" fill="#fafafa"/>
+  
+  <!-- App Content - Will change -->
+  <text x="600" y="170" font-family="Arial" font-size="28" text-anchor="middle" font-weight="bold" fill="#333" id="appContent">Hello World</text>
+  
+  <!-- The HMR Animation Elements -->
+  <!-- Connection Line between editor and browser -->
+  <line x1="380" y1="200" x2="420" y2="200" stroke="#61dafb" stroke-width="2" stroke-dasharray="5,5" id="connectionLine"/>
+  
+  <!-- Animated Dot for HMR data transfer -->
+  <circle cx="400" cy="200" r="6" fill="#61dafb" id="hmrDot">
+    <animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite" begin="0s"/>
+  </circle>
+  
+  <!-- Dev Toolbar (fixed at bottom) -->
+  <g id="devToolbar">
+    <!-- Main toolbar background -->
+    <rect x="560" y="345" width="80" height="28" rx="14" ry="14" fill="#202124" opacity="0.9"/>
+    
+    <!-- Toolbar Icons -->
+    <g>
+      <!-- Component Icon -->
+      <circle cx="575" cy="360" r="8" fill="#545454"/>
+      
+      <!-- Wrench Icon -->
+      <circle cx="600" cy="360" r="8" fill="#545454"/>
+      
+      <!-- Console Icon -->
+      <circle cx="625" cy="360" r="8" fill="#545454"/>
+    </g>
+  </g>
+</svg>

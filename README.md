@@ -1,54 +1,118 @@
-# Starlight Starter Kit: Basics
+# Astroship Pro
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Astroship Pro is a Pro version of Popular Free Astroship Starter Template which was made for startups, marketing websites, landing pages & blog. Built with Astro & TailwindCSS.
+
+This Pro Template is made by [Web3Templates](https://web3templates.com)
+
+## Live Demo
+
+### [Astroship Pro Live Demo](https://astroship-pro.web3templates.com/)
+
+### [Buy Astroship Pro Template](https://web3templates.com/templates/astroship-pro-astro-saas-website-template)
+
+#### [Get Free Version](https://web3templates.com/templates/astroship-starter-website-template-for-astro)
+
+## Preview
+
+![astroship-pro-preview](https://github.com/web3templates/astroship-pro/assets/1884712/17ca044c-c8ce-4a0a-8780-f078c2ef0cc4)
+
+## Installation
+
+If you are already have github access, you can click on the "Fork" button above to create a new repository from astroship to your account. Then you can do a `git clone` to clone it to your local system.
+
+Alternatively, you can clone the project directly from the github repo to your local system. make sure you have github repo access. Send an email to hello@web3templates.com to get github repo access.
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/web3templates/astroship-pro.git myProjectName
+# or
+git clone https://github.com/web3templates/astroship-pro.git .
+```
+
+The `.` will clone it to the current directory so make sure you are inside your project folder first.
+
+> Note: If you are reading this on a downloaded zip file after purchase, just skip this step and start installing npm from the next step.
+
+### 2. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+# or (recommended)
+pnpm install
+```
+
+### 3. Start development Server
+
+```bash
+npm run dev
+# or
+yarn dev
+# or (recommended)
+pnpm dev
+```
+
+### Preview & Build
+
+```bash
+npm run preview
+npm run build
+# or
+yarn preview
+yarn build
+# or (recommended)
+pnpm preview
+pnpm build
+```
+
+We recommend using [pnpm](https://pnpm.io/) to save disk space on your computer.
+
+### Other Commands
+
+```bash
+pnpm astro ...
+pnpm astro add
+pnpm astro --help
+```
+
+## Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
 
 ```
-npm create astro@latest -- --template starlight
-```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
+/
 ├── public/
+│   └── ...
 ├── src/
-│   ├── assets/
-│   ├── content/
-│   │   ├── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+│   ├── components/
+│   │   └── ...
+│   ├── layouts/
+│   │   └── ...
+│   └── pages/
+│       └── ...
+└── package.json
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+Any static assets, like images, can be placed in the `public/` directory.
 
-Static assets, like favicons, can be placed in the `public/` directory.
+## TailwindCSS
 
-## 🧞 Commands
+TailwindCSS is already configured in this repo, so you can start using it without any installation.
 
-All commands are run from the root of the project, from a terminal:
+## Versions
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Current version: v2.0.0
+
+## Credits
+
+[Unsplash](https://unsplash.com)
 
 ## 👀 Want to learn more?
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+Feel free to check out [Astro Docs](https://docs.astro.build) or jump into our [Discord Chat](https://web3templates.com/discord).
+
+[![Built with Astro](https://astro.badg.es/v1/built-with-astro.svg)](https://astro.build)

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions -->
+  <defs>
+    <linearGradient id="shellGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6546eb;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#6546eb;stop-opacity:0" />
+    </linearGradient>
+    
+    <!-- Pulsing border animation -->
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="glow" />
+      <feComposite in="SourceGraphic" in2="glow" operator="over" />
+    </filter>
+    
+    <!-- Animation for the border pulsing effect -->
+    <animate id="opacityAnimation" attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
+  </defs>
+  
+  <!-- Browser window background - REMOVED THE BACKGROUND FILL TO MAKE IT TRANSPARENT -->
+  <!-- Original was: <rect x="0" y="0" width="800" height="600" fill="#f6f7fb" /> -->
+  
+  <!-- Browser chrome -->
+  <rect x="40" y="30" width="720" height="540" rx="8" ry="8" fill="#ffffff" filter="drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.05))" />
+  
+  <!-- Browser top bar -->
+  <rect x="40" y="30" width="720" height="40" rx="8" ry="8" fill="#f6f7fb" />
+  <circle cx="70" cy="50" r="6" fill="#f1f1f4" />
+  <circle cx="90" cy="50" r="6" fill="#f1f1f4" />
+  <circle cx="110" cy="50" r="6" fill="#f1f1f4" />
+  <rect x="140" y="40" width="500" height="20" rx="4" ry="4" fill="#f1f1f4" />
+  <circle cx="730" cy="50" r="12" fill="#f1f1f4" />
+  
+  <!-- Application interface -->
+  <rect x="40" y="70" width="720" height="500" fill="#f6f7fb" />
+  
+  <!-- Left sidebar -->
+  <rect x="40" y="70" width="60" height="500" fill="#f6f7fb" />
+  <rect x="53" y="90" width="35" height="35" rx="8" ry="8" fill="#f1f1f4" />
+  <rect x="53" y="135" width="35" height="35" rx="8" ry="8" fill="#f1f1f4" />
+  <rect x="53" y="180" width="35" height="35" rx="8" ry="8" fill="#f1f1f4" />
+  <rect x="53" y="225" width="35" height="35" rx="8" ry="8" fill="#6546eb" />
+  <rect x="53" y="270" width="35" height="35" rx="8" ry="8" fill="#f1f1f4" />
+  <rect x="53" y="315" width="35" height="35" rx="8" ry="8" fill="#f1f1f4" />
+  
+  <!-- Animated border around the content area -->
+  <rect x="118" y="88" width="624" height="464" rx="14" ry="14" stroke="#6546eb" stroke-width="2" fill="none" opacity="0.8">
+    <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
+    <animate attributeName="stroke-width" values="2;3;2" dur="3s" repeatCount="indefinite" />
+  </rect>
+  
+  <!-- Main application area -->
+  <rect x="120" y="90" width="620" height="460" rx="12" ry="12" fill="#f6f7fb" />
+  
+  <!-- Top row cards - Balance widgets with skeleton loaders instead of text -->
+  <rect x="140" y="110" width="130" height="100" rx="10" ry="10" fill="#ffffff" stroke="#6546eb" stroke-width="2" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="155" y="130" width="60" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "BALANCE" -->
+  <rect x="155" y="155" width="80" height="16" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "$8,700.00" -->
+  
+  <rect x="280" y="110" width="130" height="100" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="295" y="130" width="60" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "BALANCE" -->
+  <rect x="295" y="155" width="80" height="16" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "$5,900.00" -->
+  
+  <rect x="420" y="110" width="130" height="100" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="435" y="130" width="60" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "BALANCE" -->
+  <rect x="435" y="155" width="80" height="16" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "$3,000.00" -->
+  
+  <rect x="560" y="110" width="130" height="100" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="575" y="130" width="60" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "BALANCE" -->
+  <rect x="575" y="155" width="80" height="16" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "$1,200.00" -->
+  
+  <!-- Middle row widgets with additional padding -->
+  <rect x="140" y="220" width="340" height="150" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="155" y="240" width="80" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "PERFORMANCE" -->
+  <line x1="155" y1="320" x2="425" y2="320" stroke="#f1f1f4" stroke-width="1" />
+  
+  <!-- Candlestick chart with more padding (moved down by 15px) -->
+  <rect x="180" y="300" width="8" height="25" fill="#6546eb" />
+  <line x1="184" y1="285" x2="184" y2="300" stroke="#6546eb" stroke-width="2" />
+  <line x1="184" y1="325" x2="184" y2="340" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="200" y="305" width="8" height="20" fill="#6546eb" />
+  <line x1="204" y1="295" x2="204" y2="305" stroke="#6546eb" stroke-width="2" />
+  <line x1="204" y1="325" x2="204" y2="335" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="220" y="290" width="8" height="30" fill="#6546eb" />
+  <line x1="224" y1="280" x2="224" y2="290" stroke="#6546eb" stroke-width="2" />
+  <line x1="224" y1="320" x2="224" y2="340" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="240" y="310" width="8" height="15" fill="#6546eb" />
+  <line x1="244" y1="300" x2="244" y2="310" stroke="#6546eb" stroke-width="2" />
+  <line x1="244" y1="325" x2="244" y2="335" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="260" y="285" width="8" height="35" fill="#6546eb" />
+  <line x1="264" y1="275" x2="264" y2="285" stroke="#6546eb" stroke-width="2" />
+  <line x1="264" y1="320" x2="264" y2="345" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="280" y="300" width="8" height="25" fill="#6546eb" />
+  <line x1="284" y1="290" x2="284" y2="300" stroke="#6546eb" stroke-width="2" />
+  <line x1="284" y1="325" x2="284" y2="335" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="300" y="275" width="8" height="40" fill="#6546eb" />
+  <line x1="304" y1="265" x2="304" y2="275" stroke="#6546eb" stroke-width="2" />
+  <line x1="304" y1="315" x2="304" y2="330" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="320" y="270" width="8" height="45" fill="#6546eb" />
+  <line x1="324" y1="260" x2="324" y2="270" stroke="#6546eb" stroke-width="2" />
+  <line x1="324" y1="315" x2="324" y2="325" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="340" y="260" width="8" height="50" fill="#6546eb" />
+  <line x1="344" y1="250" x2="344" y2="260" stroke="#6546eb" stroke-width="2" />
+  <line x1="344" y1="310" x2="344" y2="320" stroke="#6546eb" stroke-width="2" />
+  
+  <rect x="360" y="245" width="8" height="60" fill="#6546eb" />
+  <line x1="364" y1="235" x2="364" y2="245" stroke="#6546eb" stroke-width="2" />
+  <line x1="364" y1="305" x2="364" y2="315" stroke="#6546eb" stroke-width="2" />
+  
+  <!-- Right widget - Navigation panel with skeleton loaders -->
+  <rect x="490" y="220" width="200" height="220" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="505" y="240" width="70" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "NAVIGATION" -->
+  
+  <circle cx="515" cy="280" r="10" fill="#6546eb" />
+  <rect x="535" y="275" width="120" height="10" rx="2" ry="2" fill="#f1f1f4" />
+  
+  <circle cx="515" cy="320" r="10" fill="#6546eb" />
+  <rect x="535" y="315" width="120" height="10" rx="2" ry="2" fill="#f1f1f4" />
+  
+  <circle cx="515" cy="360" r="10" fill="#6546eb" />
+  <rect x="535" y="355" width="120" height="10" rx="2" ry="2" fill="#f1f1f4" />
+  
+  <circle cx="515" cy="400" r="10" fill="#6546eb" />
+  <rect x="535" y="395" width="120" height="10" rx="2" ry="2" fill="#f1f1f4" />
+  
+  <!-- Bottom row widgets -->
+  <rect x="140" y="380" width="150" height="120" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="155" y="400" width="50" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "TREND" -->
+  <!-- Line chart -->
+  <path d="M 155,460 L 170,450 L 185,455 L 200,440 L 215,445 L 230,425 L 245,430 L 260,420 L 275,435" stroke="#6546eb" stroke-width="2" fill="none" />
+  
+  <rect x="300" y="380" width="150" height="120" rx="10" ry="10" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.05))" />
+  <rect x="315" y="400" width="75" height="10" rx="3" ry="3" fill="#f1f1f4" /> <!-- Skeleton loader replacing "STATISTICS" -->
+  
+  <!-- Pie chart with more padding (smaller and centered better within the tile, moved down) -->
+  <circle cx="375" cy="450" r="28" fill="none" stroke="#f1f1f4" stroke-width="8" />
+  <!-- Pie segments -->
+  <path d="M 375,450 L 375,422 A 28,28 0 0,1 403,450 Z" fill="#6546eb" />
+  <path d="M 375,450 L 403,450 A 28,28 0 0,1 375,478 Z" fill="#8e78f2" />
+  <path d="M 375,450 L 375,478 A 28,28 0 0,1 347,450 Z" fill="#b3a5f6" />
+  <path d="M 375,450 L 347,450 A 28,28 0 0,1 375,422 Z" fill="#d9d3fa" />
+</svg>
