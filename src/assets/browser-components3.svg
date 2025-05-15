@@ -46,10 +46,10 @@
       attributeName="y" 
       values="280;340;280" 
       dur="3s" 
+      repeatCount="indefinite"
       calcMode="spline"
-      keyTimes="0;0.3;1"
-      keySplines="0.1 0.8 0.2 1;0.1 0.8 0.2 1"
-      begin="0s; sidebar_animation_end.end + 5s" />
+      keyTimes="0;0.5;1"
+      keySplines="0.1 0.8 0.2 1;0.1 0.8 0.2 1" />
   </rect>
   
   <!-- Fourth row -->
@@ -61,14 +61,13 @@
   <!-- Last row with animation - will swap with third row -->
   <rect id="row-last" x="135" y="340" width="80" height="10" rx="2" ry="2" fill="#CCCCCC">
     <animate 
-      id="sidebar_animation_end"
       attributeName="y" 
       values="340;280;340" 
       dur="3s" 
+      repeatCount="indefinite"
       calcMode="spline"
-      keyTimes="0;0.3;1"
-      keySplines="0.1 0.8 0.2 1;0.1 0.8 0.2 1"
-      begin="0s; sidebar_animation_end.end + 5s" />
+      keyTimes="0;0.5;1"
+      keySplines="0.1 0.8 0.2 1;0.1 0.8 0.2 1" />
   </rect>
   
   <!-- Card Component 1 -->
@@ -92,13 +91,12 @@
   <polyline id="chart-line" points="580,350 590,330 600,340 610,300 620,320 630,290 640,310 650,280 660,295" stroke="#4EA8DE" stroke-width="2" fill="none">
     <animate attributeName="stroke" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <animate 
-      id="chart_animation"
       attributeName="points" 
       values="580,350 590,330 600,340 610,300 620,320 630,290 640,310 650,280 660,295;
               580,330 590,350 600,320 610,330 620,300 630,320 640,290 650,310 660,270;
               580,350 590,330 600,340 610,300 620,320 630,290 640,310 650,280 660,295" 
       dur="4s" 
-      begin="0s; chart_animation_end.end + 7s"
+      repeatCount="indefinite" 
       calcMode="spline"
       keyTimes="0;0.5;1"
       keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
@@ -108,55 +106,47 @@
   <circle cx="580" cy="350" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Bottom dot moves up -->
-    <animate attributeName="cy" values="350;330;350" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="350;330;350" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="590" cy="330" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Mid-high dot moves down -->
-    <animate attributeName="cy" values="330;350;330" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="330;350;330" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="600" cy="340" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Mid-low dot moves up -->
-    <animate attributeName="cy" values="340;320;340" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="340;320;340" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="610" cy="300" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- High dot moves down -->
-    <animate attributeName="cy" values="300;330;300" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="300;330;300" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="620" cy="320" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Mid dot moves up -->
-    <animate attributeName="cy" values="320;300;320" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="320;300;320" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="630" cy="290" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- High dot moves down -->
-    <animate attributeName="cy" values="290;320;290" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="290;320;290" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="640" cy="310" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Mid dot moves up -->
-    <animate attributeName="cy" values="310;290;310" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="310;290;310" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="650" cy="280" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Highest dot moves down -->
-    <animate attributeName="cy" values="280;310;280" dur="4s" begin="0s; chart_animation_end.end + 7s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="280;310;280" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   <circle cx="660" cy="295" r="3" fill="#4EA8DE">
     <animate attributeName="fill" values="#4EA8DE;#FF6B8B;#4EA8DE" dur="3s" repeatCount="indefinite" begin="2s"/>
     <!-- Mid dot moves down, but less -->
-    <animate 
-      id="chart_animation_end"
-      attributeName="cy" 
-      values="295;270;295" 
-      dur="4s" 
-      begin="0s; chart_animation_end.end + 7s" 
-      calcMode="spline" 
-      keyTimes="0;0.5;1" 
-      keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="295;270;295" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
   </circle>
   
   <!-- Form Component -->
