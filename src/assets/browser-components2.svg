@@ -146,83 +146,74 @@
     <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
   </circle>
   
-  <!-- LEFT TEAM OWNERSHIP POPUP (Updated to match screenshot) -->
+  <!-- LEFT TEAM OWNERSHIP POPUP -->
   <!-- Team Popup Modal -->
-  <rect x="0" y="170" width="90" height="80" rx="10" ry="10" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1" filter="drop-shadow(0px 3px 3px rgba(0,0,0,0.1))"/>
+  <rect x="30" y="210" width="60" height="70" rx="6" ry="6" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1" filter="drop-shadow(0px 3px 3px rgba(0,0,0,0.1))"/>
   
-  <!-- Profile Picture Background (Purple Gradient) -->
-  <rect x="10" y="180" width="20" height="20" rx="5" ry="5" fill="url(#purpleGradient)"/>
-  
-  <!-- Define the purple gradient -->
-  <defs>
-    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#C4B5FD;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  
-  <!-- Profile Name -->
-  <text x="52" y="220" text-anchor="end" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333333">Forms</text>
-    
-  <!-- Job Title -->
-  <text x="80" y="237" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Front End Team</text>
+  <!-- Team Silhouette - Purple -->
+  <g fill="#7B61FF">
+    <!-- Head -->
+    <circle cx="60" cy="230" r="10"/>
+    <!-- Body -->
+    <rect x="52" y="240" width="16" height="20" rx="5" ry="5"/>
+    <!-- Label -->
+  </g>
   
   <!-- Animated dotted line connection -->
-  <line x1="91" y1="210" x2="120" y2="280" stroke="#7B61FF" stroke-width="2" stroke-opacity="0.6" />
-  <circle cx="80" cy="250" r="3" style="fill:#7B61FF">
+  <line x1="90" y1="250" x2="120" y2="280" stroke="#7B61FF" stroke-width="2" stroke-opacity="0.6" />
+  <circle cx="100" cy="250" r="3" style="fill:#7B61FF">
     <animate
       attributeName="cx"
       begin="0s"
       dur="2s"
-      from="91"
+      from="90"
       to="120"
       repeatCount="indefinite" />
     <animate
       attributeName="cy"
       begin="0s"
       dur="2s"
-      from="210"
+      from="250"
       to="280"
       repeatCount="indefinite" />
   </circle>
+  <!-- <path id="left-team-path" d="M90 250 L120 280" stroke="#7B61FF" stroke-width="2" stroke-dasharray="4,4" stroke-dashoffset="100" fill="none">
+    <animate attributeName="stroke-dashoffset" values="100;0;100" dur="6s" repeatCount="indefinite" />
+  </path> -->
   
-  <!-- RIGHT TEAM OWNERSHIP POPUP (Updated to match screenshot) -->
+  <!-- RIGHT TEAM OWNERSHIP POPUP -->
   <!-- Team Popup Modal -->
-  <rect x="710" y="340" width="90" height="80" rx="10" ry="10" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1" filter="drop-shadow(0px 3px 3px rgba(0,0,0,0.1))"/>
+  <rect x="710" y="210" width="60" height="70" rx="6" ry="6" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1" filter="drop-shadow(0px 3px 3px rgba(0,0,0,0.1))"/>
   
-  <!-- Profile Picture Background (Pink Gradient) -->
-  <rect x="720" y="350" width="20" height="20" rx="5" ry="5" fill="url(#pinkGradient)"/>
-  
-  <!-- Define the pink gradient -->
-  <defs>
-    <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#EC4899;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FBCFE8;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  
-  <!-- Profile Name -->
-  <text x="783" y="390" text-anchor="end" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333333">Analytics</text>
-    
-  <!-- Job Title -->
-  <text x="791" y="407" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Front End Team</text>
+  <!-- Team Silhouette - Pink -->
+  <g fill="#FF6B8B">
+    <!-- Head -->
+    <circle cx="740" cy="230" r="10"/>
+    <!-- Body -->
+    <rect x="732" y="240" width="16" height="20" rx="5" ry="5"/>
+    <!-- Label -->
+  </g>
   
   <!-- Animated dotted line connection -->
-  <line x1="709" y1="380" x2="680" y2="310" stroke="#FF6B8B" stroke-width="2" stroke-opacity="0.6" />
+  <!-- <path id="right-team-path" d="M710 250 L680 280" stroke="#FF6B8B" stroke-width="2" stroke-dasharray="4,4" stroke-dashoffset="100" fill="none">
+    <animate attributeName="stroke-dashoffset" values="100;0;100" dur="6s" repeatCount="indefinite" />
+  </path> -->
+
+  <line x1="710" y1="250" x2="680" y2="280" stroke="#FF6B8B" stroke-width="2" stroke-opacity="0.6" />
   <circle cx="710" cy="250" r="3" style="fill:#FF6B8B">
     <animate
       attributeName="cx"
       begin="0s"
       dur="2s"
-      from="709"
+      from="710"
       to="680"
       repeatCount="indefinite" />
     <animate
       attributeName="cy"
       begin="0s"
       dur="2s"
-      from="380"
-      to="310"
+      from="250"
+      to="280"
       repeatCount="indefinite" />
   </circle>
 </svg>
