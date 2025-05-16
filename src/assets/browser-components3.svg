@@ -220,7 +220,7 @@
   <text x="52" y="220" text-anchor="end" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333333">Forms</text>
     
   <!-- Job Title -->
-  <text x="80" y="237" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Front End Team</text>
+  <text x="80" y="237" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Fullstack Capability</text>
   
   <!-- Animated dotted line connection -->
   <line x1="91" y1="210" x2="120" y2="280" stroke="#7B61FF" stroke-width="2" stroke-opacity="0.6" />
@@ -260,7 +260,7 @@
   <text x="783" y="390" text-anchor="end" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333333">Analytics</text>
     
   <!-- Job Title -->
-  <text x="791" y="407" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Front End Team</text>
+  <text x="791" y="407" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#9CA3AF">Fullstack Capability</text>
   
   <!-- Animated dotted line connection -->
   <line x1="709" y1="380" x2="680" y2="310" stroke="#FF6B8B" stroke-width="2" stroke-opacity="0.6" />
