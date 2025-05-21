@@ -12,9 +12,9 @@ Let's customize your new 1FE app by making changes to the default plugin! Since 
 
 ## <SlPencil style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Make changes to example plugin
 
-##### 1. Make any content change to `widgets/app1/src`
+##### 1. Make any content change to `1fe-widget-starter-kit/src`
 
-```tsx title="widgets/app1/src/app1.tsx" {10}
+```tsx title="1fe-widget-starter-kit/src/app1.tsx" {10}
 import { platformProps } from '@devhub/1fe-shell';
 import React, { useEffect } from 'react';
 import { Router as Widget } from './components/router';
@@ -34,24 +34,25 @@ export default withProvider(RootWrapper);
 
 ```
 
-##### 2. Build the plugin within `widgets/app1` directory
+##### 2. Build the plugin within `1fe-widget-starter-kit` directory
 
 :::caution
-**Keep your 1FE app running in the background**. 
+**Keep your 1FE app running in the background**.
 
 1FE CLI will need the development server for the build process. This will later be pointed to a deployed environment once your 1FE app is hosted.
 :::
 
 ```bash
-# dev-hub
-cd widgets/app1 && yarn build:widget
+# 1fe
+cd 1fe-widget-starter-kit
+yarn build:widget
 ```
 
 :::tip
 1FE CLI will build the widget. Observe the assets within the `dist` folder.
 :::
 
-  ![A rocketship in space](./assets/example-plugin-dist.png)
+  ![dist folder contents](./assets/example-plugin-dist.png)
 
 
 ## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> "Deploy" your plugin to a CDN
@@ -63,19 +64,22 @@ To get started quickly, we can use github's mirrored assets on the jsdelivr CDN.
 ##### 2. Upload the new assets to your forked mocked-cdn-assets repository
 1. Create a new directory within `development/widgets/@1fe/starter-kit` of your forked repo. The directory name should be the next bumped version. (e.g `1.0.2`).
 
-2. Upload the contents of the `dist` folder from your local `widgets/app1` directory to the new directory.
+2. Upload the contents of the `1fe-widget-starter-kit/dist/` directory to the new directory.
 
-![A rocketship in space](./assets/example-plugin-cdn-assets.png)
+![dist folder assets copied to CDN](./assets/example-plugin-cdn-assets.png)
 
 3. Push these changes to your forked repository.
 
-4. Confirm that the assets are publicly accessible by visiting this jsdelivr cdn location. Replace with your gh username and version: `https://cdn.jsdelivr.net/gh/<your-github-username>/mock-cdn-assets/development/widgets/@1fe/starter-kit/<version>/js/1fe-bundle.js`.
+4. Confirm that the assets are publicly accessible by visiting this jsdelivr cdn location. Replace with your gh username and version:
+```
+https://cdn.jsdelivr.net/gh/<your-github-username>/mock-cdn-assets/development/widgets/@1fe/starter-kit/<version>/js/1fe-bundle.js
+```
 
 ##### 3. Update the Live Configurations to find your new plugin assets
 
 1. Locate `common-configs/development.json` within your forked mock-cdn-assets repository.
 
-2. Under `cdn.libraries.basePrefix` and `cdn.widgets.basePrefix`, update the base prefix to point to your jsdelivr cdn. 
+2. Under `cdn.libraries.basePrefix` and `cdn.widgets.basePrefix`, update the base prefix to point to your jsdelivr cdn.
 
 ```json title="common-configs/development.json" {4,8}
 {
@@ -92,7 +96,7 @@ To get started quickly, we can use github's mirrored assets on the jsdelivr CDN.
 }
 ```
 
-3. Under `cdn.widgets.releaseConfig`, locate the widgetId `@1fe/starter-kit` and update with the new version. 
+3. Under `cdn.widgets.releaseConfig`, locate the widgetId `@1fe/starter-kit` and update with the new version.
 
 ```json title="common-configs/development.json" {8}
 ...
@@ -137,14 +141,13 @@ const options = {
 const app = oneFEServer(options);
 ```
 
-##### <FcOk style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Tada! 
+##### <FcOk style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Tada!
 
 ![A rocketship in space](./assets/example-plugin-change.png)
 
 :::note
-**In an ideal-state:** 
+**In an ideal-state:**
 - There should be proper CDN hosting for Live Configurations and widget assets.
 - Each widget should live in their own repository.
 - Each widget should own CI/CD pipelines that upload assets to CDN and bump release versions on merge. (Templates Coming Soon! <SlRocket style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> )
 :::
-

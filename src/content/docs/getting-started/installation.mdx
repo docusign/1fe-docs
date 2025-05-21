@@ -17,30 +17,50 @@ import { SlWrench, SlAnchor, SlCloudDownload } from "react-icons/sl";
 
 ## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Manual Installation
 
-##### 1. Clone or fork the 1FE monorepo:
+##### 1. Clone the 1FE monorepo (or your fork of it):
 
   ```bash
-  git clone https://github.com/docusign/dev-hub.git
+  git clone https://github.com/docusign/1fe.git
   ```
 
-##### 2. Install and Build dependencies at the root:
+##### 2. Clone the 1FE widget starter kit (WSK):
+
   ```bash
-  cd dev-hub && yarn && yarn build
+  git clone https://github.com/docusign/1fe-widget-starter-kit.git
+  ```
+
+##### 2. Set up both the repos:
+
+  First you need to build the 1FE monorepo and the starter kit.
+
+  ```bash
+  cd 1fe # adjust this to fit your directory structure
+  yarn && yarn build
+  ```
+
+  Then, you need to set up the starter kit.
+
+  ```bash
+  cd 1fe-widget-starter-kit # adjust this to fit your directory structure
+  yarn
   ```
 
 ##### 3. Run the starter app development server
 
   ```bash
-  cd apps/starter-app && yarn dev
+  cd 1fe/apps/starter-app # adjust this to fit your directory structure
+  yarn dev
   ```
-  
- Visit `http://localhost:3001/app1` to view your application.
+
+##### 4. Run the development server for the WSK
+
+  ```bash
+  cd 1fe-widget-starter-kit/ # adjust this to fit your directory structure
+  yarn dev
+  ```
+
+  Now visit `http://localhost:3001/app1` to view your application! 🎉
 
 ## <SlWrench style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Automatic Installation (WIP)
 
 Coming Soon!
-
-
-
-
-
