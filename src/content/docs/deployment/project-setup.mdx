@@ -8,7 +8,9 @@ sidebar:
 
 import { FcEngineering } from 'react-icons/fc';
 
-### <FcEngineering style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> How do I production-ize my widget?
+### <FcEngineering style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Overview
+
+**Audience:** Repository Maintainers and Project Developers
 
 ### Architecture:
 - **Self-Contained Pipeline:** All workflow logic is located within the project repository, making it a single source of truth for CI/CD configuration
@@ -78,13 +80,22 @@ Now you will add all the necessary CI/CD workflow YAML files to your repository.
 | File Name | Purpose |
 |-----------|---------|
 | `ci-widgets.yml` | Main orchestrator workflow - entry point for your entire CI/CD pipeline, coordinating all build, test, and deploy jobs |
-| `reusable-widget-build.yml` | Contains the logic for building the widget, calculating its version, and archiving the build artifact |
-| `reusable-widget-test.yml` | Contains all test jobs (lint, unit, contract, E2E) |
-| `reusable-widget-upload-akamai.yml` | Handles uploading the widget build artifact to the Akamai CDN |
-| `reusable-git-ops.yml` | Performs Git operations like committing version updates and creating release tags |
-| `reusable-update-azure-config.yml` | Updates the widget version key in Azure App Configuration |
 | `reusable-rollback-ci.yml` | Orchestrates the rollback process, checking for a valid asset on the CDN before updating the Azure configuration |
-| `rollback-widget.yml` | Top-level trigger file for manual rollbacks |
+| `reusable-update-azure-config.yml` | Updates the widget version key in Azure App Configuration |
+| `reusable-widget-test-production.yml` | Contains production-specific test jobs (lint, unit, contract, E2E) for production environment |
+| `reusable-widget-test.yml` | Contains all test jobs (lint, unit, contract, E2E) for development and integration environments |
+
+### Actions Overview
+
+These are the reusable actions that the workflows utilize:
+
+| Action Name | Purpose |
+|-------------|---------|
+| `check-cdn-asset` | Verifies that assets are properly deployed and accessible on the CDN |
+| `update-azure-config` | Handles updating Azure App Configuration with new widget versions |
+| `widget-build` | Contains the logic for building the widget, calculating its version, and archiving the build artifact |
+| `widget-test-setup` | Sets up the testing environment and dependencies for widget tests |
+| `widget-upload-akamai` | Handles uploading the widget build artifact to the Akamai CDN |
 
 ## 3. Commit, Push, and Activate the Workflows
 
