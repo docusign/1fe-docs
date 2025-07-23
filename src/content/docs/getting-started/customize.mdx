@@ -8,7 +8,7 @@ sidebar:
 import { SlCloudDownload, SlPencil, SlRocket } from "react-icons/sl";
 import { FcOk } from "react-icons/fc";
 
-Let's customize your new 1FE app by making changes to the default plugin! Since 1FE is powered by CDN, we will update and build the plugin and publicly host the assets.
+Let's customize your new 1FE app by making changes to the default plugin! Since 1FE is powered by CDN, we will update and build the plugin and host the assets.
 
 ## <SlPencil style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Make changes to example plugin
 
@@ -55,13 +55,20 @@ yarn build:widget
   ![dist folder contents](./assets/example-plugin-dist.png)
 
 
-## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> "Deploy" your plugin to a CDN
+## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> "Setup" your CDN
 
 To get started quickly, we can use github's mirrored assets on the jsdelivr CDN.
 
 ##### 1. Fork this [mock-cdn-assets](https://github.com/docusign/mock-cdn-assets/tree/main) repository
+This repository contains the Live Configurations and widget assets per environment that power demo.1fe.com. We will use this to host our plugin assets and rely on [jsdelivr](https://www.jsdelivr.com/) to act as a CDN to start powering our application.
 
-##### 2. Upload the new assets to your forked mocked-cdn-assets repository
+##### 2. Update the live configs
+
+One of the key features of 1FE is the ability to dynamically load widgets and plugins via [Live Configurations](../../main-concepts/live-configurations). We will update the Live Configurations to point to our new plugin assets.
+
+## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> "Deploy" your plugin to CDN
+
+Upload the new assets to your forked mocked-cdn-assets repository
 1. Create a new directory within `development/widgets/@1fe/starter-kit` of your forked repo. The directory name should be the next bumped version. (e.g `1.0.2`).
 
 2. Upload the contents of the `1fe-widget-starter-kit/dist/` directory to the new directory.
