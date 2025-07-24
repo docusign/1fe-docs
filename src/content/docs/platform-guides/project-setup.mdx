@@ -1,0 +1,182 @@
+
+---
+title: Setting Up a Self-Contained CI/CD Pipeline
+description: This guide explains the philosophy behind self-contained CI/CD pipelines and provides complete setup instructions for implementing one using GitHub Actions.
+sidebar:
+  order: 2
+---
+
+import { FcEngineering } from 'react-icons/fc';
+
+### <FcEngineering style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Overview
+
+**Audience:** Repository Maintainers and Project Developers
+
+### What You'll Need
+
+While this guide shows our specific implementation, you can adapt it to your needs. Here's what you'll typically need:
+
+#### Essential Components
+- **Version Control Platform:** GitHub, GitLab, or similar (we use GitHub)
+- **Build System:** Node.js
+- **Deployment Target:** CDN, cloud storage, or application servers
+- **Configuration Management:** Key-value stores or environment management
+
+#### Our Implementation Stack
+- **GitHub Actions:** Automation platform
+- **Akamai CDN:** Content delivery and hosting
+- **Azure App Configuration:** Version management
+
+## Setup Instructions
+
+## 1. GitHub Repository Configuration
+
+This is how we configured our GitHub repository to enable CI/CD. We set up secrets, environments, and permissions to support the automated pipeline.
+
+### 1.1 Repository Secrets Setup
+
+We configured these secrets to enable workflows to authenticate with external services. All secrets are stored securely as repository secrets, never hardcoded in files.
+
+We set up the following secrets in **Settings > Secrets and variables > Actions**:
+
+| Secret Name | Purpose |
+|-------------|---------|
+| `AKAMAI_NS_SSH_PRIVATE_KEY` | Deployment: An SSH private key for securely uploading compiled artifacts to the Akamai CDN |
+| `AZURE_APP_CONFIG_CONNECTION_STRING` | Deployment: The connection string for the Azure App Configuration instance, used to update widget versions in a key-value store |
+
+:::danger[Important Security Note]
+**NEVER** expose these secret values in your workflow YAML files or commit them to the repository.
+:::
+
+### 1.2 Deployment Environments Setup
+
+We used GitHub Environments to manage deployment rules and approvals. We configured two environments:
+
+#### Integration Environment
+
+We created an `integration` environment with:
+
+• No deployment protection rules (for automated CI/CD deployments)
+• Used for testing and pre-production validation
+
+#### Production Environment
+
+We created a `production-release` environment with:
+
+• Required reviewers rule enabled
+• Core maintainer team added as required reviewers
+• Used for production deployments with manual approval
+
+### 1.3 Workflow Permissions Configuration
+
+We configured the `GITHUB_TOKEN` to have write access so workflows can perform actions like creating tags and amending commits.
+
+We set **Read and write permissions** in **Settings > Actions > General** to enable workflows to use the `GITHUB_TOKEN` for code operations.
+
+## 2. Workflow Files in Widget Repositories
+
+Our widget repositories contain the necessary CI/CD workflow files in the `.github/workflows/` directory:
+
+### Widget Release Workflow
+
+• **`widget-ci.yml`** - Main CI/CD pipeline for widget releases
+  • Triggers on pushes to main branch and pull requests
+  • Builds, tests, and deploys your widget to the appropriate environment
+  • Handles the complete release process from code to production
+
+### Widget Rollback Workflow  
+
+• **`rollback-widget.yml`** - Manual rollback workflow for reverting to previous widget versions
+  • Can be triggered manually when needed
+  • Allows you to quickly revert to a previous working version
+  • Useful for emergency situations or when issues are discovered in production
+
+These workflow files are pre-configured to work with the 1fe platform and call into the centralized CI/CD repository ( `1fe-ci-cd` ) for the actual pipeline logic.
+
+### Template Workflow Files
+
+The template repository contains these pre-built workflow files:
+
+| File Name | Purpose |
+|-----------|---------|
+| `ci-widgets.yml` | Main orchestrator workflow - entry point for your entire CI/CD pipeline, coordinating all build, test, and deploy jobs |
+| `reusable-rollback-ci.yml` | Orchestrates the rollback process, checking for a valid asset on the CDN before updating the Azure configuration |
+| `reusable-update-azure-config.yml` | Updates the widget version key in Azure App Configuration |
+| `reusable-widget-test-production.yml` | Contains production-specific test jobs (lint, unit, contract, E2E) for production environment |
+| `reusable-widget-test.yml` | Contains all test jobs (lint, unit, contract, E2E) for development and integration environments |
+
+### Template Custom Actions
+
+The template includes these reusable actions that the workflows utilize:
+
+| Action Name | Purpose |
+|-------------|---------|
+| `check-cdn-asset` | Verifies that assets are properly deployed and accessible on the CDN |
+| `update-azure-config` | Handles updating Azure App Configuration with new widget versions |
+| `widget-build` | Contains the logic for building the widget, calculating its version, and archiving the build artifact |
+| `widget-test-setup` | Sets up the testing environment and dependencies for widget tests |
+| `widget-upload-akamai` | Handles uploading the widget build artifact to the Akamai CDN |
+
+## 3. How We Use the Workflows
+
+Our workflow files are present in the widget repository and work as follows:
+
+### Automatic Releases
+
+• **`widget-ci.yml`** runs automatically when we:
+  • Push code to the main branch
+  • Create or update pull requests
+• No manual intervention needed for normal releases. Deployment to integration is automated.
+
+### Manual Rollbacks
+
+• **`rollback-widget.yml`** can be triggered manually when needed:
+  1. Go to the **Actions** tab in the GitHub repository
+  2. Select **"Rollback Widget"** from the workflow list
+  3. Click **"Run workflow"**
+  4. Enter the target version we want to rollback to
+  5. Select the environment (integration/production)
+  6. Click **"Run workflow"**
+
+:::tip[When to Use Rollback]
+We use the rollback workflow when:
+• A production deployment has issues
+• We need to quickly revert to a previous working version
+• Emergency situations require immediate action
+:::
+
+:::tip[Monitoring CI/CD Runs]
+All run logs, status, and artifacts will be available in the GitHub Actions tab for monitoring and debugging.
+:::
+
+## Adapting to Your Own Setup
+
+### Alternative Implementations
+
+While we use GitHub Actions, Akamai CDN, and Azure App Configuration, you can implement the same philosophy with different tools:
+
+#### Version Control Platforms
+- **GitLab CI/CD:** 
+- **Bitbucket Pipelines
+
+#### Deployment Targets
+- **AWS S3 + CloudFront:** Replace Akamai CDN
+- **Google Cloud Storage + CDN:** Alternative content delivery
+
+#### Configuration Management
+- **AWS Parameter Store:** Alternative to Azure App Configuration
+- **HashiCorp Vault:** For secrets and configuration
+
+### Customization Points
+
+1. **Build Process:** Modify the build steps in `widget-build` action
+2. **Testing Strategy:** Adjust test workflows in `reusable-widget-test.yml`
+3. **Deployment Logic:** Update `widget-upload-akamai` for your deployment target
+4. **Environment Names:** Change `integration` and `production-release` to match your workflow
+5. **Approval Process:** Modify environment protection rules for your team structure
+
+### Getting Started with Your Own Implementation
+
+1. **Start Simple:** Begin with basic build and test workflows
+2. **Add Deployment:** Implement deployment to your chosen platform
+3. **Enhance Security:** Add environment protection and approval gates

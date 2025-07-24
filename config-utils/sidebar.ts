@@ -29,12 +29,7 @@ export const sidebarConfig = [
       collapsed: true,
       // attrs: { style: "text-transform: 'capitalized'" },
     },
-    {
-      label: 'Deployment',
-      autogenerate: { directory: 'deployment' },
-      collapsed: true,
-      // attrs: { style: "text-transform: 'capitalized'" },
-    },
+
     // {
     //   label: 'Reference',
     //   autogenerate: { directory: 'reference' },
