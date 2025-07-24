@@ -19,9 +19,9 @@ yarn dev
 
 1FE CLI will serve the widget bundle at `http://localhost:8080/js/1fe-bundle.js`
 
-##### 2. Visit `http://localhost:3001/app1` and click the `{...}` button at the bottom right corner of the screen. ![Import map overrides button showing three dots in brackets](./assets/three-dots.png)
+##### 2. Visit `http://localhost:3001/widget-starter-kit` and click the `{...}` button at the bottom right corner of the screen. ![Import map overrides button showing three dots in brackets](./assets/three-dots.png)
 
-##### 3. Search for `@1fe/starter-kit` within the shelf and select the matching module
+##### 3. Search for `@1fe/widget-starter-kit` within the shelf and select the matching module
 
 ![Import map shelf](./assets/import-map-shelf.png)
 
@@ -29,4 +29,33 @@ yarn dev
 
 ![Import map override modal](./assets/override-modal.png)
 
-##### 5. <FcOk style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Make changes toy our widget and observe the changes in the browser.
+##### 5. <FcOk style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Make changes to your widget and observe the changes in the browser.
+
+:::note[🔒 CSP Fun Fact!]
+**Whoops! Page reload causing CSP issues?** 
+
+If you refresh the page and see Content Security Policy errors blocking your local widget, don't panic! 🚨 
+
+You need to update the CSP settings in the 1FE app(`src/csp-configs.ts`) to allow your local development server(`http://localhost:8080/`).
+:::
+
+---
+
+## 🎉 Congratulations! You made it!
+
+You've successfully set up local development for your 1FE widgets! Now it's time to explore and build amazing things. Here are some important sections to check out next:
+
+### 🧠 **Learn the Core Concepts**
+- **[Live Configurations](../../main-concepts/live-configurations)** - Understand how 1FE dynamically loads widgets
+- **[Widgets vs Plugins](../../main-concepts/widgets)** - Learn the difference and when to use each
+- **[Platform Architecture](../../main-concepts/architecture)** - Deep dive into how 1FE works under the hood
+
+### 🔧 **Level Up Your Development**
+- **[API Reference](../../api-reference/1fe-server-reference)** - Complete API documentation for building widgets
+- **[Externalizing Libraries](../../platform-guides/externalizing-libraries)** - Optimize bundle sizes and share dependencies
+
+### 🚀 **Ready for Production?**
+- **[Productionize your setup](../../platform-guides/productionize)** - Take your app to production
+
+Happy coding! 🚀
+
