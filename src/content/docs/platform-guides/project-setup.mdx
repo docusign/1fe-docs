@@ -77,15 +77,29 @@ We use GitHub's secret management system to store sensitive credentials securely
 
 **What it does:** Securely stores deployment credentials, API tokens, and connection strings that workflows need to authenticate with external services. This ensures sensitive information is never exposed in code or commit history.
 
-**Examples of secrets we store:**
+**Required Secrets for Our CI/CD Pipeline:**
 
-• SSH private keys for Akamai CDN deployment
+You need to configure three secrets in your repository to enable the CI/CD pipeline to deploy your widget:
 
-• Azure App Configuration connection strings
+• **CDN Deployment Secret** - SSH private key for Akamai CDN deployment. This allows the pipeline to upload your built widget files to the content delivery network.
 
-• API tokens for external service authentication
+• **Configuration Service Secret** - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
 
-• Database connection strings (if applicable)
+• **Package Registry Secret** - Authentication token for the internal NPM registry. This allows the pipeline to publish your widget package to the internal package registry.
+
+**Steps to configure:**
+
+1. Navigate to your repository **Settings** → **Secrets and variables** → **Actions**
+
+2. Click **"New repository secret"** for each required secret
+
+3. Add the three secrets listed above with values provided by your platform team
+
+4. Ensure repository permissions allow workflows to access secrets
+
+:::tip
+**Getting Secret Values**: Contact your platform team or refer to your organization's internal documentation for the current secret names and values. These are managed centrally and updated regularly.
+:::
 
 **Resources:**
 
@@ -129,6 +143,8 @@ Our widget repositories contain the necessary CI/CD workflow files in the `.gith
 • Builds, tests, and deploys your widget to the appropriate environment
 
 • Handles the complete release process from code to production
+
+**Example:** [CI/CD Release Workflow Run](https://github.com/docusign/1fe-widget-starter-kit/actions/runs/16467922994)
 :::
 
 :::caution[Widget Rollback Workflow]
@@ -139,6 +155,8 @@ Our widget repositories contain the necessary CI/CD workflow files in the `.gith
 • Allows you to quickly revert to a previous working version
 
 • Useful for emergency situations or when issues are discovered in production
+
+**Example:** [Rollback Workflow Run](https://github.com/docusign/1fe-widget-starter-kit/actions/runs/15864169532)
 :::
 
 :::important[Platform Integration]
@@ -149,25 +167,25 @@ These workflow files are pre-configured to work with the 1fe platform and call i
 
 The centralized `1fe-ci-cd` repository contains pre-built workflow files that handle different aspects of the CI/CD pipeline:
 
-| File Name                             | Purpose                                                                   |
-| ------------------------------------- | ------------------------------------------------------------------------- |
-| `ci-widgets.yml`                      | Main orchestrator workflow - coordinates all build, test, and deploy jobs |
-| `reusable-rollback-ci.yml`            | Handles rollback procedures with asset verification                       |
-| `reusable-update-azure-config.yml`    | Updates configuration in external services                                |
-| `reusable-widget-test-production.yml` | Production-specific test suite (lint, unit, contract, E2E)                |
-| `reusable-widget-test.yml`            | Standard test suite for development and integration environments          |
+| File Name                             | Purpose                                                                   | Link                                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `ci-widgets.yml`                      | Main orchestrator workflow - coordinates all build, test, and deploy jobs | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/ci-widgets.yml) |
+| `reusable-rollback-ci.yml`            | Handles rollback procedures with asset verification                       | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-rollback-ci.yml) |
+| `reusable-update-azure-config.yml`    | Updates configuration in external services                                | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-update-azure-config.yml) |
+| `reusable-widget-test-production.yml` | Production-specific test suite (lint, unit, contract, E2E)                | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-widget-test-production.yml) |
+| `reusable-widget-test.yml`            | Standard test suite for development and integration environments          | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-widget-test.yml) |
 
 ### 1.5 Template Custom Actions (1fe-ci-cd Repository)
 
 The centralized repository includes reusable actions for common CI/CD operations:
 
-| Action Name            | Purpose                                                       |
-| ---------------------- | ------------------------------------------------------------- |
-| `check-cdn-asset`      | Verifies that assets are properly deployed and accessible     |
-| `update-azure-config`  | Handles configuration updates in external services            |
-| `widget-build`         | Builds the widget, calculates version, and archives artifacts |
-| `widget-test-setup`    | Sets up the testing environment and dependencies              |
-| `widget-upload-akamai` | Handles uploading build artifacts to deployment targets       |
+| Action Name            | Purpose                                                       | Link                                                                                    |
+| ---------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `check-cdn-asset`      | Verifies that assets are properly deployed and accessible     | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/check-cdn-asset/action.yml) |
+| `update-azure-config`  | Handles configuration updates in external services            | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/update-azure-config/action.yml) |
+| `widget-build`         | Builds the widget, calculates version, and archives artifacts | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-build/action.yml) |
+| `widget-test-setup`    | Sets up the testing environment and dependencies              | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-test-setup/action.yml) |
+| `widget-upload-akamai` | Handles uploading build artifacts to deployment targets       | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-upload-akamai/action.yml) |
 
 **Note:** Our example uses specific cloud services, but you can adapt this to your preferred deployment platform. We link to official documentation rather than implementation details that can go stale quickly.
 
