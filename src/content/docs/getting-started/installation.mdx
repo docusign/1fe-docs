@@ -17,19 +17,20 @@ import { SlWrench, SlAnchor, SlCloudDownload } from "react-icons/sl";
 
 ## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Manual Installation
 
-##### 1. Scaffold a starter application:
+<div className="prose">
+1. **Scaffold a starter application:**
 
   ```bash
   npx @1fe/create-1fe-app <test-app-name>
   ```
 
-##### 2. Clone the 1FE widget starter kit (WSK):
+2. **Clone the 1FE widget starter kit (WSK):**
 
   ```bash
   git clone https://github.com/docusign/1fe-widget-starter-kit.git
   ```
 
-##### 2. Set up both the repos:
+3. **Set up both the repos:**
 
   First you need to build the 1FE monorepo and the starter kit.
 
@@ -45,7 +46,7 @@ import { SlWrench, SlAnchor, SlCloudDownload } from "react-icons/sl";
   yarn
   ```
 
-##### 3. Run the starter app development server
+4. **Run the starter app development server**
 
   ```bash
   cd <test-app-name> # adjust this to fit your directory structure
@@ -54,12 +55,14 @@ import { SlWrench, SlAnchor, SlCloudDownload } from "react-icons/sl";
 
   You can now visit your application at [http://localhost:3000](http://localhost:3000). You will see this mirror our demo website [here](https://demo.1fe.com/). We will take a look later at how to customize this application.
 
-##### 4. Run the development server for the WSK
+5. **Run the development server for the WSK**
 
   ```bash
   cd 1fe-widget-starter-kit/ # adjust this to fit your directory structure
   yarn dev
   ```
+
+</div>
 
   This will open WSK at the following [link](http://localhost:3001/bathtub?widgetUrl=http%3A%2F%2F127.0.0.1%3A8080%2Fjs%2F1fe-bundle.js)
 
