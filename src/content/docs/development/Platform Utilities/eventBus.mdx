@@ -27,11 +27,9 @@ An event via eventbus is part of your widget's API. Since you cannot predict how
 This consideration is especially important for pinned widgets, who will be rendered alongside older versions of their own widget.
 :::
 
-## `EventMap Type`
+## EventMap Type
 
 The EventMap is to be created by the user, and will contain the types that will be transmitted for each event. When publishing and subscribing, users will specify the event name they are interested in.
-
-`example`
 
 ```ts
 type EventMap = {
@@ -40,28 +38,32 @@ type EventMap = {
 };
 ```
 
-## `useSubscribe`
+## useSubscribe
 
 ```ts
 useSubscribe<EventMap, K extends keyof EventMap>({
-    eventName,
-    listener,
-  }): void
+  eventName: K;
+  listener: (data: EventPublishPayload<EventMap[K]>) => void;
+}): void
 ```
 
-A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted
+A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted.
 
-##### Parameters
+### Parameters
 
-**@param** `param.eventName` The name of the event to subscribe to
+- `eventName` - The name of the event to subscribe to
+- `listener` - The listener function to be called when the event is published
 
-**@param** `param.listener` The listener function to be called when the event is published
+### Example
 
-**@example** `useSubscribe({ eventName: 'event-name', listener: (data) => {} })`
+```ts
+useSubscribe({ 
+  eventName: 'event-name', 
+  listener: (data) => {} 
+})
+```
 
-**@returns** `void`
-
-## `subscribe`
+## subscribe
 
 :::danger
 If you subscribe to the same event multiple times, you will receive multiple updates.
@@ -74,20 +76,21 @@ Please use `useSubscribe` instead of `subscribe` inside of React components.
 subscribe<EventMap, K extends keyof EventMap>(
   eventName: K;
   listener: (data: EventPublishPayload<EventMap[K]>) => void;
-}): UnsubscribeFunction;
+): UnsubscribeFunction
 ```
 
 To be called from the subscriber widget to start a subscription.
 
-##### Parameters
+### Parameters
 
-`eventName` - `string, keyof EventMap`
+- `eventName` - The event name to be subscribed to. Must be defined within the relevant event map type
+- `listener` - The function that will be called when some data is published. The function takes in data dependent on the type defined in the EventMap.
 
-The event name to be subscribed to. Must be defined within the relevant event map type
+### Return Value
 
-`listener` - `(data: EventPublishPayload<EventMap[K]>) => void`
+- `UnsubscribeFunction` - `() => void` - The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
 
-The function that will be called when some data is published. The function takes in data dependent on the type definied the the EventMap.
+### EventPublishPayload Type
 
 ```ts
 type EventPublishPayload<K> = {
@@ -101,84 +104,67 @@ type EventPublishPayload<K> = {
 };
 ```
 
-##### Return Value
-
-`UnsubscribeFunction` - `() => void`
-
-The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
-
-## `publish`
+## publish
 
 ```ts
- publish<EventMap, K extends keyof EventMap>({
-    targetWidgetId,
-    eventName,
-    data,
-  }): void
+publish<EventMap, K extends keyof EventMap>({
+  targetWidgetId: string;
+  eventName: K;
+  data: EventMap[K];
+}): void
 ```
 
 To be called from the publishing widget to send data to a subscribed widget.
 
-##### Parameters
+### Parameters
 
-`targetWidgetId` - `string`
-
-The widgetId of the subscribing widget you would like to publish to.
-
-`eventName` - `string, keyof EventMap`
-
-The event name to be published to. Must be defined within the relevant event map type.
-
-`data` - `EventMap[K]`
-
-Data to be published to the subscribing widget. This should follow the type defined for the event ID in the event map.
+- `targetWidgetId` - The widgetId of the subscribing widget you would like to publish to
+- `eventName` - The event name to be published to. Must be defined within the relevant event map type
+- `data` - Data to be published to the subscribing widget. This should follow the type defined for the event ID in the event map
 
 ## Example
 
 ```ts
 // PublisherWidget1.tsx
-...
- type WidgetEvents = {
-    event1: { param1: string };
-    event2: { param1: string, param2: number };
-  };
-...
+type WidgetEvents = {
+  event1: { param1: string };
+  event2: { param1: string, param2: number };
+};
+
+// In your component
 <Button
   onClick={() => {
     platformProps.utils.eventBus.publish<WidgetEvents, 'event2'>({
       targetWidgetId: '@example/widget2',
       eventName: 'event2',
-      data: { param1: 'Testing Testing', param2: '123' },
+      data: { param1: 'Testing Testing', param2: 123 },
     });
   }}
 />
-...
 ```
 
 ```ts
 // SubscriberWidget2.tsx
+type event2Type = { param1: string, param2: number };
+
+type WidgetEvents = {
+  event1: { param1: string };
+  event2: event2Type;
+};
+
 const [event2Data, setEvent2Data] = useState<event2Type | null>(null);
 const listener = (data: event2Type) => setEvent2Data(data);
 
 // Subscribe to event2
 // A hook wrapper around subscribe that handles React lifecycle
 // Will auto unsubscribe when the component is unmounted
-useSubscribe<
-    WidgetEve2267
-    'event2'
-  >({
-    eventName: 'event2',
-    listener,
-  });
+useSubscribe<WidgetEvents, 'event2'>({
+  eventName: 'event2',
+  listener,
+});
 
- type event2Type =  { param1: string, param2: number }
- type WidgetEvents = {
-    event1: { param1: string };
-    event2: event2Type;
-  };
-...
+// In your component
 <>
   Result: {event2Data}
 </>
-...
 ```

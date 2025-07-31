@@ -98,6 +98,8 @@ The `widgets.get` function will return a React Suspense component, which when mo
 
 Due to the fact that `widgets.get` leverages React hooks internally, it is important to avoid the following anti-patterns:
 
-1. Conditionally invoke widgets.get by either wrapping it inside of IF/ELSE statements, TRY/CATCH blocks or Null Coalescing operators.
-2. Invoke widgets.get from inside of useEffect or useCallback etc. We make a special adjustment for useMemo, yet we urge you to move away from memoizing widgets.get
-3. Return early before widgets.get is invoked in your React component.
+• Conditionally invoke widgets.get by either wrapping it inside of IF/ELSE statements, TRY/CATCH blocks or Null Coalescing operators.
+
+• Invoke widgets.get from inside of useEffect or useCallback etc. We make a special adjustment for useMemo, yet we urge you to move away from memoizing widgets.get
+
+• Return early before widgets.get is invoked in your React component.
