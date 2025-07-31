@@ -38,16 +38,16 @@ type EventMap = {
 };
 ```
 
-## useSubscribe
+## `useSubscribe`
 
 ```ts
 useSubscribe<EventMap, K extends keyof EventMap>({
-  eventName: K;
-  listener: (data: EventPublishPayload<EventMap[K]>) => void;
-}): void
+    eventName,
+    listener,
+  }): void
 ```
 
-A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted.
+A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted
 
 ### Parameters
 
@@ -63,7 +63,7 @@ useSubscribe({
 })
 ```
 
-## subscribe
+## `subscribe`
 
 :::danger
 If you subscribe to the same event multiple times, you will receive multiple updates.
@@ -76,7 +76,7 @@ Please use `useSubscribe` instead of `subscribe` inside of React components.
 subscribe<EventMap, K extends keyof EventMap>(
   eventName: K;
   listener: (data: EventPublishPayload<EventMap[K]>) => void;
-): UnsubscribeFunction
+}): UnsubscribeFunction;
 ```
 
 To be called from the subscriber widget to start a subscription.
@@ -85,12 +85,6 @@ To be called from the subscriber widget to start a subscription.
 
 - `eventName` - The event name to be subscribed to. Must be defined within the relevant event map type
 - `listener` - The function that will be called when some data is published. The function takes in data dependent on the type defined in the EventMap.
-
-### Return Value
-
-- `UnsubscribeFunction` - `() => void` - The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
-
-### EventPublishPayload Type
 
 ```ts
 type EventPublishPayload<K> = {
@@ -104,14 +98,18 @@ type EventPublishPayload<K> = {
 };
 ```
 
-## publish
+### Return Value
+
+- `UnsubscribeFunction` - `() => void` - The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
+
+## `publish`
 
 ```ts
-publish<EventMap, K extends keyof EventMap>({
-  targetWidgetId: string;
-  eventName: K;
-  data: EventMap[K];
-}): void
+ publish<EventMap, K extends keyof EventMap>({
+    targetWidgetId,
+    eventName,
+    data,
+  }): void
 ```
 
 To be called from the publishing widget to send data to a subscribed widget.
