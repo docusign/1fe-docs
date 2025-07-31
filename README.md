@@ -1,118 +1,104 @@
-# Astroship Pro
+# 1FE Documentation
 
-Astroship Pro is a Pro version of Popular Free Astroship Starter Template which was made for startups, marketing websites, landing pages & blog. Built with Astro & TailwindCSS.
+Official documentation repository for 1FE (One Front End) - A configuration-driven front-end platform that enables dynamic widget loading and micro-frontend architecture. Built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
 
-This Pro Template is made by [Web3Templates](https://web3templates.com)
+## About 1FE
+
+1FE is a powerful platform that allows organizations to build scalable front-end applications using a micro-frontend approach with dynamic configuration management, widget orchestration, and runtime dependency management.
 
 ## Live Demo
 
-### [Astroship Pro Live Demo](https://astroship-pro.web3templates.com/)
+You can view the live documentation at: [1fe.com](https://1fe.com)
 
-### [Buy Astroship Pro Template](https://web3templates.com/templates/astroship-pro-astro-saas-website-template)
+## Getting Started
 
-#### [Get Free Version](https://web3templates.com/templates/astroship-starter-website-template-for-astro)
+### Prerequisites
 
-## Preview
+- [Node.js](https://nodejs.org/) (version 22 or higher)
+- [Yarn](https://yarnpkg.com/) package manager
 
-![astroship-pro-preview](https://github.com/web3templates/astroship-pro/assets/1884712/17ca044c-c8ce-4a0a-8780-f078c2ef0cc4)
+### Installation
 
-## Installation
-
-If you are already have github access, you can click on the "Fork" button above to create a new repository from astroship to your account. Then you can do a `git clone` to clone it to your local system.
-
-Alternatively, you can clone the project directly from the github repo to your local system. make sure you have github repo access. Send an email to hello@web3templates.com to get github repo access.
-
-### 1. Clone the repo
+1. Clone this repository:
 
 ```bash
-git clone https://github.com/web3templates/astroship-pro.git myProjectName
-# or
-git clone https://github.com/web3templates/astroship-pro.git .
+git clone https://github.com/docusign/1fe-docs.git
+cd 1fe-docs
 ```
 
-The `.` will clone it to the current directory so make sure you are inside your project folder first.
-
-> Note: If you are reading this on a downloaded zip file after purchase, just skip this step and start installing npm from the next step.
-
-### 2. Install Dependencies
+2. Install dependencies:
 
 ```bash
-npm install
-# or
 yarn install
-# or (recommended)
-pnpm install
 ```
 
-### 3. Start development Server
+3. Start the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or (recommended)
-pnpm dev
 ```
 
-### Preview & Build
+4. Open your browser and navigate to [http://localhost:8432](http://localhost:8432) to view the documentation locally.
+
+### Making Changes
+
+1. Edit the documentation files in the `src/content/docs/` directory
+2. The development server will automatically reload your changes
+3. Visit [http://localhost:8432](http://localhost:8432) to see your updates
+
+### Build for Production
 
 ```bash
-npm run preview
-npm run build
-# or
-yarn preview
 yarn build
-# or (recommended)
-pnpm preview
-pnpm build
-```
-
-We recommend using [pnpm](https://pnpm.io/) to save disk space on your computer.
-
-### Other Commands
-
-```bash
-pnpm astro ...
-pnpm astro add
-pnpm astro --help
 ```
 
 ## Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Inside of this Astro documentation project, you'll see the following folders and files:
 
-```
+```text
 /
 ├── public/
-│   └── ...
+│   ├── favicon.svg
+│   └── robots.txt
 ├── src/
-│   ├── components/
-│   │   └── ...
-│   ├── layouts/
-│   │   └── ...
-│   └── pages/
-│       └── ...
+│   ├── content/
+│   │   ├── docs/           # Documentation content
+│   │   │   ├── getting-started/
+│   │   │   ├── main-concepts/
+│   │   │   ├── api-reference/
+│   │   │   └── ...
+│   │   └── config.ts       # Content collections config
+│   ├── components/         # Reusable Astro components
+│   ├── layouts/           # Page layouts
+│   └── assets/            # Images and other assets
+├── astro.config.mjs       # Astro configuration
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Documentation content is written in MDX format and stored in the `src/content/docs/` directory. Each file automatically becomes a page based on its file path.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Built With
 
-## TailwindCSS
+- **[Astro](https://astro.build)** - Static site generator with excellent performance
+- **[Starlight](https://starlight.astro.build)** - Documentation theme built on Astro
+- **[TailwindCSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[MDX](https://mdxjs.com)** - Markdown with JSX support for interactive documentation
+- **[React Icons](https://react-icons.github.io/react-icons/)** - Icon library for UI elements
 
-TailwindCSS is already configured in this repo, so you can start using it without any installation.
+## Contributing
 
-## Versions
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes to the documentation
+4. Test locally using `yarn dev` and visit [http://localhost:8432](http://localhost:8432)
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
-Current version: v2.0.0
+## Links
 
-## Credits
-
-[Unsplash](https://unsplash.com)
-
-## 👀 Want to learn more?
-
-Feel free to check out [Astro Docs](https://docs.astro.build) or jump into our [Discord Chat](https://web3templates.com/discord).
-
-[![Built with Astro](https://astro.badg.es/v1/built-with-astro.svg)](https://astro.build)
+- [1FE Main Repository](https://github.com/docusign/1fe)
+- [Astro Documentation](https://docs.astro.build)
+- [Starlight Documentation](https://starlight.astro.build)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
