@@ -1,13 +1,14 @@
 ---
-title: 1FE Shell Reference
-description: 1FE Shell Reference
+title: 1fe Shell Reference
+description: 1fe Shell Reference
 ---
 
 The 1fe/shell package exposes a function `renderOneFEShell` that will load the plugin associated with the route, inject contextualized props, and render it within the app shell.
 
 ### Simple Usage Example
+
 ```tsx
-import renderOneFEShell from '@devhub/1fe-server';
+import renderOneFEShell from "@devhub/1fe-server";
 
 renderOneFEShell({
   utils: {
@@ -15,7 +16,7 @@ renderOneFEShell({
       logger: {
         log: (message: string) => {
           console.log(widgetId, message);
-        }
+        },
       },
     }),
   },
@@ -24,19 +25,20 @@ renderOneFEShell({
       return !!localStorage.getItem(`${widgetId}-token`);
     },
     unauthedCallback: (widgetId: string) => {
-      console.log(widgetId, ' is not authenticated.');
-      window.location.href = '/logout';
+      console.log(widgetId, " is not authenticated.");
+      window.location.href = "/logout";
     },
   },
   routes: {
-    defaultRoute: '/app1'
-  }
+    defaultRoute: "/app1",
+  },
 });
 ```
 
 ### `utils` (optional)
 
 **Type**
+
 ```tsx
 type OneFEUtils = {
   [key: string]: (widgetId: string) => any;
@@ -48,6 +50,7 @@ A map of utility functions that will be injected into the widget's props. The ke
 ### `auth` (optional)
 
 **Type**
+
 ```tsx
 type OneFEAuth = {
   isAuthedCallback: (widgetId: string) => boolean;
@@ -62,6 +65,7 @@ type OneFEAuth = {
 ### `shellLogger` (optional)
 
 **Type**
+
 ```tsx
 type OneFEShellLogger = {
   log: (logObject: OneFELogObject) => void;
@@ -82,17 +86,19 @@ type OneFEShellLogger = {
 ### `routes` (optional)
 
 **Type**
+
 ```tsx
 type OneFERoutes = {
   defaultRoute: `/${string}`;
 };
 ```
 
-`defaultRoute`: The default route to load when no route is provided. Bathtub will be the default route if enabled. Otherwise, this will be the default route.
+`defaultRoute`: The default route to load when no route is provided. Playground will be the default route if enabled. Otherwise, this will be the default route.
 
 ### `components` (optional)
 
 **Type**
+
 ```tsx
 type OneFEComponents = {
   getLoader?: () => JSX.Element;

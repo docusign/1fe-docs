@@ -9,7 +9,7 @@ sidebar:
     variant: default
 ---
 
-### Importing 1FE Platform Utils
+### Importing 1fe Platform Utils
 
 ```tsx
 import { platformProps } from '@1fe/shell';
@@ -21,10 +21,10 @@ The `@1fe/shell` package is automatically installed in your widget or plugin pro
 
 The above approach is also known as **shell import syntax** or **1fe contextual injection**.
 
-### Basic Usage of 1FE utils
+### Basic Usage of 1fe utils
 
 ```tsx
-// The 1FE shell provided the platform utils to all widgets loaded in 1FE
+// The 1fe shell provided the platform utils to all widgets loaded in 1fe
 import { PlatformPropsType, platformProps } from '@1fe/shell';
 
 // This type is for reference and is included out of box in the widget-starter-kit
@@ -47,9 +47,9 @@ export default MyWidget;
 
 ### How does the contextual injection work?
 
-In a nutshell, the `@1fe/shell` is a simple types package to provide intellisense to the developer. In practice, there's no code that is being shipped in the `@1fe/shell` package. Instead when your widget is loaded inside of 1FE, we intercept the request to load the `@1fe/shell` package and instead inject `platformProps` contextualized to your widget.
+In a nutshell, the `@1fe/shell` is a simple types package to provide intellisense to the developer. In practice, there's no code that is being shipped in the `@1fe/shell` package. Instead when your widget is loaded inside of 1fe, we intercept the request to load the `@1fe/shell` package and instead inject `platformProps` contextualized to your widget.
 
-Using the contextual injection, you can access the `platformProps` from anywhere in your widget without having to pass it down as a prop. Additionally this now enables us to safely provide some convenience React hooks from the 1FE platform.
+Using the contextual injection, you can access the `platformProps` from anywhere in your widget without having to pass it down as a prop. Additionally this now enables us to safely provide some convenience React hooks from the 1fe platform.
 
 #### Why contextual injection?
 

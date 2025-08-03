@@ -1,10 +1,10 @@
-# 1FE Documentation
+# 1fe Documentation
 
-Official documentation repository for 1FE (One Front End) - A configuration-driven front-end platform that enables dynamic widget loading and micro-frontend architecture. Built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
+Official documentation repository for 1fe (One Front End) - A configuration-driven front-end platform that enables dynamic widget loading and micro-frontend architecture. Built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
 
-## About 1FE
+## About 1fe
 
-1FE is a powerful platform that allows organizations to build scalable front-end applications using a micro-frontend approach with dynamic configuration management, widget orchestration, and runtime dependency management.
+1fe is a powerful platform that allows organizations to build scalable front-end applications using a micro-frontend approach with dynamic configuration management, widget orchestration, and runtime dependency management.
 
 ## Live Demo
 
@@ -98,7 +98,7 @@ Documentation content is written in MDX format and stored in the `src/content/do
 
 ## Links
 
-- [1FE Main Repository](https://github.com/docusign/1fe)
+- [1fe Main Repository](https://github.com/docusign/1fe)
 - [Astro Documentation](https://docs.astro.build)
 - [Starlight Documentation](https://starlight.astro.build)
 - [TailwindCSS Documentation](https://tailwindcss.com/docs)

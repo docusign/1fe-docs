@@ -1,6 +1,6 @@
 ---
-title: 1FE Server Reference
-description: 1FE Server Reference
+title: 1fe Server Reference
+description: 1fe Server Reference
 ---
 
 The 1fe/server package exposes a function `oneFEServer` that returns an express server instance. This reference page will list the configuration options available.
@@ -29,7 +29,7 @@ app.listen(3001, () => {
 
 **Type**: `'development' | 'preproduction' | 'production'`
 
-What type of environment is this? The 1FE runtime will use this information to determine certain behaviors, such as loading certain development tooling within the shell.
+What type of environment is this? The 1fe runtime will use this information to determine certain behaviors, such as loading certain development tooling within the shell.
 
 ### `environment`
 
@@ -71,12 +71,12 @@ The URL to fetch the shell bundle from. This should be a URL to the bundle that 
 **Type**
 ```tsx
 type OneFEServer = {
-    bathtub?: boolean;
+    playground?: boolean;
     knownRoutes: string[];
 };
 ```
 
-`**bathtub**` (optional): Whether or not to enable the bathtub. Defaults to false.
+`**playground**` (optional): Whether or not to enable the playground. Defaults to false.
 
 `**knownRoutes**`: An array of known routes that 1fe/server will use for plugin and 404 detection.
 

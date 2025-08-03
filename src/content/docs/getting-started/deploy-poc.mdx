@@ -16,17 +16,18 @@ import { Card } from "@astrojs/starlight/components";
 
 :::caution
 **This is a POC deployment guide!**
+**This is a POC deployment guide!**
 
 We are using public tooling in this guide to get something out on the internet so you can showcase your 1fe instance. If you're ready to set up a production environment with proper CDN infrastructure, CI/CD pipelines, and robust hosting, visit our [productionization guide](../../platform-guides/productionize).
 :::
 
-Now that we have setup our local 1FE app and widget starter kit, it's time to deploy our setup to showcase its benefits. This will allow us to share our work with others and demonstrate the power of 1FE. We will do the following in this guide.
+Now that we have setup our local 1fe app and widget starter kit, it's time to deploy our setup to showcase its benefits. This will allow us to share our work with others and demonstrate the power of 1fe. We will do the following in this guide.
 
 <div className="prose">
 
 1. **Deploy our assets to a public CDN (JSDelivr).**
 
-2. **Deploy our 1FE app to a hosting service.**
+2. **Deploy our 1fe app to a hosting service.**
 
 </div>
 
@@ -38,7 +39,7 @@ You need two github repositories:
 
 1. One for the `mock-cdn-assets` that will hold our assets - [JSDelivr](https://www.jsdelivr.com/) works off of GitHub repositories and serves files based on Git tags. So the first step would be to create a repository for our forked cdn assets on github.com and to push our changes to that repository. We already did that as part of the guide to get out setup locally. If you haven't done that, do that now so our mock-cdn-assets are available on github.com for JSDelivr to pick up from.
 
-2. One for your 1FE instance that will be used to deploy your 1FE app.
+2. One for your 1fe instance that will be used to deploy your 1fe app.
 
 </div>
 
@@ -48,10 +49,10 @@ We have already learnt how to host assets locally in the previous guide. Let's d
 
 ### Configure the 1fe instance first
 
-For this section, lets assume that you are going to use a git tag for your CDN assets like `v1.0.2`. You can pick any tag you like, but make sure to use the same tag in the next steps. We will use `<tag>` to refer to this tag in the rest of this guide. Based on this information (and with some more steps that you will take later), you need to make the following changes to your 1FE instance files.
+For this section, lets assume that you are going to use a git tag for your CDN assets like `v1.0.2`. You can pick any tag you like, but make sure to use the same tag in the next steps. We will use `<tag>` to refer to this tag in the rest of this guide. Based on this information (and with some more steps that you will take later), you need to make the following changes to your 1fe instance files.
 
 <div className="prose">
-1. Point your 1FE instance to the new CDN assets for live configurations. These files will be checked in in the next step but we prepare the 1fe instance for it now.
+1. Point your 1fe instance to the new CDN assets for live configurations. These files will be checked in in the next step but we prepare the 1fe instance for it now.
 
 ```tsx title="src/config/ecosystem-configs.ts" {4,7,10}
 // ...
@@ -69,7 +70,7 @@ export const configManagement: OneFEConfigManagement = {
 };
 ```
 
-2. Point your 1FE instance to the new CDN assets for critical libraries.
+2. Point your 1fe instance to the new CDN assets for critical libraries.
 
 ```tsx title="src/config/ecosystem-configs.ts" {3,5,9,10}
 // ...
@@ -93,7 +94,7 @@ export const criticalLibUrls = {
 3. Update the CSP policy.
    Update the CSP policies as defined in `src/csp-configs.ts` to allow jsdelivr domains(`https://cdn.jsdelivr.net`)
 
-4. Now check this into your 1FE instance repository. That can help with deploying your 1fe instance later.
+4. Now check this into your 1fe instance repository. That can help with deploying your 1fe instance later.
 
 </div>
 
@@ -150,7 +151,7 @@ https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@v1.0.2/integratio
 **JSDelivr not reflecting your changes?** Try purging the cache at https://www.jsdelivr.com/tools/purge. Changes typically appear within a few minutes.
 :::
 
-## Deploy our 1FE app to a hosting service
+## Deploy our 1fe app to a hosting service
 
 Now that we have our CDN setup, let's deploy our 1fe instance to a hosted service such that it's pointing to our CDN.
 
@@ -176,4 +177,4 @@ As a quick start, you can also use the links below with your 1fe instance reposi
 
 After you have deployed your 1fe instance, you will be able to access it at the URL provided by your hosting service!
 
-🎉 Congratulations! You have successfully deployed your 1FE instance and its assets to a public CDN. You can now share this URL with others to showcase the benefits of using 1FE.
+🎉 Congratulations! You have successfully deployed your 1fe instance and its assets to a public CDN. You can now share this URL with others to showcase the benefits of using 1fe.

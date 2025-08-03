@@ -8,7 +8,7 @@ sidebar:
 import { SlSocialDropbox, SlAnchor, SlCloudDownload, SlWrench, SlCloudUpload} from "react-icons/sl";
 import { FcOk } from "react-icons/fc";
 
-## <SlSocialDropbox style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Explore the local 1FE instance
+## <SlSocialDropbox style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Explore the local 1fe instance
 
 ### Test Sample plugins
 
@@ -21,14 +21,14 @@ import { FcOk } from "react-icons/fc";
 
 3. **What just happened?**
 
-   1. 1FE loaded and rendered the *plugin* tied to the `/widget-starter-kit` route.
+   1. 1fe loaded and rendered the *plugin* tied to the `/widget-starter-kit` route.
 
-   2. When `utils.context.get` was clicked, the plugin loaded a child *widget* via the *platform utilities* provided by 1FE shell.
+   2. When `utils.context.get` was clicked, the plugin loaded a child *widget* via the *platform utilities* provided by 1fe shell.
 
 </div>
 
 :::tip
-1FE loads the latest widget bundles and assets from a CDN. This allows for a dynamic ecosystem where monolithic apps can be broken into smaller plugins and widgets repositories, each with their own release cycles. This is a key feature of 1FE.
+1fe loads the latest widget bundles and assets from a CDN. This allows for a dynamic ecosystem where monolithic apps can be broken into smaller plugins and widgets repositories, each with their own release cycles. This is a key feature of 1fe.
 :::
 
 Read more about [widgets and plugins](../../main-concepts/widgets) and [platform utilities](../../development/platform-utilities/overview/).
@@ -48,7 +48,7 @@ cd 1fe-widget-starter-kit
 yarn dev
 ```
 
-1FE CLI will serve the widget bundle at `http://localhost:8080/js/1fe-bundle.js`
+1fe CLI will serve the widget bundle at `http://localhost:8080/js/1fe-bundle.js`
 
 
 2. **Visit `http://localhost:3001/widget-starter-kit` and click the `{...}` button at the bottom right corner of the screen.** ![Import map overrides button showing three dots in brackets](./assets/three-dots.png)
@@ -67,9 +67,9 @@ yarn dev
 
 
 
-## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Customize your 1FE instance
+## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Customize your 1fe instance
 
-In the previous step, we overrode the example plugin to use our local plugin. Now let's look at how to host your plugin locally so it shows up by deafult in the 1FE app.
+In the previous step, we overrode the example plugin to use our local plugin. Now let's look at how to host your plugin locally so it shows up by deafult in the 1fe app.
 
 ### Build plugin assets
 
@@ -101,9 +101,9 @@ export default withProvider(RootWrapper);
 2. **Build the plugin within `1fe-widget-starter-kit` directory**
 
 :::caution
-**Keep your 1FE app running in the background**.
+**Keep your 1fe app running in the background**.
 
-1FE CLI will need the development server for the build process. This will later be pointed to a deployed environment once your 1FE app is hosted.
+1fe CLI will need the development server for the build process. This will later be pointed to a deployed environment once your 1fe app is hosted.
 :::
 
 ```bash
@@ -114,21 +114,21 @@ yarn build:widget
 </div>
 
 :::tip
-1FE CLI will build the widget. Observe the assets within the `dist` folder.
+1fe CLI will build the widget. Observe the assets within the `dist` folder.
 :::
 
   ![dist folder contents](./assets/example-plugin-dist.png)
 
-#### Setup the bathtub widget
+#### Setup the playground widget
 
-We'll also need the bathtub widget for our 1FE application. The bathtub widget provides essential development tooling and runtime utilities.
+We'll also need the playground widget for our 1fe application. The playground widget provides essential development tooling and runtime utilities.
 
 <div className="prose">
-  1. **Fork the [1fe-bathtub](https://github.com/docusign/1fe-bathtub) repository to your GitHub account.**
+  1. **Fork the [1fe-playground](https://github.com/docusign/1fe-playground) repository to your GitHub account.**
 
   ```bash
-  git clone https://github.com/<your-github-username>/1fe-bathtub.git
-  cd 1fe-bathtub
+  git clone https://github.com/<your-github-username>/1fe-playground.git
+  cd 1fe-playground
   ```
 
   2. **Install dependencies and build the widget:**
@@ -140,7 +140,7 @@ We'll also need the bathtub widget for our 1FE application. The bathtub widget p
 </div>
 
 :::tip
-The bathtub widget build will also generate assets in the `dist` folder.
+The playground widget build will also generate assets in the `dist` folder.
 :::
 
 ### **Host the widgets locally**
@@ -154,9 +154,9 @@ This repository contains the live configurations and widget assets per environme
 
 3. Upload the contents of the `1fe-widget-starter-kit/dist/` directory to the new directory.
 
-4. Create a new directory within `integration/widgets/@1fe/bathtub` of your forked cdn repo. The directory name should be the version from the package.json of the bathtub repository (e.g `1.0.50`).
+4. Create a new directory within `integration/widgets/@1fe/playground` of your forked cdn repo. The directory name should be the version from the package.json of the playground repository (e.g `1.0.50`).
 
-5. Upload the contents of the `1fe-bathtub/dist/` directory to the bathtub directory. Following is an image which showcases what the directory structure will look like after you have moved the code over.
+5. Upload the contents of the `1fe-playground/dist/` directory to the playground directory. Following is an image which showcases what the directory structure will look like after you have moved the code over.
 ![dist folder assets copied to CDN](./assets/example-plugin-cdn-assets.png)
 
 6. Serve them locally using the [serve package](https://www.npmjs.com/package/serve) by running the following command
@@ -166,18 +166,18 @@ npx serve -C <root-of-cdn-assets-repo-locally>
 
 </div>
 
-### Use the new widget assets in our 1FE instance
+### Use the new widget assets in our 1fe instance
 
-One of the key features of 1FE is the ability to dynamically load widgets and plugins via [Live Configurations](../../main-concepts/live-configurations). We will now take advantage of these configurations to get our local 1fe instance to get the config's from our local CDN.
+One of the key features of 1fe is the ability to dynamically load widgets and plugins via [Live Configurations](../../main-concepts/live-configurations). We will now take advantage of these configurations to get our local 1fe instance to get the config's from our local CDN.
 
 #### Update widget-versions.json
 
-The `widget-versions.json` file defines the available versions for each widget that can be loaded by the 1FE platform. Create `integration/configs/widget-versions.json` file within your forked mock-cdn-assets repository and update it like so:
+The `widget-versions.json` file defines the available versions for each widget that can be loaded by the 1fe platform. Create `integration/configs/widget-versions.json` file within your forked mock-cdn-assets repository and update it like so:
 
 ```json title="widget-versions.json"
 [
   {
-    "widgetId": "@1fe/bathtub",
+    "widgetId": "@1fe/playground",
     "version": "<version of the bundle we moved to mock-cdn-assets>"
   },
   {
@@ -207,7 +207,7 @@ The [`live.json`](https://1fe-a.akamaihd.net/integration/configs/live.json) file
 +   "basePrefix": "http://localhost:3000/integration/widgets/",
     "configs": [
       {
-        "widgetId": "@1fe/bathtub",
+        "widgetId": "@1fe/playground",
         "plugin": {
           "enabled": true,
           "route": "/widget-starter-kit"
@@ -241,9 +241,9 @@ http://localhost:3000/integration/configs/live.json
 ```
 </div>
 
-#### Point your local 1FE instance to the new CDN assets
+#### Point your local 1fe instance to the new CDN assets
 
-To point the 1FE instance to the new CDN assets, update the `src/config/ecosystem-configs.ts` file with the following changes:
+To point the 1fe instance to the new CDN assets, update the `src/config/ecosystem-configs.ts` file with the following changes:
 
 ```tsx title="src/config/ecosystem-configs.ts" {4,7,10}
 // ...
@@ -272,17 +272,17 @@ Navigate to [starter kit locally](http://localhost:3001/widget-starter-kit/utils
 
 If you refresh the page and see Content Security Policy errors blocking you from loading assets, don't panic! 🚨 
 
-You need to update the CSP settings in the 1FE app(`src/csp-configs.ts`) to allow them(`http://localhost:3000/`).
+You need to update the CSP settings in the 1fe app(`src/csp-configs.ts`) to allow them(`http://localhost:3000/`).
 :::
 
 ## 🎉 Congratulations! You made it!
 
-You've successfully set up local development for your 1FE widgets! You can move on to the next section if you want to deploy your 1fe instance quickly to showcase it's benefits to your team. Or, you can use the below links to jump to different sections to learn more.
+You've successfully set up local development for your 1fe widgets! You can move on to the next section if you want to deploy your 1fe instance quickly to showcase it's benefits to your team. Or, you can use the below links to jump to different sections to learn more.
 
 ### 🧠 **Learn the Core Concepts**
-- **[Live Configurations](../../main-concepts/live-configurations)** - Understand how 1FE dynamically loads widgets
+- **[Live Configurations](../../main-concepts/live-configurations)** - Understand how 1fe dynamically loads widgets
 - **[Widgets vs Plugins](../../main-concepts/widgets)** - Learn the difference and when to use each
-- **[Platform Architecture](../../main-concepts/architecture)** - Deep dive into how 1FE works under the hood
+- **[Platform Architecture](../../main-concepts/architecture)** - Deep dive into how 1fe works under the hood
 
 ### 🔧 **Level Up Your Development**
 - **[API Reference](../../api-reference/1fe-server-reference)** - Complete API documentation for building widgets

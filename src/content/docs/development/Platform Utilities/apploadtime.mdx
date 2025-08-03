@@ -3,7 +3,7 @@ title: 'App Load Time'
 description: 'App Load Time implementation'
 ---
 
-In order to avoid namespace collisions with `performance.mark`, the 1FE platform provides app load time utils that can be accessed through platform props. Using these, widget teams to measure how long a process - any process - takes using [built-in browser performance marking functionality](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark).
+In order to avoid namespace collisions with `performance.mark`, the 1fe platform provides app load time utils that can be accessed through platform props. Using these, widget teams to measure how long a process - any process - takes using [built-in browser performance marking functionality](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark).
 
 :::danger
 Do no use `window.performance` directly. A namespace collision could break the telementry of your widget or someone else's.
