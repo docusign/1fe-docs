@@ -66,7 +66,7 @@ In the above section, we explored the example starter plugin. Let's override tha
 
 ## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Customize your 1fe instance
 
-In the previous step, we overrode the example plugin to use our local plugin. Now let's look at how to host your plugin locally so it shows up by deafult in the 1fe app.
+In the previous step, we overrode the example plugin to use our local plugin. Now let's look at how to host your plugin locally so it shows up by deafult in the 1fe instance.
 
 ### Build plugin assets
 
@@ -98,9 +98,9 @@ In the previous step, we overrode the example plugin to use our local plugin. No
 2.  **Build the plugin within `1fe-widget-starter-kit` directory**
 
     :::caution
-    **Keep your 1fe app running in the background**.
+    **Keep your 1fe instance running in the background**.
 
-    1fe CLI will need the development server for the build process. This will later be pointed to a deployed environment once your 1fe app is hosted.
+    1fe CLI will need the development server for the build process. This will later be pointed to a deployed environment once your 1fe instance is hosted.
     :::
 
     ```bash
@@ -119,7 +119,7 @@ In the previous step, we overrode the example plugin to use our local plugin. No
 
 #### Setup the playground widget
 
-We'll also need the playground widget for our 1fe application. The playground widget provides essential development tooling and runtime utilities.
+We'll also need the playground widget for our 1fe instance. The playground widget provides essential development tooling and runtime utilities.
 
 <div className="prose">
 
@@ -267,7 +267,7 @@ Navigate to [starter kit locally](http://localhost:3001/widget-starter-kit/utils
 
 If you refresh the page and see Content Security Policy errors blocking you from loading assets, don't panic! 🚨
 
-You need to update the CSP settings in the 1fe app(`src/csp-configs.ts`) to allow them(`http://localhost:3000/`).
+You need to update the CSP settings in the 1fe instance(`src/csp-configs.ts`) to allow them(`http://localhost:3000/`).
 :::
 
 ## 🎉 Congratulations! You made it!

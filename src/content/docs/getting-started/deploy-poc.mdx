@@ -19,10 +19,10 @@ import { FcOk } from "react-icons/fc";
 We are using public tooling in this guide to get something out on the internet so you can showcase your 1fe instance. If you're ready to set up a production environment with proper CDN infrastructure, CI/CD pipelines, and robust hosting, visit our [productionization guide](../../platform-guides/productionize).
 :::
 
-Now that we have setup our local 1fe app and widget starter kit, it's time to deploy our setup to showcase its benefits. This will allow us to share our work with others and demonstrate the power of 1fe. We will do the following in this guide.
+Now that we have setup our local 1fe instance and widget starter kit, it's time to deploy our setup to showcase its benefits. This will allow us to share our work with others and demonstrate the power of 1fe. We will do the following in this guide.
 
 1.  **Deploy our assets to a public CDN (JSDelivr).**
-2.  **Deploy our 1fe app to a hosting service.**
+2.  **Deploy our 1fe instance to a hosting service.**
 
 ### Setup the required github repositories
 
@@ -34,7 +34,7 @@ You need a repository for the `mock-cdn-assets` that will hold our assets. We wi
 
 **1fe Instance Repository**
 
-You need a repository for your 1fe instance that will be used to deploy your 1fe app.
+You need a repository for your 1fe instance that will be used to deploy your 1fe instance.
 
 ## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Deploy our assets to a CDN
 
@@ -133,7 +133,7 @@ Let's now add all the changes you have made to your CDN assets repository and cr
 **JSDelivr not reflecting your changes?** Try purging the cache at https://www.jsdelivr.com/tools/purge. Changes typically appear within a few minutes.
 :::
 
-## Deploy our 1fe app to a hosting service
+## Deploy our 1fe instance to a hosting service
 
 Now that we have our CDN setup, let's deploy our 1fe instance to a hosted service such that it's pointing to our CDN.
 
