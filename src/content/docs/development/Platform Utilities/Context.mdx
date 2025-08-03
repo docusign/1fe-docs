@@ -1,9 +1,9 @@
 ---
 title: Context
-description: 'Context utils API'
+description: "Context utils API"
 ---
 
-## `platform.context.self`
+### `platform.context.self`
 
 Answers the question about who you are.
 
@@ -19,7 +19,7 @@ Answers the question about who you are.
 #### Example
 
 ```tsx
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 
 function MySimpleComponent(props: WidgetProps) {
   return (
@@ -32,16 +32,14 @@ function MySimpleComponent(props: WidgetProps) {
 }
 ```
 
----
-
-## `platform.context.getHost`
+### `platform.context.getHost`
 
 Answers the question about who is hosting you.
 
 This is only offered for insights and logging purposes.
 
 :::danger
-Writing logic depending on the host is **NOT** okay. It is highly recommended to write functionality in a way that can be toggled on/off by prop-driven configuration.
+Writing logic depending on the host is **NOT** okay. It is highly recommended to write functionality in a way that it can be toggled on/off by prop-driven configuration.
 
 It is better to write your widget in a way that it can be hosted by any widget.
 :::
@@ -57,7 +55,7 @@ function getHost(): {
 #### Example
 
 ```tsx
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 
 function MySimpleComponent(props: WidgetProps) {
   return (

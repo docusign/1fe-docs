@@ -58,9 +58,8 @@ type OneFEAuth = {
 };
 ```
 
-`isAuthedCallback` will be invoked by 1fe/shell when a plugin is being loaded. It should return a boolean indicating whether the user is authenticated or not.
-
-`unauthedCallback` will be invoked by 1fe/shell when a plugin is being loaded and the user is not authenticated. This should always be defined if `isAuthedCallback` is defined.
+- `isAuthedCallback` will be invoked by 1fe/shell when a plugin is being loaded. It should return a boolean indicating whether the user is authenticated or not.
+- `unauthedCallback` will be invoked by 1fe/shell when a plugin is being loaded and the user is not authenticated. This should always be defined if `isAuthedCallback` is defined.
 
 ### `shellLogger` (optional)
 
@@ -75,13 +74,10 @@ type OneFEShellLogger = {
 };
 ```
 
-`log` This will be invoked when a log is emitted from the shell.
-
-`error` This will be invoked when an error is emitted from the shell.
-
-`logPlatformUtilUsage` (optional): Whether or not to log the usage of platform utilities. Defaults to false.
-
-`redactSensitiveData` (optional): Whether or not to redact sensitive data from the logs. Defaults to false.
+- `log` This will be invoked when a log is emitted from the shell.
+- `error` This will be invoked when an error is emitted from the shell.
+- `logPlatformUtilUsage` (optional): Whether or not to log the usage of platform utilities. Defaults to false.
+- `redactSensitiveData` (optional): Whether or not to redact sensitive data from the logs. Defaults to false.
 
 ### `routes` (optional)
 
@@ -93,7 +89,7 @@ type OneFERoutes = {
 };
 ```
 
-`defaultRoute`: The default route to load when no route is provided. Playground will be the default route if enabled. Otherwise, this will be the default route.
+- `defaultRoute`: The default route to load when no route is provided. Playground will be the default route if enabled. Otherwise, this will be the default route.
 
 ### `components` (optional)
 
@@ -106,6 +102,5 @@ type OneFEComponents = {
 };
 ```
 
-`getLoader` (optional): Custom loader component to be shown when a widget is being loaded.
-
-`getError` (optional): Custom error component to be shown when in an error state (e.g a widget fails to load)
+- `getLoader` (optional): Custom loader component to be shown when a widget is being loaded.
+- `getError` (optional): Custom error component to be shown when in an error state (e.g a widget fails to load)

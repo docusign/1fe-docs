@@ -1,6 +1,6 @@
 ---
 title: Event Bus
-description: 'Event Bus implementation'
+description: "Event Bus implementation"
 ---
 
 _Asyncronously emit events with `platform.utils.eventBus`_
@@ -36,11 +36,15 @@ The EventMap is to be created by the user, and will contain the types that will 
 ```ts
 type EventMap = {
   firstEvent: { name: string; age: number };
-  secondEvent: { pasta: 'linguini' | 'ravioli' | 'penne' };
+  secondEvent: { pasta: "linguini" | "ravioli" | "penne" };
 };
 ```
 
-## `useSubscribe`
+### `useSubscribe`
+
+A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted
+
+#### Type
 
 ```ts
 useSubscribe<EventMap, K extends keyof EventMap>({
@@ -49,9 +53,7 @@ useSubscribe<EventMap, K extends keyof EventMap>({
   }): void
 ```
 
-A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted
-
-##### Parameters
+#### Parameters
 
 **@param** `param.eventName` The name of the event to subscribe to
 
@@ -61,7 +63,7 @@ A hook wrapper around subscribe that handles React lifecycle. This hook is used 
 
 **@returns** `void`
 
-## `subscribe`
+### `subscribe`
 
 :::danger
 If you subscribe to the same event multiple times, you will receive multiple updates.
@@ -71,10 +73,10 @@ Please use `useSubscribe` instead of `subscribe` inside of React components.
 :::
 
 ```ts
-subscribe<EventMap, K extends keyof EventMap>(
-  eventName: K;
-  listener: (data: EventPublishPayload<EventMap[K]>) => void;
-}): UnsubscribeFunction;
+subscribe<EventMap, K extends key of EventMap>(
+  eventName: K,
+  listener: (data: EventPublishPayload<EventMap[K]>) => void
+): UnsubscribeFunction;
 ```
 
 To be called from the subscriber widget to start a subscription.
@@ -107,7 +109,7 @@ type EventPublishPayload<K> = {
 
 The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
 
-## `publish`
+### `publish`
 
 ```ts
  publish<EventMap, K extends keyof EventMap>({
@@ -133,7 +135,7 @@ The event name to be published to. Must be defined within the relevant event map
 
 Data to be published to the subscribing widget. This should follow the type defined for the event ID in the event map.
 
-## Example
+### Example
 
 ```ts
 // PublisherWidget1.tsx
@@ -164,7 +166,7 @@ const listener = (data: event2Type) => setEvent2Data(data);
 // A hook wrapper around subscribe that handles React lifecycle
 // Will auto unsubscribe when the component is unmounted
 useSubscribe<
-    WidgetEve2267
+    WidgetEve2267,
     'event2'
   >({
     eventName: 'event2',

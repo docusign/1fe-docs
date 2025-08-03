@@ -1,7 +1,7 @@
 ---
-title: 'Overview'
-iconName: 'flat-color-icons:electricity' # Icon browser at https://icon-sets.iconify.design/
-description: 'Utils shared and used by all Plugins & Widgets'
+title: "Overview"
+iconName: "flat-color-icons:electricity" # Icon browser at https://icon-sets.iconify.design/
+description: "Utils shared and used by all Plugins & Widgets"
 sidebar:
   order: 1
   badge:
@@ -12,7 +12,7 @@ sidebar:
 ### Importing 1fe Platform Utils
 
 ```tsx
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 ```
 
 :::note
@@ -25,7 +25,7 @@ The above approach is also known as **shell import syntax** or **1fe contextual 
 
 ```tsx
 // The 1fe shell provided the platform utils to all widgets loaded in 1fe
-import { PlatformPropsType, platformProps } from '@1fe/shell';
+import { PlatformPropsType, platformProps } from "@1fe/shell";
 
 // This type is for reference and is included out of box in the widget-starter-kit
 interface WidgetProps {
@@ -36,7 +36,7 @@ interface WidgetProps {
 const MyWidget = (props: WidgetProps) => {
   useEffect(() => {
     // this is how you access all utils, use these docs for examples
-    platformProps.utils.experience.setTitle('foo bar');
+    platformProps.utils.experience.setTitle("foo bar");
   }, []);
 
   return <>{/* ... */}</>;
@@ -53,9 +53,9 @@ Using the contextual injection, you can access the `platformProps` from anywhere
 
 #### Why contextual injection?
 
-1. No more prop drilling through the code.
-2. Stability of references for things like Widgets.get etc.
-3. No need for folks to work around by defining React contexts.
-4. We can now pass hooks from platformProps with a stable reference and not having to worry about react rule of hooks being voided.
-5. Access utils like logger etc outside of React lifecycle.
-6. Syntax sugar.
+- **No Prop Drilling**: No more prop drilling through the code.
+- **Stability of References**: Stability of references for things like Widgets.get etc.
+- **No Need for React Contexts**: No need for a shared context between widgets.
+- **Platform Hooks**: We can now pass hooks from platformProps with a stable reference and not having to worry about react rule of hooks being voided.
+- **Access Outside of React Lifecycle**: Access utils like logger etc outside of React lifecycle.
+- **Syntax Sugar**: The syntax is concise and easy to use.

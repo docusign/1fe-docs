@@ -1,17 +1,9 @@
 ---
-title: 'Experience'
-description: 'Experience implementation'
+title: "Experience"
+description: "Experience implementation"
 ---
 
-_Manage the 1fe shell experience_
-
-### Setup
-
-All `experience` util methods are accessed off platform props via `platformProps.utils.experience.*`.
-
----
-
-## `title.set`
+### `title.set`
 
 Sets the title of the 1fe shell to the provided string.
 
@@ -24,20 +16,18 @@ function set(title: string): void;
 #### Example
 
 ```tsx
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 
 function MySimpleComponent(props: WidgetProps) {
   useEffect(() => {
-    platformProps.utils.experience.title.set('Hello!');
+    platformProps.utils.experience.title.set("Hello!");
   }, []);
 
   // ...
 }
 ```
 
----
-
-## `title.get`
+### `title.get`
 
 Returns the title of the 1fe shell.
 
@@ -50,11 +40,11 @@ function get(): string;
 #### Example
 
 ```tsx
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 
 function MySimpleComponent(props: WidgetProps) {
   useEffect(() => {
-    platformProps.utils.experience.title.set('Hello!');
+    platformProps.utils.experience.title.set("Hello!");
     const title = platformProps.utils.experience.title.get();
     console.log(title); // prints 'Hello!'
   }, []);

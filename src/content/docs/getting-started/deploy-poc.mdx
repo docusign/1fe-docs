@@ -12,10 +12,8 @@ import {
   SlCloudUpload,
 } from "react-icons/sl";
 import { FcOk } from "react-icons/fc";
-import { Card } from "@astrojs/starlight/components";
 
 :::caution
-**This is a POC deployment guide!**
 **This is a POC deployment guide!**
 
 We are using public tooling in this guide to get something out on the internet so you can showcase your 1fe instance. If you're ready to set up a production environment with proper CDN infrastructure, CI/CD pipelines, and robust hosting, visit our [productionization guide](../../platform-guides/productionize).
@@ -23,25 +21,20 @@ We are using public tooling in this guide to get something out on the internet s
 
 Now that we have setup our local 1fe app and widget starter kit, it's time to deploy our setup to showcase its benefits. This will allow us to share our work with others and demonstrate the power of 1fe. We will do the following in this guide.
 
-<div className="prose">
-
-1. **Deploy our assets to a public CDN (JSDelivr).**
-
-2. **Deploy our 1fe app to a hosting service.**
-
-</div>
+1.  **Deploy our assets to a public CDN (JSDelivr).**
+2.  **Deploy our 1fe app to a hosting service.**
 
 ### Setup the required github repositories
 
 You need two github repositories:
 
-<div className="prose">
+**CDN Assets Repository**
 
-1. One for the `mock-cdn-assets` that will hold our assets - [JSDelivr](https://www.jsdelivr.com/) works off of GitHub repositories and serves files based on Git tags. So the first step would be to create a repository for our forked cdn assets on github.com and to push our changes to that repository. We already did that as part of the guide to get out setup locally. If you haven't done that, do that now so our mock-cdn-assets are available on github.com for JSDelivr to pick up from.
+You need a repository for the `mock-cdn-assets` that will hold our assets. We will be using JSDelivr to serve these assets. JSDelivr works off of GitHub repositories and serves files based on Git tags. We already created a repository for our forked cdn assets on github.com and pushed our changes to that repository as part of the guide to get our setup locally. If you haven't done that, do that now so our mock-cdn-assets are available on github.com for JSDelivr to pick up from.
 
-2. One for your 1fe instance that will be used to deploy your 1fe app.
+**1fe Instance Repository**
 
-</div>
+You need a repository for your 1fe instance that will be used to deploy your 1fe app.
 
 ## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Deploy our assets to a CDN
 
@@ -51,52 +44,48 @@ We have already learnt how to host assets locally in the previous guide. Let's d
 
 For this section, lets assume that you are going to use a git tag for your CDN assets like `v1.0.2`. You can pick any tag you like, but make sure to use the same tag in the next steps. We will use `<tag>` to refer to this tag in the rest of this guide. Based on this information (and with some more steps that you will take later), you need to make the following changes to your 1fe instance files.
 
-<div className="prose">
-1. Point your 1fe instance to the new CDN assets for live configurations. These files will be checked in in the next step but we prepare the 1fe instance for it now.
+1.  Point your 1fe instance to the new CDN assets for live configurations. These files will be checked in in the next step but we prepare the 1fe instance for it now.
 
-```tsx title="src/config/ecosystem-configs.ts" {4,7,10}
-// ...
-export const configManagement: OneFEConfigManagement = {
-  widgetVersions: {
-    url: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/integration/configs/widget-versions.json`,
-  },
-  libraryVersions: {
-    url: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/integration/configs/lib-versions.json`,
-  },
-  dynamicConfigs: {
-    url: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/integration/configs/live.json`,
-  },
-  refreshMs: 30 * 1000,
-};
-```
+    ```tsx title="src/config/ecosystem-configs.ts" {4,7,10}
+    // ...
+    export const configManagement: OneFEConfigManagement = {
+      widgetVersions: {
+        url: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/integration/configs/widget-versions.json`,
+      },
+      libraryVersions: {
+        url: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/integration/configs/lib-versions.json`,
+      },
+      dynamicConfigs: {
+        url: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/integration/configs/live.json`,
+      },
+      refreshMs: 30 * 1000,
+    };
+    ```
 
-2. Point your 1fe instance to the new CDN assets for critical libraries.
+2.  Point your 1fe instance to the new CDN assets for critical libraries.
 
-```tsx title="src/config/ecosystem-configs.ts" {3,5,9,10}
-// ...
-const shellBundleUrl =
-  isLocal || SERVER_BUILD_NUMBER === "local"
-    ? `http://localhost:3001/js/bundle.js`
-    : `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/shell/${SERVER_BUILD_NUMBER}/js/bundle.js`;
+    ```tsx title="src/config/ecosystem-configs.ts" {3,5,9,10}
+    // ...
+    const shellBundleUrl =
+      isLocal || SERVER_BUILD_NUMBER === "local"
+        ? `http://localhost:3001/js/bundle.js`
+        : `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/shell/${SERVER_BUILD_NUMBER}/js/bundle.js`;
 
-const importMapOverrideUrl = isProduction
-  ? `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/@1fe/import-map-overrides/3.1.1/dist/import-map-overrides-api.js`
-  : `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/@1fe/import-map-overrides/3.1.1/dist/import-map-overrides.js`;
+    const importMapOverrideUrl = isProduction
+      ? `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/@1fe/import-map-overrides/3.1.1/dist/import-map-overrides-api.js`
+      : `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/@1fe/import-map-overrides/3.1.1/dist/import-map-overrides.js`;
 
-export const criticalLibUrls = {
-  importMapOverride: importMapOverrideUrl,
-  systemJS: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/systemjs/6.14.0/dist/system.min.js`,
-  systemJSAmd: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/systemjs/6.14.0/dist/extras/amd.min.js`,
-  shellBundleUrl,
-};
-```
+    export const criticalLibUrls = {
+      importMapOverride: importMapOverrideUrl,
+      systemJS: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/systemjs/6.14.0/dist/system.min.js`,
+      systemJSAmd: `https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@<tag>/${ENVIRONMENT}/libs/systemjs/6.14.0/dist/extras/amd.min.js`,
+      shellBundleUrl,
+    };
+    ```
 
-3. Update the CSP policy.
-   Update the CSP policies as defined in `src/csp-configs.ts` to allow jsdelivr domains(`https://cdn.jsdelivr.net`)
-
-4. Now check this into your 1fe instance repository. That can help with deploying your 1fe instance later.
-
-</div>
+3.  Update the CSP policy.
+    Update the CSP policies as defined in `src/csp-configs.ts` to allow jsdelivr domains(`https://cdn.jsdelivr.net`)
+4.  Now check this into your 1fe instance repository. That can help with deploying your 1fe instance later.
 
 ### Add the 1fe instance bundle to the CDN
 
@@ -104,13 +93,8 @@ When working on getting our setup to work locally, we already uploaded bundles f
 
 You need to pick a random number to act as a build number for your 1fe instance. This will be used to create a unique folder in the CDN for your 1fe instance. Lets call it `<build-number>`.
 
-<div className="prose">
-
-1. Build the 1fe instance again using `yarn build`
-
-2. Copy the bundle over to your `mock-cdn-assets` repository like so:
-
-</div>
+1.  Build the 1fe instance again using `yarn build`
+2.  Copy the bundle over to your `mock-cdn-assets` repository like so:
 
 ```bash
 mkdir -p mock-cdn-assets/integration/shell/<build-number>/
@@ -121,32 +105,30 @@ cp -r <test-app-name>/dist/public/ mock-cdn-assets/integration/shell/<build-numb
 
 Let's now add all the changes you have made to your CDN assets repository and create a the git tag for them. This is crucial for JSDelivr to cache the assets and serve them correctly.
 
-<div className="prose">
-1. **Create and push a Git tag:**
+1.  **Create and push a Git tag:**
 
-```bash
-cd mock-cdn-assets
-git remote
-git add .
-git tag v1.0.2 # Use your chosen tag here
-git push origin main
-git push origin v1.0.2 # Push the tag to GitHub
-```
+    ```bash
+    cd mock-cdn-assets
+    git remote
+    git add .
+    git tag v1.0.2 # Use your chosen tag here
+    git push origin main
+    git push origin v1.0.2 # Push the tag to GitHub
+    ```
 
-2. **Your assets are now publicly accessible via JSDelivr URLs:**
+2.  **Your assets are now publicly accessible via JSDelivr URLs:**
 
-```
-# Widget Starter Kit Bundle
-https://cdn.jsdelivr.net/gh/<your-github-username>/mock-cdn-assets@v1.0.2/integration/widgets/@1fe/widget-starter-kit/<version>/js/1fe-bundle.js
+    ```
+    # Widget Starter Kit Bundle
+    https://cdn.jsdelivr.net/gh/<your-github-username>/mock-cdn-assets@v1.0.2/integration/widgets/@1fe/widget-starter-kit/<version>/js/1fe-bundle.js
 
-# Bathtub Widget Bundle
-https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@v1.0.2/integration/widgets/@1fe/bathtub/<version>/js/1fe-bundle.js
+    # playground Widget Bundle
+    https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@v1.0.2/integration/widgets/@1fe/playground/<version>/js/1fe-bundle.js
 
-# Live Configurations
-https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@v1.0.2/integration/configs/live.json
-```
+    # Live Configurations
+    https://cdn.jsdelivr.net/gh/<your-github-username>/<repo-name>@v1.0.2/integration/configs/live.json
+    ```
 
-</div>
 :::tip
 **JSDelivr not reflecting your changes?** Try purging the cache at https://www.jsdelivr.com/tools/purge. Changes typically appear within a few minutes.
 :::
@@ -170,10 +152,13 @@ Your 1fe instance is now ready to be deployed to a server. You can choose any ho
 
 As a quick start, you can also use the links below with your 1fe instance repository URL to deploy it to either Render or Heroku.
 
-| Service | Deployment Link                                              |
-| ------- | ------------------------------------------------------------ |
-| Render  | `https://render.com/deploy?repo=<your-1fe-repo-url>`         |
-| Heroku  | `https://www.heroku.com/deploy?template=<your-1fe-repo-url>` |
+**Render Deployment**
+
+`https://render.com/deploy?repo=<your-1fe-repo-url>`
+
+**Heroku Deployment**
+
+`https://www.heroku.com/deploy?template=<your-1fe-repo-url>`
 
 After you have deployed your 1fe instance, you will be able to access it at the URL provided by your hosting service!
 

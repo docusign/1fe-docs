@@ -1,6 +1,6 @@
 ---
-title: 'Local Storage'
-iconName: 'icon-park:database-success' # Icon browser at https://icon-sets.iconify.design/
+title: "Local Storage"
+iconName: "icon-park:database-success" # Icon browser at https://icon-sets.iconify.design/
 ---
 
 ## `platformProps.utils.localStorage`
@@ -28,9 +28,9 @@ function set(key: string, value: string | number | boolean): void;
 #### Example
 
 ```tsx
-platformProps.utils.localStorage.set('key1', true);
-platformProps.utils.localStorage.set('key2', 100);
-platformProps.utils.localStorage.set('key3', test);
+platformProps.utils.localStorage.set("key1", true);
+platformProps.utils.localStorage.set("key2", 100);
+platformProps.utils.localStorage.set("key3", test);
 ```
 
 ### `get`
@@ -42,7 +42,7 @@ function get(key: string): string | boolean | number;
 #### Example
 
 ```tsx
-platformProps.utils.localStorage.get('key1');
+platformProps.utils.localStorage.get("key1");
 ```
 
 ### `getAll`
@@ -84,7 +84,7 @@ Remove will delete the specific key from localStorage
 #### Example
 
 ```tsx
-platformProps.utils.localStorage.remove('key1');
+platformProps.utils.localStorage.remove("key1");
 ```
 
 ### `size`
@@ -115,7 +115,7 @@ This function will return all keys that are in localStorage
 platformProps.utils.localStorage.keys();
 ```
 
-## Setup
+### Setup
 
 To use the localStorage util in any widget, add localStorage util to platformProps.
 
@@ -138,8 +138,8 @@ export type PlatformProps = {
 };
 ```
 
-## Errors
+### Errors
 
 An error will be thrown incase of an exception due to store2 library, in the abscence of widgetId or when the functions are invoked incorrectly.
 
-To learn more about using any of the store2 functions, refer to public documentation <a href="https://www.npmjs.com/package/store2">here.</a>
+To learn more about using any of the store2 functions, refer to public documentation [here](https://www.npmjs.com/package/store2).

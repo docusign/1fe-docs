@@ -5,17 +5,14 @@ sidebar:
   order: 3
 ---
 
-import { FcDoNotInsert } from 'react-icons/fc';
-
 1fe supports webpack externals via the 1fe/cli. This allows widgets to exclude common libraries from output bundles.
 
-## <FcDoNotInsert style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Why Externalize Libraries?
+### Why Externalize Libraries?
 
 We can reduce widget bundle sizes and improve app load time (ALT) by sharing commonly used libraries at the 1fe shell level, aka “externalizing” them.
 
-## How are libraries externalized within 1fe?
+### How are libraries externalized within 1fe?
 
-Via webpack externals, 1fe/cli will automatically externalize libraries that are configured to be externalized within your hosted live configurations. 
+Via webpack externals, 1fe/cli will automatically externalize libraries that are configured to be externalized within your hosted live configurations.
 
 The version string you see in a widget’s `package.json` is an illusion of control. At runtime, when the widget is rendered by the 1fe shell, the 1fe/shell will load the version specified version within the live configurations instead.
-

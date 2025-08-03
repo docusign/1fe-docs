@@ -5,40 +5,14 @@ sidebar:
   order: 3
 ---
 
-import { FcDoNotInsert } from 'react-icons/fc';
+### `runtime_config_overrides`
 
-<div>
-  <table>
-    <thead>
-      <td>
-        <h6>Search Parameter</h6>
-      </td>
-      <td>
-        <h6>Supported Environments</h6>
-      </td>
-      <td>
-        <h6>Description</h6>
-      </td>
-    </thead>
-    <tr>
-      <td>**runtime_config_overrides**</td>
-      <td>Pre-Production</td>
-      <td>
-        A stringified key-value mapping of widgets to runtime configurations. When
-        provided, 1fe will apply the runtime configurations when loading the widget
-        instead of the widget's live runtime configuration.
-      </td>
-    </tr>
-    <tr>
-      <td>**widget_url_overrides**</td>
-      <td>All Environments</td>
-      <td>
-        A stringified key-value mapping of widgets to bundle source. When
-        provided, 1fe will use the provided bundle url instead of the widget's
-        evergreen bundle.
-      </td>
-    </tr>
-  </table>
-</div>
+A stringified key-value mapping of widgets to runtime configurations. When provided, 1fe will apply the runtime configurations when loading the widget instead of the widget's live runtime configuration.
 
+**Supported Environments**: Pre-Production
 
+### `widget_url_overrides`
+
+A stringified key-value mapping of widgets to bundle source. When provided, 1fe will use the provided bundle url instead of the widget's evergreen bundle.
+
+**Supported Environments**: All
