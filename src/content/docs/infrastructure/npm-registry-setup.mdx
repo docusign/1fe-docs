@@ -1,0 +1,391 @@
+---
+title: 'NPM Registry Setup'
+description: 'Set up private NPM registry for 1FE widget packages and dependencies'
+---
+
+## Overview
+
+A private NPM registry is essential for managing 1FE widget packages, shared dependencies, and ensuring security for your organization's packages. This guide covers setting up and configuring private NPM registries.
+
+## Why You Need a Private NPM Registry
+
+### Package Management Benefits
+- **Private packages** - Keep proprietary widget code secure and internal
+- **Dependency management** - Control and version shared dependencies
+- **Security** - Scan packages for vulnerabilities before distribution
+- **Performance** - Cache public packages for faster installs
+- **Compliance** - Meet enterprise security and auditing requirements
+
+### What Gets Stored
+- **Widget packages** - Published 1FE widget bundles
+- **Shared libraries** - Common utilities and components used across widgets
+- **Internal tools** - Development and build tools specific to your organization
+- **Cached public packages** - Mirror of public NPM packages for reliability
+- **Scoped packages** - Organization-specific packages under your scope
+
+## Registry Options
+
+### GitHub Packages (Recommended for GitHub Users)
+
+**Why GitHub Packages:**
+- Tight integration with GitHub repositories
+- Built-in access control using GitHub permissions
+- Supports multiple package formats (npm, Docker, Maven, etc.)
+- Automatic vulnerability scanning
+
+**Setup Steps:**
+
+1. **Configure Repository**
+   ```json
+   // package.json
+   {
+     "name": "@yourorg/widget-name",
+     "version": "1.0.0",
+     "publishConfig": {
+       "registry": "https://npm.pkg.github.com"
+     },
+     "repository": {
+       "type": "git",
+       "url": "git+https://github.com/yourorg/widget-name.git"
+     }
+   }
+   ```
+
+2. **Set Up Authentication**
+   ```bash
+   # Create .npmrc in your project root
+   echo "@yourorg:registry=https://npm.pkg.github.com" >> .npmrc
+   echo "//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}" >> .npmrc
+   ```
+
+3. **Publish Package**
+   ```bash
+   # Set up GitHub token
+   export GITHUB_TOKEN=your_github_token
+   
+   # Publish package
+   npm publish
+   ```
+
+4. **Install Packages**
+   ```bash
+   # Install from private registry
+   npm install @yourorg/widget-name
+   ```
+
+**Official Documentation:** [GitHub Packages NPM Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry)
+
+### Self-Hosted Solutions
+
+#### Verdaccio (Open Source)
+
+**Why Verdaccio:**
+- Lightweight and easy to set up
+- Perfect for small to medium teams
+- Can proxy to public NPM registry
+- Supports multiple storage backends
+
+**Setup Steps:**
+
+1. **Install Verdaccio**
+   ```bash
+   # Install globally
+   npm install -g verdaccio
+   
+   # Or run with Docker
+   docker run -it --rm --name verdaccio \
+     -p 4873:4873 \
+     verdaccio/verdaccio
+   ```
+
+2. **Configure Registry**
+   ```yaml
+   # config.yaml
+   storage: ./storage
+   auth:
+     htpasswd:
+       file: ./htpasswd
+   uplinks:
+     npmjs:
+       url: https://registry.npmjs.org/
+   packages:
+     '@yourorg/*':
+       access: $authenticated
+       publish: $authenticated
+     '**':
+       access: $all
+       publish: $authenticated
+       proxy: npmjs
+   ```
+
+3. **Set Up Users**
+   ```bash
+   # Add user
+   npm adduser --registry http://localhost:4873
+   
+   # Configure npm to use local registry
+   npm config set @yourorg:registry http://localhost:4873
+   ```
+
+**Official Documentation:** [Verdaccio Documentation](https://verdaccio.org/docs/what-is-verdaccio/)
+
+## Package Structure for 1FE Widgets
+
+### Widget Package Layout
+```
+your-widget/
+├── package.json
+├── README.md
+├── src/
+│   ├── index.tsx          # Main widget entry point
+│   ├── components/        # Widget components
+│   └── types/            # TypeScript definitions
+├── dist/                 # Built widget bundle
+│   ├── index.js
+│   ├── index.css
+│   └── manifest.json
+├── tests/
+└── docs/
+```
+
+### Package.json Configuration
+```json
+{
+  "name": "@yourorg/user-profile-widget",
+  "version": "1.2.3",
+  "description": "User profile management widget for 1FE",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "webpack --mode production",
+    "test": "jest",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": ["1fe", "widget", "user-profile"],
+  "author": "Your Organization",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "@1fe/shell": "^2.0.0"
+  },
+  "devDependencies": {
+    "@1fe/build-tools": "^1.0.0",
+    "webpack": "^5.0.0",
+    "typescript": "^4.0.0"
+  }
+}
+```
+
+## CI/CD Integration
+
+### Automated Publishing
+
+**GitHub Actions Example:**
+```yaml
+name: Publish Widget Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@yourorg'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm test
+      
+      - name: Build package
+        run: npm run build
+      
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+### Version Management
+
+**Semantic Versioning Strategy:**
+```bash
+# Patch release (bug fixes)
+npm version patch
+
+# Minor release (new features)
+npm version minor
+
+# Major release (breaking changes)
+npm version major
+
+# Pre-release versions
+npm version prerelease --preid=beta
+```
+
+**Automated Version Bumping:**
+```yaml
+- name: Bump version and push tag
+  id: tag_version
+  uses: mathieudutour/github-tag-action@v6.1
+  with:
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+    default_bump: patch
+```
+
+## Security Best Practices
+
+### Access Control
+- **Scoped packages** - Use organization scopes (@yourorg/package-name)
+- **Team-based permissions** - Different access levels for different teams
+- **Two-factor authentication** - Require 2FA for package publishing
+- **Token rotation** - Regularly rotate authentication tokens
+
+### Package Security
+```json
+// .npmrc security configuration
+audit-level=moderate
+fund=false
+save-exact=true
+package-lock=true
+```
+
+**Vulnerability Scanning:**
+```bash
+# Regular security audits
+npm audit
+
+# Fix vulnerabilities automatically
+npm audit fix
+
+# Use security-focused tools
+npx better-npm-audit audit
+```
+
+### Publishing Security
+```yaml
+# GitHub Actions security
+- name: Security audit
+  run: npm audit --audit-level moderate
+
+- name: Verify package contents
+  run: |
+    npm pack --dry-run
+    npx publint
+```
+
+## Package Distribution Strategy
+
+### Shared Dependencies
+
+**Common Libraries Package:**
+```json
+{
+  "name": "@yourorg/1fe-common",
+  "version": "1.0.0",
+  "description": "Shared utilities and components for 1FE widgets",
+  "exports": {
+    "./utils": "./dist/utils/index.js",
+    "./components": "./dist/components/index.js",
+    "./hooks": "./dist/hooks/index.js"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}
+```
+
+**Widget Dependencies:**
+```json
+{
+  "name": "@yourorg/widget-name",
+  "dependencies": {
+    "@yourorg/1fe-common": "^1.0.0"
+  }
+}
+```
+
+### Environment-Specific Packages
+
+**Development Tools Package:**
+```json
+{
+  "name": "@yourorg/1fe-dev-tools",
+  "version": "1.0.0",
+  "bin": {
+    "1fe-build": "./bin/build.js",
+    "1fe-test": "./bin/test.js",
+    "1fe-deploy": "./bin/deploy.js"
+  },
+  "devDependencies": true
+}
+```
+
+## Monitoring and Analytics
+
+### Package Usage Metrics
+- **Download statistics** - Track package usage across organization
+- **Version adoption** - Monitor which versions are being used
+- **Dependency analysis** - Understand package relationships
+- **Security alerts** - Monitor for vulnerable dependencies
+
+### Registry Health
+- **Availability monitoring** - Ensure registry uptime
+- **Performance metrics** - Track download speeds and response times
+- **Storage usage** - Monitor registry storage consumption
+- **Error tracking** - Alert on failed installations or publishes
+
+### Recommended Tools
+- **npm-stats** - Package download statistics
+- **Snyk** - Security vulnerability monitoring
+- **Renovate** - Automated dependency updates
+- **npm-check-updates** - Check for outdated dependencies
+
+## Best Practices
+
+### Package Naming
+- **Consistent scoping** - Always use organization scope
+- **Descriptive names** - Clear purpose from package name
+- **Avoid conflicts** - Check for existing package names
+- **Follow conventions** - Use kebab-case for package names
+
+### Documentation
+- **README files** - Clear installation and usage instructions
+- **API documentation** - Document all public interfaces
+- **CHANGELOG** - Track version changes and breaking changes
+- **Examples** - Provide usage examples and demos
+
+### Quality Assurance
+- **Testing** - Comprehensive test coverage before publishing
+- **Linting** - Consistent code style and quality
+- **Type definitions** - Provide TypeScript definitions
+- **Peer dependencies** - Clearly define external dependencies
+
+## Next Steps
+
+After setting up NPM registry:
+1. [Implement CI/CD Integration](/platform-guides/project-setup/)
+2. [Set up Monitoring and Alerting](/infrastructure/monitoring-setup/)
+3. [Configure Widget Development Environment](/getting-started/local-development/) 

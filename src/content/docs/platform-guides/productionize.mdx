@@ -6,6 +6,7 @@ description: 'Setup infra for production 1FE app'
 import { SlRocket } from "react-icons/sl";
 
 Let's get your 1fe instance ready for production! We shall cover the following topics in this guide:
+
 <div className="prose">
 1. **Setup a hosting service for your 1fe instance.**
 2. **Setup a static hosting service for your bundles.**
@@ -16,21 +17,75 @@ Let's get your 1fe instance ready for production! We shall cover the following t
 
 ## 1. Setup a Hosting Service for Your 1FE Instance
 
-Coming soon... This section will cover how to deploy your 1FE application to production hosting services like Vercel, Netlify, AWS, or your preferred cloud provider.
+Your 1FE application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally.
+
+**[→ Detailed Hosting Setup Guide](/infrastructure/hosting-setup/)**
+
+This comprehensive guide covers:
+- Azure Web App setup with GitHub Actions integration
+- Custom domain configuration
+- Environment variable management
+- CI/CD pipeline setup
+- Security best practices and monitoring
 
 ## 2. Setup a Static Hosting Service for Your Bundles
 
-Coming soon... This section will cover how to set up CDN hosting for your widget bundles using services like AWS S3 + CloudFront, Azure Blob Storage, or other CDN providers.
+
+**[→ Detailed CDN Setup Guide](/infrastructure/cdn-setup/)**
+
+This comprehensive guide covers:
+- Akamai NetStorage implementation with step-by-step configuration
+- CI/CD integration and automated deployment with rsync
+- Security best practices and SSH key management
+- Troubleshooting and monitoring
+- References to production-ready examples in 1fe-ci-cd and mock-cdn-assets repositories
 
 ## 3. Setup a NPM Registry
 
-Coming soon... This section will cover how to set up a private NPM registry for your widgets and manage package distribution in a production environment.
+A private NPM registry is essential for managing your 1FE widget packages securely and efficiently in a production environment.
+
+**[→ Detailed NPM Registry Setup Guide](/infrastructure/npm-registry-setup/)**
+
+This comprehensive guide covers:
+- GitHub Packages, Azure Artifacts, and AWS CodeArtifact setup
+- Self-hosted solutions like Verdaccio
+- Package structure and CI/CD integration
+- Security best practices and monitoring
 
 ## 4. Setup a Configuration Service
 
-Coming soon... This section will cover how to set up a robust configuration management system for your Live Configurations, including environment-specific settings and deployment strategies.
+### Why Configuration Service is Needed
+
+1FE requires a configuration service to manage:
+- **Widget metadata** - Version information, deployment status, and dependencies
+- **Live configurations** - Runtime settings that can be updated without redeployment
+- **Environment-specific settings** - Different configurations for integration and production
+- **Feature flags** - Dynamic enabling/disabling of features across widgets
+
+**[→ Detailed Configuration Service Setup Guide](/infrastructure/configuration-setup/)**
+
+This comprehensive guide covers:
+- Azure App Configuration setup with our implementation details
+- Alternative solutions (AWS Parameter Store, HashiCorp Consul)
+- Integration with 1FE shell and real-time updates
+- Security best practices and monitoring
 
 ## 5. Setup a CI/CD System
 
-Coming soon... This section will cover how to implement continuous integration and deployment pipelines for your 1FE widgets and applications, including automated testing, building, and deployment to your CDN and hosting services.
+### Why CI/CD for 1FE?
 
+**[→ CI/CD Project Setup Documentation](/platform-guides/project-setup/)**
+
+## Quick Start Checklist
+
+:::tip[Recommended Setup Order]
+Follow these steps in order for the smoothest setup experience:
+
+1. ✅ [Setup Hosting Service](/infrastructure/hosting-setup/) - Deploy your 1FE application
+2. ✅ [Setup CDN](/infrastructure/cdn-setup/) - Configure widget bundle hosting  
+3. ✅ [Setup NPM Registry](/infrastructure/npm-registry-setup/) - Manage widget packages
+4. ✅ [Setup Configuration Service](/infrastructure/configuration-setup/) - Manage live configurations
+5. ✅ [Setup CI/CD](/platform-guides/project-setup/) - Automate deployments
+:::
+
+Each step builds on the previous one, ensuring your production infrastructure is robust and scalable.

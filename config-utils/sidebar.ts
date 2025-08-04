@@ -18,6 +18,12 @@ export const sidebarConfig = [
       // attrs: { style: "text-transform: 'capitalized'" },
     },
     {
+      label: 'Infrastructure Setup',
+      autogenerate: { directory: 'infrastructure' },
+      collapsed: true,
+      // attrs: { style: "text-transform: 'capitalized'" },
+    },
+    {
       label: 'Development',
       autogenerate: { directory: 'development' },
       collapsed: true,
