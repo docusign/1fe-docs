@@ -1,11 +1,11 @@
 ---
 title: Getting Started
-description: A guide to quick-start 1FE consumption.
+description: A guide to quick-start 1fe consumption.
 ---
 
 ```typescript
 // consumer-server.ts
-import create1FEServer from "@1fe/ecosystem/server";
+import create1feServer from "@1fe/ecosystem/server";
 
 const options = {
   mode: 'preproduction',
@@ -17,7 +17,7 @@ const options = {
   },
   shellBundleUrl: 'localhost:3000/bundle.js',
   server: {
-    bathtub: true,
+    playground: true,
     importMapOverrides: {
       enableUI: true,
       cdnURL: ''
@@ -26,7 +26,7 @@ const options = {
   },
 };
 
-const oneFEServer = create1FEServer(options);
+const oneFEServer = create1feServer(options);
 
 oneFEServer.listen(3001, () => {
     console.log(`Server listening at http://localhost:3001`);

@@ -2,32 +2,32 @@
 title: Widgets
 description: Definition of a Widget
 sidebar:
-  order: 1
+  order: 3
 ---
 
-import { FcBookmark, FcLock, FcPuzzle } from 'react-icons/fc';
+import { FcBookmark, FcLock, FcPuzzle } from "react-icons/fc";
 
 # <FcPuzzle style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Definition of a Widget
 
-A Widget is ANY snippet of packaged javascript logic that runs in a browser. Regular, default widgets follow all 1FE standards and principles. They control their own release lifecycle and are responsible for verifying the API contracts they promise to other host experiences.
+A Widget is ANY snippet of packaged javascript logic that runs in a browser. Regular, default widgets follow all 1fe standards and principles. They control their own release lifecycle and are responsible for verifying the API contracts they promise to other host experiences.
 
-A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1FE), and runs perfectly well in the 1FE BathTub, a Widget, or a Plugin.
+A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, a Widget, or a Plugin.
 
 A widget is never permitted to be an IIFE.
 
 # Types of Widgets
 
-### <FcBookmark style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Plugin
+### Plugin
 
 **Definition**
 
 A Plugin is a Widget that is TIED to a URL.
 
-The technical difference between a Widget and a Plugin is the details in a configuration file - that provide information to the 1FE Shell via configurations.
+The technical difference between a Widget and a Plugin is the details in a configuration file - that provide information to the 1fe Shell via configurations.
 
 A plugin will only ever exist in one place, and at one url. E.g. `https://your-1fe-app.com/your-plugin-route`.
 
-### <FcLock style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Pinned
+### Pinned
 
 **Definition**
 
@@ -41,4 +41,4 @@ To "pin" a Pinned Widget, use the `dependsOn` section within the `.1fe.config.ts
 
 **What if I pin a widget that is not a “Pinned Widget”?**
 
-The 1FE ecosystem has several layers of validations that will prevent this from happening. @1fe/cli will throw an error at build time and, if for some reason that layer fails, the runtime will serve you the current version of the requested widget with a warning in the console.
+The 1fe ecosystem has several layers of validations that will prevent this from happening. @1fe/cli will throw an error at build time and, if for some reason that layer fails, the runtime will serve you the current version of the requested widget with a warning in the console.

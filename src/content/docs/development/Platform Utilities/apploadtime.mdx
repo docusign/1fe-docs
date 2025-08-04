@@ -1,9 +1,9 @@
 ---
-title: 'App Load Time'
-description: 'App Load Time implementation'
+title: "App Load Time"
+description: "App Load Time implementation"
 ---
 
-In order to avoid namespace collisions with `performance.mark`, the 1FE platform provides app load time utils that can be accessed through platform props. Using these, widget teams to measure how long a process - any process - takes using [built-in browser performance marking functionality](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark).
+In order to avoid namespace collisions with `performance.mark`, the 1fe platform provides app load time utils that can be accessed through platform props. Using these, widget teams to measure how long a process - any process - takes using [built-in browser performance marking functionality](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark).
 
 :::danger
 Do no use `window.performance` directly. A namespace collision could break the telementry of your widget or someone else's.
@@ -24,29 +24,27 @@ Widgets which load additional child widgets, plugins, chunked bundles, or other 
 Access the appLoadTime utility through the platform props, and call the functions directly. The utility is exposed as `platformProps.utils.appLoadTime`.
 
 ```ts
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 
 const WidgetComponent = (props) => {
   useEffect(() => {
     platformProps.utils.appLoadTime.end(); // mark you widget as ready for interaction
 
-    platformProps.utils.appLoadTime.markStart('user-interacts-with-my-widget');
+    platformProps.utils.appLoadTime.markStart("user-interacts-with-my-widget");
   }, []);
 };
 
 // somewhere else
-import { platformProps } from '@1fe/shell';
+import { platformProps } from "@1fe/shell";
 
 const ModalButton = (props) => {
   const onClick = () => {
-    platformProps.utils.appLoadTime.markEnd('user-interacts-with-my-widget'); // example usage, measure time from widget loading to user interaction
+    platformProps.utils.appLoadTime.markEnd("user-interacts-with-my-widget"); // example usage, measure time from widget loading to user interaction
   };
 };
 ```
 
----
-
-## `appLoadTime.end`
+### `appLoadTime.end`
 
 The `end()` function is called to mark the end of the widget load timer started automatically by the 1fe-shell. It will log the duration of the widget load to the Shell Logger, and should be called when the widget is ready for user interaction.
 
@@ -58,9 +56,7 @@ Call appLoadTime.end() when your Widget is done with it's largest contentful pai
 function end(): void;
 ```
 
----
-
-## `appLoadTime.markStart`
+### `appLoadTime.markStart`
 
 The markStart function is used to start a timer for a custom event of your choosing. It accepts marker name alongside an optional [PerformanceMarkOptions object](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark). Custom events will be prepended with your widgetId so there is no need to include it in the markerName. To log the end of the process, use `appLoadTime.markEnd` with the same marker name.
 
@@ -69,24 +65,24 @@ The markStart function is used to start a timer for a custom event of your choos
 ```ts
 function markStart(
   markerName: string,
-  markOptions?: PerformanceMarkOptions = {},
+  markOptions?: PerformanceMarkOptions = {}
 ): void;
 ```
 
-## `appLoadTime.markEnd`
-
-#### Type
+### `appLoadTime.markEnd`
 
 The markEnd function is used to end a timer for a custom event of your choosing. It accepts marker name alongside an optional [PerformanceMarkOptions object](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark). When you have an open mark from appLoadTime.markStart, you can use this function to log the end of the process. The markerName should match the one used in markStart.
+
+#### Type
 
 ```ts
 function markEnd(
   markerName: string,
-  markOptions?: PerformanceMarkOptions = {},
+  markOptions?: PerformanceMarkOptions = {}
 ): PerformanceMeasure | undefined;
 ```
 
-## `appLoadTime.mark`
+### `appLoadTime.mark`
 
 You should use appLoadTIme.markStart / appLoadTime.markEnd instead of this in most cases for tracking custom events.
 
@@ -97,17 +93,11 @@ The [mark()](https://github.docusignhq.com/Core/1fe/blob/main/packages/utils/src
 ```ts
 function mark(
   markerName: string,
-  markOptions: PerformanceMarkOptions = {},
+  markOptions: PerformanceMarkOptions = {}
 ): PerformanceMeasure | undefined;
 ```
 
-:::tip[FYI]
-The `PerformanceMarkOptions`, `PerformanceMeasure`, and `PerformanceEntryList` types all represent built-in browser functionality - [see official, MDN docs on these items](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceEntry).
-:::
-
----
-
-## `appLoadTime.getEntries`
+### `appLoadTime.getEntries`
 
 The `getEntries()` function _should not get much use by consuming widgets - see sections on Additional Usage and Future Improvements for details_ on when this function will be of use. GetEntries allows the consuming widget to see all performanceMark events logged - including those from other widgets. This could contain any number of items, by any names, with any metadata - always null check, then filter data from this function carefully.
 
@@ -117,9 +107,7 @@ The `getEntries()` function _should not get much use by consuming widgets - see 
 function getEntries(): PerformanceEntryList;
 ```
 
----
-
-## `appLoadTime.measure`
+### `appLoadTime.measure`
 
 You should use appLoadTIme.markStart / appLoadTime.markEnd instead of this in most cases for tracking custom events.
 
@@ -130,7 +118,7 @@ The `measure()` function _should not get much use by consuming widgets - see sec
 ```ts
 function measure(
   measureName: string,
-  measureOptions: PerformanceMeasureOptions,
+  measureOptions: PerformanceMeasureOptions
 ): PerformanceMeasure | undefined;
 ```
 
@@ -140,14 +128,14 @@ function measure(
 
 1fe already makes use of this util for download an basic bundle download and instantiation of widgets:
 
-1. The 1fe WidgetFrame download.ts uses the util to save two startEvents for each widget - one for the "widgetName", another for widgetName-download.
-2. WidgetFrame download.ts also logs some end events:
+1.  The 1fe WidgetFrame download.ts uses the util to save two startEvents for each widget - one for the "widgetName", another for widgetName-download.
+2.  WidgetFrame download.ts also logs some end events:
 
-- It will log a download success when it detects that the download has completed successfully.
-- It will log both a download failure, and a widgetName failure if it catches an error.
-- **_Note:_** No end event will be logged if the download somehow fails without error - such as the user was left waiting too long, so they closed the window, or their browser froze.
+    - It will log a download success when it detects that the download has completed successfully.
+    - It will log both a download failure, and a widgetName failure if it catches an error.
+    - **_Note:_** No end event will be logged if the download somehow fails without error - such as the user was left waiting too long, so they closed the window, or their browser froze.
 
-3. The 1fe shell PluginLoader then uses `end()` to log an end event when it detects that instantiation has finished.
+3.  The 1fe shell PluginLoader then uses `end()` to log an end event when it detects that instantiation has finished.
 
 ## Direct usage by your widget
 
@@ -156,4 +144,3 @@ A consuming widget **_could track events other than bundle load_** by calling `m
 For example, they might call mark(“prepare-time-to-interactive”) in their router code when initiating a navigation to the prepare page, and end(“prepare-time-to-interactive”) upon rendering a critical piece of the page.
 
 You should always ensure that your start and end events have exactly the same name, because **_end events which do not have a matching start event will not be logged_**. See Gotchas for additional caveats.
-

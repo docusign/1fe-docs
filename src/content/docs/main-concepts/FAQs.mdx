@@ -2,26 +2,24 @@
 title: FAQs
 description: Frequently Asked Questions
 sidebar:
-  order: 5
+  order: 8
 ---
 
-import { FcDoNotInsert } from 'react-icons/fc';
+### What’s the scope of 1fe?
 
-### What’s the scope of 1FE?
-
-1FE Platform gives the central team a larger horizontal charter, responsibility, governance, and scope encapsulating the Development, Deployment, and Execution of the entire front-end ecosystem.
+1fe Platform gives the central team a larger horizontal charter, responsibility, governance, and scope encapsulating the Development, Deployment, and Execution of the entire front-end ecosystem.
 
 ### What is a Widget?
 
-A Widget is ANY snippet of javascript logic that runs in a browser. A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1FE), and runs perfectly well in the 1FE BathTub, a Widget, or a Plugin.
+A Widget is ANY snippet of javascript logic that runs in a browser. A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, a Widget, or a Plugin.
 
 ### What is a Plugin?
 
 A Plugin is a Widget that is TIED to a URL.
 
-### What is 1FE BathTub?
+### What is 1fe Playground?
 
-Teams are able to develop their Widgets locally in development mode without any dependency on the 1FE runtime.
+Teams are able to develop their Widgets locally in development mode without any dependency on the 1fe runtime.
 
 ### Should an experience be a Reusable/UI Component (@ds/ui) or a Widget?
 
@@ -31,20 +29,16 @@ Good question, let’s break it down.
 
 **Widget** - A component/library code that needs to be shipped, managed, and maintained independently and have its own release cadence. This could be due to one of many reasons:
 
-1. Business logic is introduced to a simple component making it specific or targeted to a product, flow, or usecase.
-2. The component has grown large enough - eg. Rich Text Editor
-3. Heavy development (fixes/features) of a component that is widely shared/reused/consumed.
-
+1.  Business logic is introduced to a simple component making it specific or targeted to a product, flow, or usecase.
+2.  The component has grown large enough - eg. Rich Text Editor
+3.  Heavy development (fixes/features) of a component that is widely shared/reused/consumed.
 
 ### What initialization/bootstrap data will be available to a Widget?
 
 Plugins/Widgets can expect 3 sets of scoped top-level properties:
 
-1. `platform` - Props from the 1FE platform (information about the environment, browser info, user data if possible, runtime widget hierarchy, and common utils).
+1.  `platform` - Props from the 1fe platform (information about the environment, browser info, user data if possible, runtime widget hierarchy, and common utils).
+2.  `host` - [Optional] Props from the host widget (if any) for successful integration with the help of feature flags, configuration API, data or dependent functions. Ex: props.host.previewExperience.enabled. Widgets that expose an API for other Widgets to consume them will rely on the _host_ prop for configuration, bootstrapping and initialization.
+3.  `children` - [Optional] Children props from the host widget if it uses your widget as an HOC/wrapper.
 
-2. `host` - [Optional] Props from the host widget (if any) for successful integration with the help of feature flags, configuration API, data or dependent functions. Ex: props.host.previewExperience.enabled. Widgets that expose an API for other Widgets to consume them will rely on the _host_ prop for configuration, bootstrapping and initialization.
-
-3. `children` - [Optional] Children props from the host widget if it uses your widget as an HOC/wrapper.
-
-Sample structure of props can be seen in the 1FE BathTub’s props editor.
-
+Sample structure of props can be seen in the 1fe Playground's props editor.
