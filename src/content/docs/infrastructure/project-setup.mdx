@@ -27,6 +27,8 @@ import {
 
 This guide explains the philosophy of self-contained CI/CD and our implementation approach. We show how to take local development work and reliably deploy it to production environments using GitHub Actions as an example.
 
+**📋 Part of Infrastructure Setup:** See [Productionize Your 1FE Setup](/platform-guides/productionize/) for the complete production deployment checklist.
+
 </div>
 
 <div style={{ 
@@ -67,6 +69,26 @@ While this guide shows our specific implementation, you can adapt it to your nee
 
 </div>
 
+## Our Suggested Approach
+
+:::tip[Quick Start with GitHub Actions]
+If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning or forking our complete CI/CD repository to get started quickly:
+
+**🚀 Clone or Fork:** [1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)
+
+**What you get:**
+- ✅ **Pre-built workflows** - Complete CI/CD pipelines ready to use
+- ✅ **Reusable actions** - Modular components for building, testing, and deploying
+- ✅ **Template files** - Standard workflow templates for widget repositories
+- ✅ **Proven patterns** - Battle-tested deployment strategies and configurations
+
+**Benefits:**
+- 🎯 **Faster setup** - Skip manual workflow creation and use proven templates
+- 🔄 **Automatic updates** - Pull improvements and bug fixes from the central repository
+- 🛡️ **Consistent practices** - Use the same patterns across all your widget projects
+- 📚 **Complete examples** - Real working implementations you can study and modify
+:::
+
 ## 1. Repository Configuration
 
 For a production setup, you need proper repository configuration to enable automated workflows. This involves setting up secrets, environments, and permissions for taking local development work to production.
@@ -77,15 +99,17 @@ We use GitHub's secret management system to store sensitive credentials securely
 
 **What it does:** Securely stores deployment credentials, API tokens, and connection strings that workflows need to authenticate with external services. This ensures sensitive information is never exposed in code or commit history.
 
-**Required Secrets for Our CI/CD Pipeline:**
+:::note[Required Secrets for Our CI/CD Pipeline]
+You need to configure these secrets in your repository to enable the CI/CD pipeline to deploy your widget:
 
-You need to configure three secrets in your repository to enable the CI/CD pipeline to deploy your widget:
+• **CDN Deployment Secret** (`AKAMAI_NS_SSH_PRIVATE_KEY`) - SSH private key for Akamai CDN deployment. This allows the pipeline to upload your built widget files to the content delivery network.
 
-• **CDN Deployment Secret** - SSH private key for Akamai CDN deployment. This allows the pipeline to upload your built widget files to the content delivery network.
+• **Configuration Service Secret** (`AZURE_APP_CONFIG_CONNECTION_STRING`) - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
 
-• **Configuration Service Secret** - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
-
-• **Package Registry Secret** - Authentication token for the internal NPM registry. This allows the pipeline to publish your widget package to the internal package registry.
+• **Package Registry Secrets** - Authentication tokens for the internal NPM registry:
+  - `NPM_TOKEN_READONLY_1FE` - For reading packages from the registry
+  - `NPM_TOKEN` - For publishing your widget package to the internal package registry
+:::
 
 **Steps to configure:**
 
@@ -110,6 +134,12 @@ You need to configure three secrets in your repository to enable the CI/CD pipel
 ### 1.2 Environment Configuration
 
 Each widget repository needs environment configuration to control deployment rules and approvals. This ensures proper oversight and prevents unauthorized deployments to production.
+
+:::note[Our Environment Setup]
+We configure two environments for every widget repository:
+- **Integration Environment** - For automated testing and validation of widget changes
+- **Production Environment** - For live user-facing deployments with approval requirements
+:::
 
 **What it does:** Creates separate deployment environments with different approval rules. Integration environments allow automated deployments for testing, while production environments require manual approval to ensure oversight and control over production releases.
 
@@ -136,7 +166,7 @@ Each widget repository needs environment configuration to control deployment rul
 Our widget repositories contain the necessary CI/CD workflow files in the `.github/workflows/` directory:
 
 :::tip[Widget Release Workflow]
-**`widget-ci.yml`** - Main CI/CD pipeline for widget releases
+**`widget-ci.yml`** - Main CI/CD pipeline for widget releases (calls [ci-widgets.yml](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/ci-widgets.yml))
 
 • Triggers on pushes to main branch and pull requests
 
@@ -148,7 +178,7 @@ Our widget repositories contain the necessary CI/CD workflow files in the `.gith
 :::
 
 :::caution[Widget Rollback Workflow]
-**`rollback-widget.yml`** - Manual rollback workflow for reverting to previous widget versions
+**`rollback-widget.yml`** - Manual rollback workflow for reverting to previous widget versions (calls [reusable-rollback-ci.yml](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-rollback-ci.yml))
 
 • Can be triggered manually when needed
 
@@ -197,11 +227,13 @@ Our workflow files are present in the widget repository and work as follows:
 
 • **`widget-ci.yml`** runs automatically when we:
 
-• Push code to the main branch
+  • Push code to the main branch
 
-• Create or update pull requests
+  • Create or update pull requests
 
-• No manual intervention needed for normal releases. Deployment to integration is automated.
+  • No manual intervention needed for normal releases. Deployment to integration is automated.
+
+**Example Implementation:** [1FE Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
 ### 3.2 Manual Rollbacks
 
@@ -319,12 +351,15 @@ Our CI/CD setup provides a self-contained, automated deployment pipeline that mo
 
 ### Next Steps
 
+**Complete CI/CD Setup:**
 - [ ] Configure your widget repository with the required secrets and environments
-
 - [ ] Ensure your team has proper access and approval permissions
-
 - [ ] Test the automated release process in integration environment
-
 - [ ] Familiarize yourself with the rollback workflow for emergency situations
+
+**Start Building:**
+1. [Configure Widget Development Environment](/getting-started/local-development/)
+2. [Deploy Your First Widget](/getting-started/deploy-poc/)
+3. [Explore Platform Utilities](/development/Platform%20Utilities/Overview/)
 
 This setup ensures your CI/CD pipeline is transparent, reliable, and can grow with your team's needs.

@@ -3,419 +3,130 @@ title: 'Configuration Service Setup'
 description: 'Set up configuration management for your 1FE widgets and applications'
 ---
 
-## Overview
+import {
+  FcSettings,
+  FcDatabase,
+  FcDeployment,
+  FcWorkflow,
+} from "react-icons/fc";
 
-A configuration service is essential for managing 1FE widget settings, feature flags, and environment-specific configurations. This guide covers how to set up and configure Azure App Configuration and alternative solutions.
+<div style={{ 
+  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+  color: 'white', 
+  padding: '2rem', 
+  borderRadius: '12px', 
+  marginBottom: '2rem',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+}}>
+
+### <FcDatabase style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Configuration Service Overview
+
+**Audience:** Platform teams setting up production configuration management infrastructure for their organization.
+
+A configuration service is essential for managing 1FE widget settings, feature flags, and environment-specific configurations. This guide covers how to set up Azure App Configuration as the foundation for automated widget data recording.
+
+**📋 Part of Infrastructure Setup:** See [Productionize Your 1FE Setup](/platform-guides/productionize/) for the complete production deployment checklist.
+
+</div>
 
 ## Why You Need a Configuration Service
 
 ### Configuration Management Benefits
-- **Live configuration updates** - Change widget behavior without redeployment
-- **Environment separation** - Different settings for dev, staging, and production
-- **Feature flags** - Enable/disable features dynamically across widgets
-- **A/B testing** - Configure different experiences for user segments
-- **Rollback capability** - Quickly revert configuration changes
+- ⚡ **Live configuration updates** - Change widget behavior without redeployment
+- 🏗️ **Environment separation** - Different settings for integration and production
+- 🎛️ **Feature flags** - Enable/disable features dynamically across widgets
+- 🧪 **A/B testing** - Configure different experiences for user segments
+- ↩️ **Rollback capability** - Quickly revert configuration changes
 
-### What Gets Stored
-- **Widget metadata** - Version information, deployment status
-- **Runtime settings** - API endpoints, feature toggles, UI configurations
-- **Environment variables** - Database connections, third-party service keys
-- **Feature flags** - Dynamic feature enabling/disabling
-- **User segment configurations** - Personalized settings based on user groups
+### What Gets Automatically Stored
+Our CI/CD pipelines automatically record and manage:
+- 📋 **Widget metadata** - Version information, deployment status, change history
+- 📅 **Deployment records** - Timestamps, environment targets, build artifacts
+- ⚙️ **Runtime settings** - API endpoints, feature toggles, UI configurations
+- 🌍 **Environment configurations** - Integration and production-specific settings
+- 🚩 **Feature flags** - Dynamic feature enabling/disabling status
 
 ## Azure App Configuration Setup
 
 ### Why We Use Azure App Configuration
 
 **Benefits for 1FE:**
-- **Built-in feature flags** - Native support for feature management
-- **Configuration versioning** - Track changes over time with labels
-- **Real-time updates** - Push configuration changes to applications
-- **Integration with Azure DevOps** - Seamless CI/CD pipeline integration
-- **Security** - Integration with Azure Key Vault for sensitive data
+- 📝 **Configuration versioning** - Track changes over time with labels
+- ⚡ **Real-time updates** - Push configuration changes to applications
 
-### Our Azure App Configuration Implementation
+### Azure App Configuration Setup Instructions
 
-**Configuration Structure:**
-```json
-{
-  "1fe": {
-    "widgets": {
-      "user-profile": {
-        "version": "1.2.3",
-        "enabled": true,
-        "config": {
-          "apiEndpoint": "https://api.yourcompany.com/users",
-          "cacheTimeout": 300,
-          "features": {
-            "avatarUpload": true,
-            "darkMode": false
-          }
-        }
-      }
-    },
-    "shared": {
-      "cdnBaseUrl": "https://widgets-cdn.yourcompany.com",
-      "analyticsId": "GA-123456789",
-      "environment": "production"
-    }
-  }
-}
-```
+This guide will walk you through creating a new Azure App Configuration resource and adding key-value pairs to it using the Azure Portal.
 
-### Setup Steps for Azure App Configuration
+**Setup Instructions:**
 
-1. **Create App Configuration Store**
-   ```bash
-   # Using Azure CLI
-   az appconfig create --name "1fe-config" \
-     --resource-group "1fe-resources" \
-     --location "East US" \
-     --sku Standard
-   ```
+<div className="prose">
+1. **Access the Azure Portal**
+   - Open your web browser and go to the [Azure Portal](https://portal.azure.com/)
+   - Log in with your Azure account credentials
 
-2. **Configure Access Policies**
-   ```bash
-   # Create service principal for CI/CD access
-   az ad sp create-for-rbac --name "1fe-config-sp" \
-     --role "App Configuration Data Owner" \
-     --scopes "/subscriptions/{subscription-id}/resourceGroups/1fe-resources/providers/Microsoft.AppConfiguration/configurationStores/1fe-config"
-   ```
+2. **Navigate to App Configuration**
+   - In the search bar at the very top of the portal, type **App Configuration**
+   - From the search results, select **App Configuration services**
 
-3. **Set Up Configuration Keys**
-   ```bash
-   # Add widget configuration
-   az appconfig kv set --name "1fe-config" \
-     --key "1fe:widgets:user-profile:version" \
-     --value "1.2.3" \
-     --label "production"
-   
-   # Add feature flag
-   az appconfig feature set --name "1fe-config" \
-     --feature "user-profile.avatarUpload" \
-     --label "production" \
-     --yes
-   ```
+3. **Create a New Resource**
+   - On the App Configuration services page, click the **+ Create** button (usually located at the top-left)
+   - This will open a form to configure your new App Configuration resource
 
-4. **Configure Connection Strings**
-   ```bash
-   # Get connection string for application use
-   az appconfig credential list --name "1fe-config" \
-     --resource-group "1fe-resources"
-   ```
+4. **Configure Resource Settings**
+   - **Subscription**: Use the dropdown to select the Azure subscription you want to use
+   - **Resource group**: Select an existing one or click **Create new** and give it a name (e.g., `1fe-resources`)
+   - **Resource name**: Enter a unique name for your App Configuration instance (e.g., `1fe-config-yourname`)
+   - **Location**: Choose the geographic region where you want to host this service
+   - **Pricing tier**: Select **Standard** for most cases (recommended)
+
+5. **Review and Create**
+   - Click the **Review + create** button at the bottom of the form
+   - Azure will validate your settings
+   - After validation passes, click the **Create** button to start deployment
+
+6. **Access Your Configuration Store**
+   - After deployment is complete, click **Go to resource**
+   - This takes you to the overview page for your new App Configuration resource
+
+7. **Get Connection String**
+   - In your App Configuration resource, go to **Settings** > **Access keys**
+   - Copy the **Connection string** under either the **Read-write** or **Read-only** key
+   - Store this securely for use in your CI/CD pipelines
+</div>
+
+:::note[Automatic Configuration Management]
+**Widget configurations are automatically created by CI/CD pipelines** during deployment. You don't need to manually add key-value pairs. The pipelines will:
+
+- 📝 **Create widget metadata entries** when widgets are deployed
+- 🔄 **Update version information and deployment status**
+- 📚 **Maintain historical records** of widget changes
+- 🏷️ **Manage environment-specific configurations** using labels
+
+To view your widget data, go to **Settings** > **Configuration explorer** after your first widget deployment.
+:::
+
+:::tip[Automated Key Naming Convention]
+Our pipelines automatically use consistent naming patterns:
+- `integration:@1fe/playground` - Widget-specific settings (format: `env:widget-name`)
+:::
 
 ### Environment Configuration
 
-**Label Strategy:**
-- `development` - Development environment settings
-- `staging` - Staging environment settings  
+**Automated Label Strategy:**
+Our CI/CD pipelines automatically use these labels for environment separation:
+- `integration` - Integration environment settings
 - `production` - Production environment settings
 
 **Key Naming Convention:**
 ```
-1fe:widgets:{widget-name}:{setting}
-1fe:shared:{global-setting}
-1fe:features:{feature-name}
+integration:@1fe/playground  # Widget-specific (format: env:widget-name)
 ```
 
-**Example Configuration:**
-```javascript
-// Development environment
-{
-  "1fe:shared:cdnBaseUrl": "https://dev-widgets-cdn.yourcompany.com",
-  "1fe:shared:apiBaseUrl": "https://dev-api.yourcompany.com",
-  "1fe:features:debugMode": true
-}
-
-// Production environment
-{
-  "1fe:shared:cdnBaseUrl": "https://widgets-cdn.yourcompany.com",
-  "1fe:shared:apiBaseUrl": "https://api.yourcompany.com",
-  "1fe:features:debugMode": false
-}
-```
-
-### Integration with 1FE
-
-**Configuration Client Setup:**
-```typescript
-// 1FE shell configuration client
-import { AppConfigurationClient } from '@azure/app-configuration';
-
-const client = new AppConfigurationClient(
-  process.env.AZURE_APPCONFIG_CONNECTION_STRING
-);
-
-export async function getWidgetConfig(widgetName: string, environment: string) {
-  const configKey = `1fe:widgets:${widgetName}:config`;
-  const setting = await client.getConfigurationSetting({
-    key: configKey,
-    label: environment
-  });
-  
-  return JSON.parse(setting.value);
-}
-
-export async function getFeatureFlag(featureName: string, environment: string) {
-  const featureKey = `1fe:features:${featureName}`;
-  const setting = await client.getConfigurationSetting({
-    key: featureKey,
-    label: environment
-  });
-  
-  return setting.value === 'true';
-}
-```
-
-**Real-time Configuration Updates:**
-```typescript
-// Set up configuration refresh
-const configStore = new ConfigurationStore({
-  connectionString: process.env.AZURE_APPCONFIG_CONNECTION_STRING,
-  refreshInterval: 30000, // Refresh every 30 seconds
-  onConfigurationChanged: (changedKeys) => {
-    console.log('Configuration updated:', changedKeys);
-    // Notify widgets of configuration changes
-    widgetEventBus.publish('configuration-updated', { changedKeys });
-  }
-});
-```
-
-**Official Documentation:** [Azure App Configuration Documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
-
-## Alternative Configuration Solutions
-
-### AWS Systems Manager Parameter Store
-
-**Why Parameter Store:**
-- Tight integration with AWS services
-- Built-in encryption with KMS
-- Hierarchical parameter organization
-- Cost-effective for high volume access
-
-**Setup Process:**
-```bash
-# Create hierarchical parameters
-aws ssm put-parameter \
-  --name "/1fe/widgets/user-profile/version" \
-  --value "1.2.3" \
-  --type "String" \
-  --tags "Key=Environment,Value=production"
-
-aws ssm put-parameter \
-  --name "/1fe/features/avatarUpload" \
-  --value "true" \
-  --type "String"
-```
-
-**Integration Example:**
-```typescript
-import { SSMClient, GetParametersByPathCommand } from '@aws-sdk/client-ssm';
-
-const ssmClient = new SSMClient({ region: 'us-east-1' });
-
-export async function getWidgetConfig(widgetName: string) {
-  const command = new GetParametersByPathCommand({
-    Path: `/1fe/widgets/${widgetName}/`,
-    Recursive: true
-  });
-  
-  const response = await ssmClient.send(command);
-  return response.Parameters;
-}
-```
-
-**Official Documentation:** [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
-
-### HashiCorp Consul
-
-**Why Consul:**
-- Service discovery and configuration in one platform
-- Multi-datacenter support
-- Strong consistency guarantees
-- Rich ecosystem and integrations
-
-**Setup Process:**
-```bash
-# Start Consul server
-consul agent -server -bootstrap-expect=1 -data-dir=/tmp/consul
-
-# Add configuration
-consul kv put 1fe/widgets/user-profile/version "1.2.3"
-consul kv put 1fe/features/avatarUpload true
-```
-
-**Integration Example:**
-```typescript
-import consul from 'consul';
-
-const client = consul({
-  host: 'localhost',
-  port: 8500
-});
-
-export async function getWidgetConfig(widgetName: string) {
-  const keys = await client.kv.get({
-    key: `1fe/widgets/${widgetName}/`,
-    recurse: true
-  });
-  
-  return keys;
-}
-```
-
-**Official Documentation:** [Consul Documentation](https://www.consul.io/docs)
-
-## CI/CD Integration
-
-### Configuration Deployment
-
-**GitHub Actions Example:**
-```yaml
-name: Deploy Configuration
-
-on:
-  push:
-    paths:
-      - 'config/**'
-
-jobs:
-  deploy-config:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Deploy to Azure App Configuration
-        run: |
-          # Install Azure CLI
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          
-          # Login with service principal
-          az login --service-principal \
-            --username ${{ secrets.AZURE_CLIENT_ID }} \
-            --password ${{ secrets.AZURE_CLIENT_SECRET }} \
-            --tenant ${{ secrets.AZURE_TENANT_ID }}
-          
-          # Deploy configuration
-          az appconfig kv import --name "1fe-config" \
-            --source file --path config/production.json \
-            --format json --label production
-```
-
-### Environment-Specific Deployment
-
-**Configuration Structure:**
-```
-config/
-├── environments/
-│   ├── development.json
-│   ├── staging.json
-│   └── production.json
-├── widgets/
-│   ├── user-profile.json
-│   └── dashboard.json
-└── features/
-    └── flags.json
-```
-
-**Deployment Script:**
-```bash
-#!/bin/bash
-ENVIRONMENT=$1
-CONFIG_FILE="config/environments/${ENVIRONMENT}.json"
-
-if [ -f "$CONFIG_FILE" ]; then
-  az appconfig kv import --name "1fe-config" \
-    --source file --path "$CONFIG_FILE" \
-    --format json --label "$ENVIRONMENT"
-  echo "Deployed configuration for $ENVIRONMENT"
-else
-  echo "Configuration file not found: $CONFIG_FILE"
-  exit 1
-fi
-```
-
-## Security Best Practices
-
-### Access Control
-- **Role-based access** - Different permissions for different teams
-- **Environment separation** - Restrict access to production configurations
-- **Audit logging** - Track all configuration changes
-- **Principle of least privilege** - Minimal required permissions
-
-### Sensitive Data Management
-- **Key Vault integration** - Store secrets separately from configuration
-- **Environment variables** - Use secure deployment mechanisms
-- **Encryption at rest** - Ensure all data is encrypted in storage
-- **Encryption in transit** - Use HTTPS/TLS for all communication
-
-### Configuration Validation
-```typescript
-// Configuration schema validation
-import Joi from 'joi';
-
-const widgetConfigSchema = Joi.object({
-  version: Joi.string().pattern(/^\d+\.\d+\.\d+$/).required(),
-  enabled: Joi.boolean().required(),
-  config: Joi.object({
-    apiEndpoint: Joi.string().uri().required(),
-    cacheTimeout: Joi.number().positive().required(),
-    features: Joi.object().pattern(Joi.string(), Joi.boolean())
-  }).required()
-});
-
-export function validateWidgetConfig(config: any) {
-  const { error } = widgetConfigSchema.validate(config);
-  if (error) {
-    throw new Error(`Invalid widget configuration: ${error.message}`);
-  }
-  return config;
-}
-```
-
-## Monitoring and Observability
-
-### Configuration Metrics
-- **Configuration access patterns** - Track which configurations are accessed most
-- **Update frequency** - Monitor how often configurations change
-- **Error rates** - Track failed configuration retrievals
-- **Performance** - Monitor configuration service response times
-
-### Alerting
-- **Configuration failures** - Alert when configuration service is unavailable
-- **Invalid configurations** - Alert on configuration validation failures
-- **Unauthorized access** - Alert on suspicious access patterns
-- **Configuration drift** - Alert when configurations don't match expected values
-
-### Recommended Tools
-- **Azure Monitor** - For Azure App Configuration monitoring
-- **CloudWatch** - For AWS Parameter Store monitoring
-- **Consul UI** - Built-in monitoring for Consul
-- **Third-party:** DataDog, New Relic, Splunk
-
-## Best Practices
-
-### Configuration Design
-- **Hierarchical structure** - Organize configurations logically
-- **Environment consistency** - Same structure across all environments
-- **Sensible defaults** - Provide fallback values for all configurations
-- **Documentation** - Document all configuration keys and their purposes
-
-### Change Management
-- **Version control** - Track all configuration changes in Git
-- **Review process** - Require approval for production configuration changes
-- **Gradual rollout** - Test configuration changes in development first
-- **Rollback plan** - Always have a plan to revert configuration changes
-
-### Performance Optimization
-- **Caching** - Cache frequently accessed configurations
-- **Batch retrieval** - Fetch multiple configurations in single requests
-- **Background refresh** - Update configurations without blocking application startup
-- **Local fallbacks** - Store critical configurations locally for offline scenarios
 
 ## Next Steps
 
 After setting up configuration service:
-1. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
-2. [Implement CI/CD Integration](/platform-guides/project-setup/)
-3. [Configure Monitoring and Alerting](/infrastructure/monitoring-setup/) 
+1. [Implement CI/CD Integration](/infrastructure/project-setup/)
+2. [Configure Widget Development Environment](/getting-started/local-development/)
+3. [Deploy Your First Widget](/getting-started/deploy-poc/) 

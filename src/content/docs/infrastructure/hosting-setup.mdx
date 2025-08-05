@@ -3,13 +3,36 @@ title: 'Hosting Service Setup'
 description: 'Deploy your 1FE application to production hosting services'
 ---
 
-## Overview
+import {
+  FcGlobe,
+  FcSettings,
+  FcDeployment,
+  FcSupport,
+} from "react-icons/fc";
+
+<div style={{ 
+  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+  color: 'white', 
+  padding: '2rem', 
+  borderRadius: '12px', 
+  marginBottom: '2rem',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+}}>
+
+### <FcGlobe style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Hosting Service Overview
+
+**Audience:** Platform teams setting up production hosting infrastructure for their organization.
 
 Your 1FE application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally. This guide covers how to deploy your 1FE instance to production hosting services.
+
+**📋 Part of Infrastructure Setup:** See [Productionize Your 1FE Setup](/platform-guides/productionize/) for the complete production deployment checklist.
+
+</div>
 
 ## Why You Need a Hosting Service
 
 A hosting service provides:
+
 - **Application shell hosting** - Serves your main 1FE application
 - **Static file serving** - HTML, CSS, JS files for your shell
 - **Global availability** - Ensures your app is accessible worldwide
@@ -18,12 +41,14 @@ A hosting service provides:
 
 ### Azure Web App (Recommended for Enterprise)
 
-**Why Azure Web App for 1FE:**
-- Platform-as-a-Service (PaaS) with built-in CI/CD integration  
-- Seamless integration with Azure ecosystem and enterprise services
-- Built-in security, scalability, and monitoring features
-- Support for custom domains and SSL certificates
-- Continuous deployment from GitHub with automated workflows
+:::note[Why Azure Web App for 1FE]
+
+- ⚙️ **Platform-as-a-Service (PaaS) with built-in CI/CD integration**  
+- 🔗 **Seamless integration with Azure ecosystem and enterprise services**
+- 🛡️ **Built-in security, scalability, and monitoring features**
+- 🌐 **Support for custom domains and SSL certificates**
+- 🚀 **Continuous deployment from GitHub with automated workflows**
+:::
 
 This comprehensive guide provides step-by-step instructions for creating and configuring an Azure Web App that allows replication of the 1fe-demo setup.
 
@@ -39,6 +64,7 @@ The first step is to create the core Web App resource.
 
 **Setup Instructions:**
 
+<div className="prose">
 1. **Log in to the Azure Portal**
    - Navigate to [Azure Portal](https://portal.azure.com/)
 
@@ -56,6 +82,10 @@ The first step is to create the core Web App resource.
 5. **Set Web App Name**
    - Enter a globally unique name for your web app (e.g., `1fe-demo`)
 
+:::note[Important: Web App URL]
+The name you choose will be part of the default URL (e.g., `1fe-demo.azurewebsites.net`). Choose a descriptive and globally unique name.
+:::
+
 6. **Configure Publishing Method**
    - **Publish**: Select `Code`
 
@@ -70,10 +100,7 @@ The first step is to create the core Web App resource.
 
 10. **Proceed to Deployment Configuration**
     - Click **Next: Deployment** to continue
-
-:::note[Important: Web App URL]
-The name you choose will be part of the default URL (e.g., `1fe-demo.azurewebsites.net`). Choose a descriptive and globally unique name.
-:::
+</div>
 
 #### Step 3: Configure Deployment from GitHub
 
@@ -81,6 +108,7 @@ This section details how to enable continuous deployment from a GitHub repositor
 
 **Setup Instructions:**
 
+<div className="prose">
 1. **Navigate to Deployment Tab**
    - On the **Deployment** tab during Web App creation (or by navigating to Deployment Center for an existing app)
 
@@ -112,8 +140,11 @@ This section details how to enable continuous deployment from a GitHub repositor
 10. **Complete Web App Creation**
     - Click **Create** to create the Web App
     - Azure will automatically generate a GitHub Actions workflow file in your repository to handle deployments
+</div>
 
 **Official Documentation:** [Deploy to Azure App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)
+
+**Example Implementation:** [1FE Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
 #### Step 4: Add and Configure a Custom Domain
 
@@ -121,6 +152,7 @@ Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you 
 
 **Setup Instructions:**
 
+<div className="prose">
 1. **Navigate to Your Web App Resource**
    - In the Azure Portal, navigate to your Web App resource
 
@@ -148,8 +180,9 @@ Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you 
 
 9. **Complete Domain Addition**
    - After validation is successful, click **Add custom domain**
+</div>
 
-:::important[App Service Plan Requirement]
+:::note[App Service Plan Requirement]
 Your App Service plan must be a paid tier (e.g., Basic, Standard, Premium) to add a custom domain. The Free (F1) and Shared (D1) tiers do not support custom domains.
 :::
 
@@ -161,6 +194,7 @@ Environment variables (known as "Application settings" in Azure) are a secure wa
 
 **Setup Instructions:**
 
+<div className="prose">
 1. **Navigate to Your Web App Resource**
    - In the Azure Portal, navigate to your Web App resource
 
@@ -189,6 +223,7 @@ Environment variables (known as "Application settings" in Azure) are a secure wa
    - For nested JSON keys (e.g., `Logging:LogLevel:Default`)
    - Replace the colons (`:`) with double underscores (`__`) in the name
    - Example: `Logging__LogLevel__Default`
+</div>
 
 :::caution[App Restart Required]
 The app will restart automatically when you save new application settings. Plan configuration changes during appropriate maintenance windows.
@@ -200,57 +235,35 @@ The app will restart automatically when you save new application settings. Plan 
 
 ### Multiple Environments Setup
 
-**Development Environment:**
-- Use branch-based deployments (e.g., `dev` branch)
-- Connect to development CDN endpoints
-- Point to development configuration service
-- Enable debug mode and verbose logging
-
-**Staging Environment:**
-- Deploy from `staging` branch or pre-release tags
-- Use staging CDN and configuration endpoints
-- Mirror production setup for accurate testing
-- Enable performance monitoring
+:::tip[Environment Configuration]
+**Integration Environment:**
+- 🔧 **Use branch-based deployments** (e.g., `integration` branch)
+- 🌐 **Connect to integration CDN endpoints**
+- ⚙️ **Point to integration configuration service**
+- 🐛 **Enable debug mode and verbose logging**
+- ✅ **Run automated tests and validation**
 
 **Production Environment:**
-- Deploy from `main`/`master` branch or release tags
-- Use production CDN and configuration services
-- Implement deployment approval workflows
-- Enable comprehensive monitoring and alerting
-
-:::important[Environment Isolation]
-Always use separate hosting instances and environment variables for different environments. This prevents accidental deployments and maintains proper isolation.
+- 🚀 **Deploy from `main`/`master` branch or release tags**
+- 🌍 **Use production CDN and configuration services**
+- 🛡️ **Implement deployment approval workflows**
+- 📊 **Enable comprehensive monitoring and alerting**
+- 🔒 **Enforce strict security policies**
 :::
 
-### Domain Configuration
-
-**Subdomain Strategy:**
-- `dev.yourapp.com` - Development environment
-- `staging.yourapp.com` - Staging environment  
-- `yourapp.com` - Production environment
-
-**Environment Variables:**
-```bash
-# Development
-REACT_APP_API_URL=https://api-dev.yourapp.com
-REACT_APP_CDN_URL=https://cdn-dev.yourapp.com
-REACT_APP_ENV=development
-
-# Production
-REACT_APP_API_URL=https://api.yourapp.com
-REACT_APP_CDN_URL=https://cdn.yourapp.com
-REACT_APP_ENV=production
-```
+:::note[Environment Isolation]
+Always use separate hosting instances and environment variables for different environments. This prevents accidental deployments and maintains proper isolation.
+:::
 
 ## Security Considerations
 
 ### HTTPS Configuration
 
 **SSL/TLS Requirements:**
-- Always use HTTPS in production environments
-- Configure HSTS (HTTP Strict Transport Security) headers
-- Use secure cookie settings for any authentication
-- Implement proper CSP (Content Security Policy) headers
+- 🔒 **Always use HTTPS in production environments**
+- 🛡️ **Configure HSTS (HTTP Strict Transport Security) headers**
+- 🍪 **Use secure cookie settings for any authentication**
+- 📝 **Implement proper CSP (Content Security Policy) headers**
 
 **Security Headers:**
 ```
@@ -261,99 +274,10 @@ X-Frame-Options: DENY
 X-XSS-Protection: 1; mode=block
 ```
 
-### Access Controls
-
-**Environment Protection:**
-- Implement authentication for non-production environments
-- Use IP whitelisting for staging environments
-- Set up proper CORS policies for API access
-- Monitor and log all access attempts
-
-**Deployment Security:**
-- Use secure CI/CD pipelines with proper secrets management
-- Implement code signing and integrity checks
-- Enable audit logging for all deployments
-- Use least-privilege access principles
-
-## Monitoring and Observability
-
-### Essential Monitoring
-
-**Uptime Monitoring:**
-- Monitor application availability across multiple regions
-- Set up alerts for downtime or performance degradation
-- Track response times and error rates
-- Monitor SSL certificate expiration
-
-**Performance Monitoring:**
-- Page load times and Core Web Vitals
-- JavaScript error tracking and reporting
-- API response times and error rates
-- CDN cache hit ratios and performance
-
-**User Analytics:**
-- User behavior and journey tracking
-- Feature usage and adoption metrics
-- Performance impact on user experience
-- Geographic distribution of users
-
-## Deployment Automation
-
-### CI/CD Integration
-
-**CI/CD Configuration:**
-
-For complete GitHub Actions workflows, deployment configurations, and automation examples, refer to the [1fe-ci-cd repository](https://github.com/docusign/1fe-ci-cd) which contains production-ready CI/CD templates and best practices.
-
-### Deployment Best Practices
-
-**Progressive Deployment:**
-- Deploy to staging environment first
-- Run automated tests and health checks
-- Gradually roll out to production users
-- Monitor metrics and rollback if needed
-
-**Health Checks:**
-- Implement application health endpoints
-- Verify core functionality after deployment
-- Check integration with external services
-- Monitor error rates and performance metrics
-
-## Troubleshooting Common Issues
-
-### Build Failures
-
-**Environment Variables:**
-- Verify all required environment variables are set
-- Check for differences between local and production environments
-- Ensure secrets are properly configured in hosting platform
-
-**Dependency Issues:**
-- Check Node.js version compatibility
-- Verify package.json and lock file consistency
-- Clear cache and reinstall dependencies if needed
-
-### Runtime Issues
-
-**404 Errors (SPA Routing):**
-- Configure hosting platform to serve index.html for all routes
-- Set up proper redirect rules for single-page applications
-- Check that client-side routing is properly configured
-
-**CORS Errors:**
-- Configure API servers to allow requests from your domain
-- Set up proper CORS headers on backend services
-- Check that environment-specific API URLs are correct
-
-**Performance Issues:**
-- Optimize bundle size and implement code splitting
-- Configure proper caching headers
-- Ensure CDN is properly configured for static assets
-
 ## Next Steps
 
 After setting up hosting:
 1. [Configure CDN for Widget Bundles](/infrastructure/cdn-setup/)
 2. [Set up Configuration Service](/infrastructure/configuration-setup/)
 3. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
-4. [Implement CI/CD Integration](/platform-guides/project-setup/)
+4. [Set up CI/CD Pipeline](/infrastructure/project-setup/)
