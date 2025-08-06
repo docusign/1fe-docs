@@ -5,7 +5,7 @@ description: "Easily load other widgets into your widget"
 
 ### `get`
 
-The `platformProps.utils.widget.get` function is used to load a widget inside another widget. This function has a built-in retry mechanism. If the first request for your widget fails, it will try 2 more times.
+The `platformProps.utils.widget.get` function is used to load a widget inside another widget. This function has a built-in retry mechanism. If the first request for your widget fails, it will try two more times.
 
 #### Type
 
@@ -64,7 +64,7 @@ const App = (props: WidgetProps) => {
 
 ### Usage with error boundary
 
-While the `widgets.get` function has a built-in retry mechanism & error boundary, it is still possible for the widget to fail to load. The internal error boundary is set in place to handle errors and log them to our error tracking system, without influencing the UI or the parent error boundary. To provide a graceful fallback UI, you can use the `ErrorBoundary` component from `react-error-boundary`.
+While the `widgets.get` function has a built-in retry mechanism and error boundary, it is still possible for the widget to fail to load. The internal error boundary is set in place to handle errors and log them to our error tracking system without influencing the UI or the parent error boundary. To provide a graceful fallback UI, you can use the `ErrorBoundary` component from `react-error-boundary`.
 
 ```tsx
 import { platformProps } from "@1fe/shell";
@@ -92,12 +92,12 @@ const App = (props: WidgetProps) => {
 
 ### Lifecycle
 
-The `widgets.get` function will return a React Suspense component, which when mounted will trigger the loading of the widget. If the suspense isn't mounted, the widget will not be loaded. If the widget is already loaded, the widget will be rendered immediately.
+The `widgets.get` function will return a React Suspense component, which, when mounted, will trigger the loading of the widget. If the Suspense component isn't mounted, the widget will not be loaded. If the widget is already loaded, the widget will be rendered immediately.
 
 ### Anti-patterns
 
 Due to the fact that `widgets.get` leverages React hooks internally, it is important to avoid the following anti-patterns:
 
-1.  Conditionally invoke widgets.get by either wrapping it inside of IF/ELSE statements, TRY/CATCH blocks or Null Coalescing operators.
-2.  Invoke widgets.get from inside of useEffect or useCallback etc. We make a special adjustment for useMemo, yet we urge you to move away from memoizing widgets.get
-3.  Return early before widgets.get is invoked in your React component.
+1.  Conditionally invoke `widgets.get` by either wrapping it inside of IF/ELSE statements, TRY/CATCH blocks or Null Coalescing operators.
+2.  Invoke `widgets.get` from inside of `useEffect` or `useCallback`, etc. We make a special adjustment for `useMemo`, yet we urge you to move away from memoizing `widgets.get`.
+3.  Return early before `widgets.get` is invoked in your React component.

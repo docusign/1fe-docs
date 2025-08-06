@@ -38,7 +38,7 @@ Read more about [widgets and plugins](../../main-concepts/widgets) and [platform
 
 ### <SlWrench style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Override widget starter kit with your local plugin
 
-In the above section, we explored the example starter plugin. Let's override that example plugin to use our plugin running locally.
+In the above section, you explored the example starter plugin. Let's override that example plugin to use your plugin running locally.
 
 <div className="prose">
 
@@ -66,7 +66,7 @@ In the above section, we explored the example starter plugin. Let's override tha
 
 ## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Customize your 1fe instance
 
-In the previous step, we overrode the example plugin to use our local plugin. Now let's look at how to host your plugin locally so it shows up by deafult in the 1fe instance.
+In the previous step, you overrode the example plugin to use your local plugin. Now let's look at how to host your plugin locally so it shows up by deafult in the 1fe instance.
 
 ### Build plugin assets
 
@@ -119,7 +119,7 @@ In the previous step, we overrode the example plugin to use our local plugin. No
 
 #### Setup the playground widget
 
-We'll also need the playground widget for our 1fe instance. The playground widget provides essential development tooling and runtime utilities.
+You'll also need the playground widget for your 1fe instance. The playground widget provides essential development tooling and runtime utilities.
 
 <div className="prose">
 
@@ -148,22 +148,22 @@ The playground widget build will also generate assets in the `dist` folder.
 <div className="prose">
 
 1.  Fork this [mock-cdn-assets](https://github.com/docusign/mock-cdn-assets/tree/main) repository
-    This repository contains the live configurations and widget assets per environment that power [demo.1fe.com](https://demo.1fe.com). We will use this as a jumping off point to get our own version of the assets
-2.  Create a new directory within `integration/widgets/@1fe/widget-starter-kit` of your forked cdn repo. The directory name should be the version from the package.json of the widget-starter-kit repository. (e.g `1.0.2`).
+    This repository contains the live configurations and widget assets per environment that power [demo.1fe.com](https://demo.1fe.com). You will use this as a jumping off point to get your own version of the assets.
+2.  Create a new directory within `integration/widgets/@1fe/widget-starter-kit` of your forked CDN repo. The directory name should be the version from the package.json of the widget-starter-kit repository. (e.g `1.0.2`).
 3.  Upload the contents of the `1fe-widget-starter-kit/dist/` directory to the new directory.
-4.  Create a new directory within `integration/widgets/@1fe/playground` of your forked cdn repo. The directory name should be the version from the package.json of the playground repository (e.g `1.0.50`).
+4.  Create a new directory within `integration/widgets/@1fe/playground` of your forked CDN repo. The directory name should be the version from the package.json of the playground repository (e.g `1.0.50`).
 5.  Upload the contents of the `1fe-playground/dist/` directory to the playground directory. Following is an image which showcases what the directory structure will look like after you have moved the code over.
     ![dist folder assets copied to CDN](./assets/example-plugin-cdn-assets.png)
-6.  Serve them locally using the [serve package](https://www.npmjs.com/package/serve) by running the following command
+6.  Serve them locally using the [serve package](https://www.npmjs.com/package/serve) by running the following command:
     ```
     npx serve -C <root-of-cdn-assets-repo-locally>
     ```
 
 </div>
 
-### Use the new widget assets in our 1fe instance
+### Use the new widget assets in your 1fe instance
 
-One of the key features of 1fe is the ability to dynamically load widgets and plugins via [Live Configurations](../../main-concepts/live-configurations). We will now take advantage of these configurations to get our local 1fe instance to get the config's from our local CDN.
+One of the key features of 1fe is the ability to dynamically load widgets and plugins via [Live Configurations](../../main-concepts/live-configurations). We will now take advantage of these configurations to get your local 1fe instance to get the config's from your local CDN.
 
 #### Update widget-versions.json
 
@@ -184,13 +184,13 @@ The `widget-versions.json` file defines the available versions for each widget t
 
 #### Update live.json
 
-The [`live.json`](https://1fe-a.akamaihd.net/integration/configs/live.json) file contains the runtime configuration for the plugins that are being loaded
+The [`live.json`](https://1fe-a.akamaihd.net/integration/configs/live.json) file contains the runtime configuration for the plugins that are being loaded.
 
 <div className="prose">
 
 1.  Locate `integration/configs/live.json` within your forked mock-cdn-assets repository and make the following changes:
-2.  Update the basePrefix to point to your server running locally through the serve package
-3.  Remove the `sample-widget` and `sample-widget-with-auth` widget configurations as they are not needed for this example. Following is what the diff will look like. Also, here is a [PR](https://github.com/docusign/mock-cdn-assets/pull/28/files) showcasing these changes
+2.  Update the `basePrefix` to point to your server running locally through the serve package.
+3.  Remove the `sample-widget` and `sample-widget-with-auth` widget configurations, as they are not needed for this example. Following is what the diff will look like. Also, here is a [PR](https://github.com/docusign/mock-cdn-assets/pull/28/files) showcasing these changes:
 
     ```diff title="live.json"
     {
@@ -229,7 +229,7 @@ The [`live.json`](https://1fe-a.akamaihd.net/integration/configs/live.json) file
     }
     ```
 
-4.  Confirm that the updated Live Configurations are working by visiting the following link:
+4.  Confirm that the updated live configurations are working by visiting the following link:
     ```
     http://localhost:3000/integration/configs/live.json
     ```
@@ -272,21 +272,21 @@ You need to update the CSP settings in the 1fe instance(`src/csp-configs.ts`) to
 
 ## 🎉 Congratulations! You made it!
 
-You've successfully set up local development for your 1fe widgets! You can move on to the next section if you want to deploy your 1fe instance quickly to showcase it's benefits to your team. Or, you can use the below links to jump to different sections to learn more.
+You've successfully set up local development for your 1fe widgets! You can move on to the next section if you want to deploy your 1fe instance quickly to showcase its benefits to your team. Or, you can use the links below to jump to different sections to learn more.
 
 ### 🧠 **Learn the Core Concepts**
 
-- **[Live Configurations](../../main-concepts/live-configurations)** - Understand how 1fe dynamically loads widgets
-- **[Widgets vs Plugins](../../main-concepts/widgets)** - Learn the difference and when to use each
-- **[Platform Architecture](../../main-concepts/architecture)** - Deep dive into how 1fe works under the hood
+- **[Live Configurations](../../main-concepts/live-configurations)** - Understand how 1fe dynamically loads widgets.
+- **[Widgets vs Plugins](../../main-concepts/widgets)** - Learn the difference and when to use each.
+- **[Platform Architecture](../../main-concepts/architecture)** - Deep dive into how 1fe works under the hood.
 
 ### 🔧 **Level Up Your Development**
 
-- **[API Reference](../../api-reference/1fe-server-reference)** - Complete API documentation for building widgets
-- **[Externalizing Libraries](../../platform-guides/externalizing-libraries)** - Optimize bundle sizes and share dependencies
+- **[API Reference](../../api-reference/1fe-server-reference)** - Complete API documentation for building widgets.
+- **[Externalizing Libraries](../../platform-guides/externalizing-libraries)** - Optimize bundle sizes and share dependencies.
 
 ### 🚀 **Ready for Production?**
 
-- **[Productionize your setup](../../platform-guides/productionize)** - Take your app to production
+- **[Productionize your setup](../../platform-guides/productionize)** - Take your app to production.
 
 Happy coding! 🚀

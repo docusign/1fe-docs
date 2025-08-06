@@ -5,18 +5,18 @@ iconName: "vscode-icons:folder-type-db-opened" # Icon browser at https://icon-se
 
 ## `platformProps.utils.sessionStorage`
 
-Access the SessionStorage utility through the platform props, and call the functions directly. The utility is exposed as `platformProps.utils.sessionStorage`.
-Key has to be of type string and each key will be prefixed by the widgetId, which is referenced as namespace in the util. For example a key will be stored as `widgetId.key` in sessionStorage.
-Value can be of type boolean, number or string. In future this will be extended to complex types like objects etc.
+Access the SessionStorage utility through the platform properties and call its functions directly. The utility is exposed as `platformProps.utils.sessionStorage`.
+Key has to be of type `string`, and each key will be prefixed by the widgetId, which is referenced as namespace in the utility. For example, a key will be stored as `widgetId.key` in sessionStorage.
+Value can be of type `boolean`, `number` or `string`. In the future this will be extended to complex types such as objects.
 
 This API is available only through `platformProps.utils`.
 
 ## Your use of storage is an API
 
 :::caution
-Namespacing storage keys to your widgetId does not prevent keys/values being shared between multiple instances/versions of the same widget. Any change has the potential to break if it is not compatiple with the previous version of your widget. Any changes should be made with extreme caution.
+Namespacing storage keys to your widgetId does not prevent keys or values from being shared between multiple instances or versions of the same widget. Any change has the potential to break if it is not compatiple with the previous version of your widget. Any changes should be made with extreme caution.
 
-This consideration is especially important for, who will be rendered alongside older versions of their own widget.
+This consideration is especially important for pinned widgets, which will be rendered alongside older versions of their own widget.
 :::
 
 ### `set`
@@ -25,7 +25,7 @@ This consideration is especially important for, who will be rendered alongside o
 function set(key: string, value: string | number | boolean): void;
 ```
 
-This function will set a namespace prefixed key and value in session storage
+This function will set a namespace prefixed key and value in session storage.
 
 #### Example
 
@@ -41,7 +41,7 @@ platformProps.utils.sessionStorage.set("key3", test);
 function get(key: string): string | boolean | number;
 ```
 
-This function will return value associated with the given key.
+This function will return the value associated with the given key.
 
 #### Example
 
@@ -55,7 +55,7 @@ platformProps.utils.sessionStorage.get("key1");
 function getAll(): Record<string, T>;
 ```
 
-getAll will return an object containing all the keys and corresponding values stored in session storage
+`getAll` will return an object containing all the keys and corresponding values stored in sessionStorage.
 
 #### Example
 
@@ -69,7 +69,7 @@ platformProps.utils.sessionStorage.getAll();
 function clear(): void;
 ```
 
-Clear will remove all keys and values from sessionStorage
+`clear` will remove all keys and values from sessionStorage.
 
 #### Example
 
@@ -83,7 +83,7 @@ platformProps.utils.sessionStorage.clear();
 function remove(key: string): void;
 ```
 
-Remove will delete the specific key from sessionStorage
+`remove` will delete the specified key from sessionStorage.
 
 #### Example
 
@@ -97,7 +97,7 @@ platformProps.utils.sessionStorage.remove("key1");
 function size(): number;
 ```
 
-Size will return total number of keys that are stored in sessionStorage
+`size` will return the total number of keys that are stored in sessionStorage.
 
 #### Example
 
@@ -107,7 +107,7 @@ platformProps.utils.sessionStorage.size();
 
 ### Setup
 
-To use the sessionStorage util in any widget, add sessionStorage util to platformProps.
+To use the sessionStorage utilities in any widget, add sessionStorage functions to platformProps.
 
 ```tsx
 export type PlatformProps = {
@@ -130,6 +130,6 @@ export type PlatformProps = {
 
 ### Errors
 
-An error will be thrown incase of an exception due to store2 library, in the abscence of widgetId or when the functions are invoked incorrectly.
+An error will be thrown in case of an exception due to the store2 library in the abscence of a widgetId or when the functions are invoked incorrectly.
 
-To learn more about using any of the store2 functions, refer to public documentation [here](https://www.npmjs.com/package/store2).
+To learn more about using any of the store2 functions, refer to its [public documentation](https://www.npmjs.com/package/store2).

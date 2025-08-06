@@ -9,11 +9,11 @@ import { FcBookmark, FcLock, FcPuzzle } from "react-icons/fc";
 
 # <FcPuzzle style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Definition of a Widget
 
-A Widget is ANY snippet of packaged javascript logic that runs in a browser. Regular, default widgets follow all 1fe standards and principles. They control their own release lifecycle and are responsible for verifying the API contracts they promise to other host experiences.
+A *widget* is ANY snippet of packaged JavaScript logic that runs in a browser. Regular, default widgets follow all 1fe standards and principles. They control their own release lifecycle and are responsible for verifying the API contracts they promise to other host experiences.
 
-A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, a Widget, or a Plugin.
+A widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, another widget, or a plugin.
 
-A widget is never permitted to be an IIFE.
+A widget is never permitted to be an [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
 
 # Types of Widgets
 
@@ -21,24 +21,24 @@ A widget is never permitted to be an IIFE.
 
 **Definition**
 
-A Plugin is a Widget that is TIED to a URL.
+A *plugin* is a widget that is tied to a URL.
 
-The technical difference between a Widget and a Plugin is the details in a configuration file - that provide information to the 1fe Shell via configurations.
+The technical difference between a widget and a plugin is the details in a configuration file that provide information to the 1fe Shell via configurations.
 
-A plugin will only ever exist in one place, and at one url. E.g. `https://your-1fe-app.com/your-plugin-route`.
+A plugin will only ever exist in one place, and at one URL: e.g., `https://your-1fe-app.com/your-plugin-route`.
 
 ### Pinned
 
 **Definition**
 
-A Pinned Widget is a widget where the version can be locked to a specific version by the host widget or plugin. If the host does not "pin" a version, the latest version will be used.
+A *pinned widget* is a widget whose version can be locked to a specific version by the host widget or plugin. If the host does not "pin" a version, the latest version will be used.
 
 **How do I host a pinned widget?**
 
-To "pin" a Pinned Widget, use the `dependsOn` section within the `.1fe.config.ts` file within your widget repository.
+To "pin" a pinned widget, use the `dependsOn` section within the `.1fe.config.ts` file within your widget repository.
 
 #### FAQ
 
-**What if I pin a widget that is not a “Pinned Widget”?**
+**What if I pin a widget that is not a “pinned widget”?**
 
 The 1fe ecosystem has several layers of validations that will prevent this from happening. @1fe/cli will throw an error at build time and, if for some reason that layer fails, the runtime will serve you the current version of the requested widget with a warning in the console.

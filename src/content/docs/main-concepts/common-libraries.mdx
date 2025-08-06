@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-1fe supports webpack externals via the 1fe/cli. This allows widgets to exclude common libraries from output bundles.
+1fe supports webpack externals via the 1fe/cli. This enables widgets to exclude common libraries from output bundles.
 
 ### Why Externalize Libraries?
 
@@ -15,4 +15,4 @@ We can reduce widget bundle sizes and improve app load time (ALT) by sharing com
 
 Via webpack externals, 1fe/cli will automatically externalize libraries that are configured to be externalized within your hosted live configurations.
 
-The version string you see in a widget’s `package.json` is an illusion of control. At runtime, when the widget is rendered by the 1fe shell, the 1fe/shell will load the version specified version within the live configurations instead.
+The version string you see in a widget’s package.json file is an illusion of control. At runtime, when the widget is rendered by the 1fe shell, the 1fe/shell will load the version specified within the live configurations instead.

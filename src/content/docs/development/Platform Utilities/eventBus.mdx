@@ -8,7 +8,7 @@ _Asyncronously emit events with `platform.utils.eventBus`_
 :::tip[Data management]
 Before using Event Bus, make sure to consider other ways to transmit information that could be more appropriate for your use case. Below are a couple of suggestions in ascending level of complexity.
 
-**Props**: Should be considered first, if you have a shallow application where you can pass simple data through react props in a unidirectional way within the same application, this will be the simplest way to go.
+**Props**: Should be considered first, if you have a shallow application where you can pass simple data through React props in a unidirectional way within the same application, this will be the simplest way to go.
 
 **Context**: In a situation where you need to pass props down several times to get the data to its destination, but it is not overly complex data, you may want to consider useContext. You do not need to maintain a central store, unlike redux.
 
@@ -22,7 +22,7 @@ Platform Props will handle the instantiation of Event Bus before users are given
 ## Your events are an API
 
 :::caution
-An event via eventbus is part of your widget's API. Since you cannot predict how many host widgets are consuming and utilizing their eventBus, we must avoid breaking changes to the event payload. It should be treated just as we would props and other API contracts.
+An event via Event Bus is part of your widget's API. Since you cannot predict how many host widgets are consuming and utilizing their Event Bus, we must avoid breaking changes to the event payload. It should be treated just as we would props and other API contracts.
 
 This consideration is especially important for pinned widgets, who will be rendered alongside older versions of their own widget.
 :::
@@ -40,7 +40,7 @@ type EventMap = {
 
 ### `useSubscribe`
 
-A hook wrapper around subscribe that handles React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto unsubscribe when the component is unmounted
+A hook wrapper around subscribe that handles the React lifecycle. This hook is used by the platform to subscribe to events. This hook will auto-unsubscribe when the component is unmounted.
 
 #### Type
 
@@ -85,8 +85,8 @@ To be called from the subscriber widget to start a subscription.
 
 ### Parameters
 
-- `eventName` - The event name to be subscribed to. Must be defined within the relevant event map type
-- `listener` - The function that will be called when some data is published. The function takes in data dependent on the type defined in the EventMap.
+- `eventName`: The event name to be subscribed to. Must be defined within the relevant event map type
+- `listener`: The function that will be called when some data is published. The function takes in data dependent on the type defined in the EventMap.
 
 ```ts
 type EventPublishPayload<K> = {
@@ -102,7 +102,7 @@ type EventPublishPayload<K> = {
 
 ### Return Value
 
-- `UnsubscribeFunction` - `() => void` - The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
+- `UnsubscribeFunction` - `() => void`: The subscribe function will return the unsubscribe function. When this function is called, the subscriber widget will no longer receive updates from publishing widget with respect to the event name specified in the subscribe call.
 
 ### `publish`
 
@@ -118,9 +118,9 @@ To be called from the publishing widget to send data to a subscribed widget.
 
 ### Parameters
 
-- `targetWidgetId` - The widgetId of the subscribing widget you would like to publish to
-- `eventName` - The event name to be published to. Must be defined within the relevant event map type
-- `data` - Data to be published to the subscribing widget. This should follow the type defined for the event ID in the event map
+- `targetWidgetId`: The widgetId of the subscribing widget you would like to publish to.
+- `eventName`: The event name to be published to. Must be defined within the relevant event map type.
+- `data`: Data to be published to the subscribing widget. This should follow the type defined for the event ID in the event map.
 
 ### Example
 

@@ -7,38 +7,38 @@ sidebar:
 
 ### What’s the scope of 1fe?
 
-1fe Platform gives the central team a larger horizontal charter, responsibility, governance, and scope encapsulating the Development, Deployment, and Execution of the entire front-end ecosystem.
+The 1fe platform gives the central team a larger horizontal charter, responsibility, governance, and scope encapsulating the development, deployment, and execution of the entire front-end ecosystem.
 
-### What is a Widget?
+### What is a widget?
 
-A Widget is ANY snippet of javascript logic that runs in a browser. A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, a Widget, or a Plugin.
+A *widget* is ANY snippet of JavaScript logic that runs in a browser. A widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, a widget, or a plugin.
 
-### What is a Plugin?
+### What is a plugin?
 
-A Plugin is a Widget that is TIED to a URL.
+A *plugin* is a widget that is tied to a URL.
 
 ### What is 1fe Playground?
 
-Teams are able to develop their Widgets locally in development mode without any dependency on the 1fe runtime.
+Teams are able to develop their widgets locally in development mode without any dependency on the 1fe runtime.
 
-### Should an experience be a Reusable/UI Component (@ds/ui) or a Widget?
+### Should an experience be a reusable/UI component (@ds/ui) or a widget?
 
-Good question, let’s break it down.
+Good question; let’s break it down.
 
-**Design System Component** - A simple atomic presentation component that has little to no logic and can be widely reused from a designer’s perspective.
+**Design System Component**: A simple atomic presentation component that has little to no logic and can be widely reused from a designer’s perspective.
 
-**Widget** - A component/library code that needs to be shipped, managed, and maintained independently and have its own release cadence. This could be due to one of many reasons:
+**Widget**: A component/library code that needs to be shipped, managed, and maintained independently and have its own release cadence. This could be due to one of many reasons:
 
-1.  Business logic is introduced to a simple component making it specific or targeted to a product, flow, or usecase.
-2.  The component has grown large enough - eg. Rich Text Editor
+1.  Business logic is introduced to a simple component, making it specific or targeted to a product, flow, or use case.
+2.  The component has grown large enough; for example, a rich text editor.
 3.  Heavy development (fixes/features) of a component that is widely shared/reused/consumed.
 
-### What initialization/bootstrap data will be available to a Widget?
+### What initialization/bootstrap data will be available to a widget?
 
-Plugins/Widgets can expect 3 sets of scoped top-level properties:
+Plugins and widgets can expect three sets of scoped top-level properties:
 
-1.  `platform` - Props from the 1fe platform (information about the environment, browser info, user data if possible, runtime widget hierarchy, and common utils).
-2.  `host` - [Optional] Props from the host widget (if any) for successful integration with the help of feature flags, configuration API, data or dependent functions. Ex: props.host.previewExperience.enabled. Widgets that expose an API for other Widgets to consume them will rely on the _host_ prop for configuration, bootstrapping and initialization.
-3.  `children` - [Optional] Children props from the host widget if it uses your widget as an HOC/wrapper.
+1.  `platform`: Properties from the 1fe platform (information about the environment, browser info, user data if possible, runtime widget hierarchy, and common utilities).
+2.  `host`: [Optional] Properties from the host widget (if any) for successful integration with the help of feature flags, configuration API, data, or dependent functions; for example, `props.host.previewExperience.enabled`. Widgets that expose an API for other widgets to consume them will rely on the `_host_` property for configuration, bootstrapping, and initialization.
+3.  `children`: [Optional] Child properties from the host widget, if it uses your widget as an HOC/wrapper.
 
-Sample structure of props can be seen in the 1fe Playground's props editor.
+A sample structure of properties can be seen in the 1fe Playground's properties editor.

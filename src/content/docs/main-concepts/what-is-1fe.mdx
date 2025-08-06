@@ -7,14 +7,14 @@ sidebar:
 
 import { SlWrench, SlCloudUpload, SlEnergy } from "react-icons/sl";
 
-1fe is a micro-frontend platform which allows teams to focus on creating experiences for the front end utilizing shared utilities and governance controls provided by a single platform team. 1fe achieves this by standardizing the development, deployment and execution of the experiences.
+1fe is a micro-front-end platform which enables teams to focus on creating experiences for the front end by using shared utilities and governance controls provided by a single platform team. 1fe achieves this by standardizing the development, deployment, and execution of the experiences.
 
 ## <SlWrench style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Development
 
 The 1fe platform streamlines the development process by providing a standardized set of tools, libraries, and best practices. This approach is designed to prevent redundancy, facilitate high reuse, and improve overall code quality and developer experience.
 
-- **Prevent Redundancy & Facilitate High Reuse**: Instead of each team rebuilding core functionalities, 1fe provides a central set of common components and utilities. This eliminates repetitive work and allows teams to focus on building unique user experiences.
-- **Standardize Tools & Libraries**: 1fe offers a single, maintained toolset for building, testing, and linting. This ensures consistency across all projects, reduces configuration overhead, and makes it easier for developers to contribute to different parts of the ecosystem. Central upgrades to tools like React or build systems require zero changes within individual team's code.
+- **Prevent Redundancy and Facilitate High Reuse**: Instead of each team rebuilding core functionalities, 1fe provides a central set of common components and utilities. This eliminates repetitive work and allows teams to focus on building unique user experiences.
+- **Standardize Tools and Libraries**: 1fe offers a single, maintained toolset for building, testing, and linting. This ensures consistency across all projects, reduces configuration overhead, and makes it easier for developers to contribute to different parts of the ecosystem. Central upgrades to tools such as React or build systems require zero changes within an individual team's code.
 - **Improve Code Hygiene**: By enforcing standards through a centralized toolchain, 1fe helps condemn bad practices that lead to tech debt. This results in a more uniform, readable, and maintainable codebase across the organization.
 - **Highly Independent Development**: Teams can develop their "widgets" and "plugins" in complete isolation. Clear boundaries and contracts ensure that development can happen in parallel without conflicts, and guest developers can onboard and contribute quickly with minimal friction.
 - **Central Enhancements**: The platform team can introduce enhancements and improvements that are automatically inherited by all consuming applications, minimizing churn and ensuring everyone benefits from the latest features and optimizations.
@@ -24,17 +24,17 @@ The 1fe platform streamlines the development process by providing a standardized
 To bring these concepts to life, 1fe provides a suite of packages to standardize and accelerate development:
 
 - **[@1fe/cli](https://www.npmjs.com/package/@1fe/cli)**: This command-line interface is the workhorse of the 1fe development process. Shipped with the starter kit, it handles building widgets and plugins using the centrally defined configurations and externalized libraries. Its key commands are `build` (creates a production-ready bundle), `contracts` (validates API contracts), and `dev` (runs a local development server).
-- **[1fe-widget-starter-kit](https://github.com/docusign/1fe-widget-starter-kit)**: This is a template repository that developers use to create new widgets and plugins. It comes pre-configured with standardized build scripts, CI/CD hooks, and best practices, all powered by `@1fe/cli`. Companies are expected to fork this and customize it to point to their own shared configurations.
-- **[create-1fe-app](https://www.npmjs.com/settings/1fe/packages)**: A scaffolding tool that allows teams to create a new 1fe instance from scratch by answering a few simple questions in the terminal.
-- **[1fe-sample-widget-base-config](https://github.com/docusign/1fe-sample-widget-base-config)**: This repository demonstrates the concept of shared configurations. It produces a package that can be consumed by all widgets within a company's ecosystem to ensure that common settings are propagated consistently. configurations. `@1fe/cli` enforces these configs during the build and development process to ensure code quality and consistency.
+- **[1fe-widget-starter-kit](https://github.com/docusign/1fe-widget-starter-kit)**: This is a template repository that developers use to create new widgets and plugins. It comes preconfigured with standardized build scripts, CI/CD hooks, and best practices, all powered by `@1fe/cli`. Companies are expected to fork this and customize it to point to their own shared configurations.
+- **[create-1fe-app](https://www.npmjs.com/settings/1fe/packages)**: A scaffolding tool that enables teams to create a new 1fe instance from scratch by answering a few simple questions in the terminal.
+- **[1fe-sample-widget-base-config](https://github.com/docusign/1fe-sample-widget-base-config)**: This repository demonstrates the concept of shared configurations. It produces a package that can be consumed by all widgets within a company's ecosystem to ensure that common settings are propagated consistently. `@1fe/cli` enforces these configs during the build and development process to ensure code quality and consistency.
 
 ## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Deployment
 
 1fe revolutionizes the deployment process by enabling independent, fast, and safe releases. It decouples individual experiences from a monolithic release train.
 
-- **Independent Release Pipelines**: Each widget and plugin has its own CI/CD pipeline, based on a standardized template. This empowers teams to deploy their changes independently, multiple times a day if needed, without being blocked by other teams' release schedules.
+- **Independent Release Pipelines**: Each widget and plugin has its own CI/CD pipeline based on a standardized template. This empowers teams to deploy their changes independently, multiple times a day if needed, without being blocked by other teams' release schedules.
 - **Templatized CI/CD**: 1fe provides templatized Jenkins or GitHub Actions/ADO patterns, ensuring that all deployments follow a well-defined, quality-gated process. This includes automated building, testing, and versioning.
-- **Dynamic, Versioned Deployments**: A `1 PR merge` can trigger a release candidate (`1RC`) which results in a versioned asset being deployed to a pre-production CDN. New widget versions are managed through a central, dynamic configuration, allowing for canary releases, rollbacks, and multi-environment support without server restarts.
+- **Dynamic, Versioned Deployments**: A `1 PR merge` can trigger a release candidate (`1RC`) which results in a versioned asset being deployed to a preproduction CDN. New widget versions are managed through a central, dynamic configuration, allowing for canary releases, rollbacks, and multienvironment support without server restarts.
 - **High Confidence, Quality-Backed Deployments**: With automated checks, quality gates, and approval steps built into the pipeline, teams can have high confidence in their deployments. Rollbacks are simple and fast, minimizing risk.
 - **Very Thin App Bundles**: By externalizing common dependencies and loading widgets dynamically, the initial application bundle served to the user is extremely small, leading to faster load times.
 
@@ -50,15 +50,15 @@ At runtime, 1fe provides a robust and performant execution environment that guar
 
 - **Guaranteed Runtime Agnostic of Host**: Widgets are backed by well-defined specifications and a "sandbox" environment. This ensures they execute consistently whether they are running in a local playground or a production application.
 - **Single Page Application Shell**: 1fe operates as a Single Page Application (SPA). This eliminates full-page reloads when navigating between different experiences, providing a seamless user journey and improving perceived performance. The shell handles routing, layout, and authentication.
-- **Dynamic & Lazy-Loaded Experiences**: All experiences (widgets) are lazy-loaded on demand. This means users only download the code they need for the page they are viewing, dramatically improving initial page load times (ALT).
-- **Shared Utilities for "Free"**: A rich set of platform utilities for authentication, internationalization (i18n), logging, analytics, and more are provided out-of-the-box via the sandbox. This means teams don't have to re-implement these common features.
-- **Clear Boundaries & Communication**: 1fe enforces clear, well-formed boundaries between widgets and the application shell. Widgets can communicate with each other and manipulate the layout through defined APIs, ensuring predictable behavior and preventing conflicts.
-- **Highly Performant & Predictable**: The combination of a thin shell, lazy-loading, pre-loading of assets for known user flows, and standardized dependencies results in a highly performant and predictable user experience.
+- **Dynamic and Lazy-Loaded Experiences**: All experiences (widgets) are lazy-loaded on demand. This means users only download the code they need for the page they are viewing, dramatically improving initial page load times (ALT).
+- **Shared Utilities for "Free"**: A rich set of platform utilities for authentication, internationalization (i18n), logging, analytics, and more are provided out-of-the-box via the sandbox. This means teams don't have to reimplement these common features.
+- **Clear Boundaries and Communication**: 1fe enforces clear, well-formed boundaries between widgets and the application shell. Widgets can communicate with each other and manipulate the layout through defined APIs, ensuring predictable behavior and preventing conflicts.
+- **Highly Performant and Predictable**: The combination of a thin shell, lazy loading, preloading of assets for known user flows, and standardized dependencies results in a highly performant and predictable user experience.
 
 ### Execution in Practice
 
 The following packages form the core of the 1fe runtime execution environment:
 
-- **[@1fe/server](https://www.npmjs.com/package/@1fe/server)**: This package provides a pre-configured Express.js server that serves as the backbone of a 1fe instance. It includes custom logic for polling configuration files that specify widget versions, CDN locations, and which versions are live, enabling dynamic updates without server restarts.
-- **[@1fe/shell](https://www.npmjs.com/package/@1fe/shell)**: Consumed by the 1fe instance, this package provides the main application shell. It includes the common UI components (like headers and navbars) and the shared platform utilities (the "sandbox") that are available to all widgets at runtime. It is delivered as part of the initial HTML response from the `@1fe/server`.
+- **[@1fe/server](https://www.npmjs.com/package/@1fe/server)**: This package provides a preconfigured Express.js server that serves as the backbone of a 1fe instance. It includes custom logic for polling configuration files that specify widget versions, CDN locations, and which versions are live, enabling dynamic updates without server restarts.
+- **[@1fe/shell](https://www.npmjs.com/package/@1fe/shell)**: Consumed by the 1fe instance, this package provides the main application shell. It includes the common UI components (such as headers and navbars) and the shared platform utilities (the "sandbox") that are available to all widgets at runtime. It is delivered as part of the initial HTML response from the `@1fe/server`.
 - **[1fe-playground](https://www.npmjs.com/package/1fe-playground)**: The playground is a special plugin that provides a sandbox environment for developing and testing widgets in isolation during local development. It allows developers to see how their widget will behave within the 1fe ecosystem, mock platform props, and test integrations before deploying.

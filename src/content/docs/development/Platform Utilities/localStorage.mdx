@@ -5,18 +5,18 @@ iconName: "icon-park:database-success" # Icon browser at https://icon-sets.iconi
 
 ## `platformProps.utils.localStorage`
 
-Access the localStorage utility through the platform props, and call the functions directly. The utility is exposed as `platformProps.utils.localStorage`.
-Key has to be of type string and each key will be prefixed by the widgetId, which is referenced as namespace in the util. For example a key will be stored as `widgetId.key` in localStorage.
-Value can be of type boolean, number or string. In future this will be extended to complex types like objects etc.
+Access the localStorage utility through the platform properties and call its functions directly. The utility is exposed as `platformProps.utils.localStorage`.
+Key has to be of type `string`, and each key will be prefixed by the widgetId, which is referenced as namespace in the util. For example a key will be stored as `widgetId.key` in localStorage.
+Value can be of type `boolean`, `number` or `string`. In the future this will be extended to complex types such as objects.
 
 This API is available only through `platformProps.utils`.
 
 ## Your use of storage is an API
 
 :::caution
-Namespacing storage keys to your widgetId does not prevent keys/values being shared between multiple instances/versions of the same widget. Any change has the potential to break if it is not compatiple with the previous version of your widget. Any changes should be made with extreme caution.
+Namespacing storage keys to your widgetId does not prevent keys or values from being shared between multiple instances or versions of the same widget. Any change has the potential to break if it is not compatiple with the previous version of your widget. Any changes should be made with extreme caution.
 
-This consideration is especially important for pinned widgets, who will be rendered alongside older versions of their own widget.
+This consideration is especially important for pinned widgets, which will be rendered alongside older versions of their own widget.
 :::
 
 ### `set`
@@ -24,6 +24,8 @@ This consideration is especially important for pinned widgets, who will be rende
 ```ts
 function set(key: string, value: string | number | boolean): void;
 ```
+
+This function will set a namespace prefixed key and value in localStorage.
 
 #### Example
 
@@ -51,7 +53,7 @@ platformProps.utils.localStorage.get("key1");
 function getAll(): Record<string, T>;
 ```
 
-getAll will return an object containing all the keys and corresponding values stored in local storage
+`getAll` will return an object containing all the keys and corresponding values stored in local storage.
 
 #### Example
 
@@ -65,7 +67,7 @@ platformProps.utils.localStorage.getAll();
 function clear(): void;
 ```
 
-Clear will remove all keys and values from localStorage
+`clear` will remove all keys and values from localStorage.
 
 #### Example
 
@@ -79,7 +81,7 @@ platformProps.utils.localStorage.clear();
 function remove(key: string): void;
 ```
 
-Remove will delete the specific key from localStorage
+`remove` will delete the specific key from localStorage.
 
 #### Example
 
@@ -93,7 +95,7 @@ platformProps.utils.localStorage.remove("key1");
 function size(): number;
 ```
 
-Size will return total number of keys that are stored in localStorage
+`size` will return total number of keys that are stored in localStorage.
 
 #### Example
 
@@ -107,7 +109,7 @@ platformProps.utils.localStorage.size();
 function keys(): string[];
 ```
 
-This function will return all keys that are in localStorage
+This function will return all keys that are in localStorage.
 
 #### Example
 
@@ -117,7 +119,7 @@ platformProps.utils.localStorage.keys();
 
 ### Setup
 
-To use the localStorage util in any widget, add localStorage util to platformProps.
+To use the localStorage utilities in any widget, add localStorage functions to platformProps.
 
 ```tsx
 export type PlatformProps = {
@@ -140,6 +142,6 @@ export type PlatformProps = {
 
 ### Errors
 
-An error will be thrown incase of an exception due to store2 library, in the abscence of widgetId or when the functions are invoked incorrectly.
+An error will be thrown in case of an exception due to the store2 library in the abscence of a widgetId or when the functions are invoked incorrectly.
 
-To learn more about using any of the store2 functions, refer to public documentation [here](https://www.npmjs.com/package/store2).
+To learn more about using any of the store2 functions, refer to its [public documentation](https://www.npmjs.com/package/store2).

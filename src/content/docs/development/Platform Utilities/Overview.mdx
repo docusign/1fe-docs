@@ -1,7 +1,7 @@
 ---
 title: "Overview"
 iconName: "flat-color-icons:electricity" # Icon browser at https://icon-sets.iconify.design/
-description: "Utils shared and used by all Plugins & Widgets"
+description: "Utilities shared and used by all plugins and widgets"
 sidebar:
   order: 1
   badge:
@@ -9,7 +9,7 @@ sidebar:
     variant: default
 ---
 
-### Importing 1fe Platform Utils
+### Importing 1fe Platform Utilities
 
 ```tsx
 import { platformProps } from "@1fe/shell";
@@ -21,13 +21,13 @@ The `@1fe/shell` package is automatically installed in your widget or plugin pro
 
 The above approach is also known as **shell import syntax** or **1fe contextual injection**.
 
-### Basic Usage of 1fe utils
+### Basic Usage of 1fe utilities
 
 ```tsx
-// The 1fe shell provided the platform utils to all widgets loaded in 1fe
+// The 1fe shell provided the platform utilities to all widgets loaded in 1fe
 import { PlatformPropsType, platformProps } from "@1fe/shell";
 
-// This type is for reference and is included out of box in the widget-starter-kit
+// This type is for reference and is included out of the box in the widget-starter-kit
 interface WidgetProps {
   platform: PlatformPropsType;
   host?: HostPropType;
@@ -35,7 +35,7 @@ interface WidgetProps {
 
 const MyWidget = (props: WidgetProps) => {
   useEffect(() => {
-    // this is how you access all utils, use these docs for examples
+    // this is how you access all utilities; use these docs for examples
     platformProps.utils.experience.setTitle("foo bar");
   }, []);
 
@@ -47,15 +47,15 @@ export default MyWidget;
 
 ### How does the contextual injection work?
 
-In a nutshell, the `@1fe/shell` is a simple types package to provide intellisense to the developer. In practice, there's no code that is being shipped in the `@1fe/shell` package. Instead when your widget is loaded inside of 1fe, we intercept the request to load the `@1fe/shell` package and instead inject `platformProps` contextualized to your widget.
+In a nutshell, the `@1fe/shell` is a simple types package to provide intellisense to the developer. In practice, there's no code that is being shipped in the `@1fe/shell` package. Instead, when your widget is loaded inside of 1fe, we intercept the request to load the `@1fe/shell` package and inject `platformProps` contextualized to your widget.
 
-Using the contextual injection, you can access the `platformProps` from anywhere in your widget without having to pass it down as a prop. Additionally this now enables us to safely provide some convenience React hooks from the 1fe platform.
+Using the contextual injection, you can access the `platformProps` from anywhere in your widget without having to pass it down as a property. Additionally this now enables us to safely provide some convenience React hooks from the 1fe platform.
 
 #### Why contextual injection?
 
-- **No Prop Drilling**: No more prop drilling through the code.
-- **Stability of References**: Stability of references for things like Widgets.get etc.
-- **No Need for React Contexts**: No need for a shared context between widgets.
-- **Platform Hooks**: We can now pass hooks from platformProps with a stable reference and not having to worry about react rule of hooks being voided.
-- **Access Outside of React Lifecycle**: Access utils like logger etc outside of React lifecycle.
-- **Syntax Sugar**: The syntax is concise and easy to use.
+- **No prop drilling**: No more prop drilling through the code.
+- **Stability of references**: Stability of references for things such as Widgets.get, etc.
+- **No need for React contexts**: No need for a shared context between widgets.
+- **Platform hooks**: We can now pass hooks from platformProps with a stable reference and not have to worry about the React rule of hooks being voided.
+- **Access outside of the React lifecycle**: Access utilities such as `logger` outside of the React lifecycle.
+- **Syntax sugar**: The syntax is concise and easy to use.

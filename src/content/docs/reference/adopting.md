@@ -3,7 +3,7 @@ title: Adopting 1fe
 description: A step-by-step document on how to kickstart your own 1fe setup
 ---
 
-The typical setup for hosting your own instance of 1fe requires the hosting and configuration of an isomoprhic NodeJS web application. Here is a sample consumer application that runs the 1fe Demo App, feel free to copy/clone/fork.
+The typical setup for hosting your own instance of 1fe requires the hosting and configuration of an isomoprhic NodeJS web application. Here is a sample consumer application that runs the 1fe Demo App; feel free to copy/clone/fork.
 
 ### Requirements
 
