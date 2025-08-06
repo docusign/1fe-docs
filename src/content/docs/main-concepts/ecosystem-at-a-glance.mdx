@@ -1,0 +1,71 @@
+---
+title: Ecosystem at a Glance
+description: Important links and reference implementation for the 1fe ecosystem.
+sidebar:
+  order: 2
+---
+
+import { SlLink, SlSocialGithub, SlLayers } from "react-icons/sl";
+
+This page provides a quick reference to the key packages and showcases the example implementation that powered our [demo website](https://demo.1fe.com/).
+
+## <SlLink style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Important Links
+
+Here are some of the most important repositories and npm packages that you'll interact with when building with 1fe.
+
+### Core Packages
+
+- **[`@1fe/cli`](https://www.npmjs.com/package/@1fe/cli)**: The command-line tool for building, developing, and validating widgets.
+- **[`@1fe/server`](https://www.npmjs.com/package/@1fe/server)**: The core Express.js server for your 1fe instance.
+- **[`@1fe/shell`](https://www.npmjs.com/package/@1fe/shell)**: Provides the application shell, layout, and shared utilities.
+- **[`create-1fe-app`](https://www.npmjs.com/package/@1fe/create-1fe-app)**: A scaffolding tool to quickly create a new 1fe instance.
+
+These packages are powered by the **[`1fe monorepo`](https://github.com/docusign/1fe)**
+
+### Starter Kits & Templates
+
+Following repositories form the basis of templates as you build out the 1fe instance for your organization.
+
+- **[`1fe-widget-starter-kit`](https://github.com/1-fe/1fe-widget-starter-kit)**: The template for creating new widgets and plugins.
+- **[`1fe-ci-cd`](https://github.com/1-fe/1fe-ci-cd)**: Reusable CI/CD pipeline templates for consistent deployments.
+- **[`1fe-sample-widget-base-config`](https://github.com/1-fe/1fe-sample-widget-base-config)**: An example of how to manage shared configurations for your widgets.
+- **[`1fe-playground`](https://github.com/1-fe/1fe-playground)**: A sandbox environment for developing and testing widgets.
+
+## <SlLayers style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Example Implementation
+
+For a complete, working example of how all these pieces fit together, you can refer to our comprehensive implementation that powers [demo.1fe.com](https://demo.1fe.com).
+
+### 1fe-starter-app
+
+We built out the **[`1fe-starter-app`](https://github.com/docusign/1fe-starter-app)** to power our website at [demo.1fe.com](https://demo.1fe.com). This application also serves as the git template for the `create-1fe-app` package, giving teams a production-ready starting point.
+
+The starter app includes:
+
+- **Two environments**: Integration and Production
+- Example setup for our [live configurations](../live-configurations) and [CSP settings](../csp-settings)
+- A setup that can be deployed to any hosting service with minimal configuration
+
+### Common Setup Repositories
+
+Based on our platform principles, we've built the following common setups to showcase different aspects of the platform:
+
+#### Infrastructure & Configuration
+
+- **[`1fe-ci-cd`](https://github.com/docusign/1fe-ci-cd)**: Repository that standardizes CI/CD by storing common pipelines to be used by all plugins. This ensures consistent deployment processes across the entire ecosystem. You can choosse any CI/CD platform to built an equivalent setup for your 1fe instance. We leveraged github actions for our demo instance.
+- **[`1fe-sample-widget-base-config`](https://github.com/docusign/1fe-sample-widget-base-config)**: A sample repository showing how common configuration for 1fe can be shared organization-wide as an npm package. This demonstrates the shared configuration pattern.
+
+### Sample Plugins
+
+We've also built out the following plugins to showcase different capabilities of the ecosystem:
+
+#### Development & Testing
+
+- **[`1fe-widget-starter-kit`](https://github.com/docusign/1fe-widget-starter-kit)**: A sample plugin that showcases all our platform utilities. This repository also serves as a template for teams to use as a starter when they build out their own widgets for their 1fe instances.
+- **[`1fe-playground`](https://github.com/docusign/1fe-playground)**: A sample plugin that creates a sandbox environment for loading widgets/plugins alongside all other plugins in the ecosystem. This allows teams to test their plugin's integration with other plugins. 1fe is configured to open the playground as the default plugin when launching in lower environments.
+
+#### Feature Demonstrations
+
+- **[`1fe-sample-widget-with-auth`](https://github.com/docusign/1fe-sample-widget-with-auth)**: A sample 1fe widget demonstrating how to implement and use authentication within the 1fe ecosystem.
+- **[`1fe-sample-widget`](https://github.com/docusign/1fe-sample-widget)**: A sample 1fe widget showcasing how to use the event bus utility for inter-widget communication.
+
+This comprehensive implementation serves as both a working example and a reference architecture for teams building their own 1fe ecosystems.

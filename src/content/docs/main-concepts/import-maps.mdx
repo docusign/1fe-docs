@@ -2,12 +2,12 @@
 title: Import Maps
 description: Import Maps
 sidebar:
-  order: 3
+  order: 6
 ---
 
-import { FcDownload, FcMindMap } from 'react-icons/fc';
+import { FcDownload, FcMindMap } from "react-icons/fc";
 
-The 1FE runtime uses SystemJS in conjunction with import maps to dynamically load widgets and their dependencies. This allows for a more flexible and efficient way to manage dependencies in a micro-frontend architecture.
+The 1fe runtime uses SystemJS in conjunction with import maps to dynamically load widgets and their dependencies. This allows for a more flexible and efficient way to manage dependencies in a micro-frontend architecture.
 
 ### <FcDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What is SystemJS
 
@@ -27,7 +27,7 @@ The 1FE runtime uses SystemJS in conjunction with import maps to dynamically loa
   <script src="https://cdn.jsdelivr.net/npm/systemjs@6.10.0/dist/s.min.js"></script>
 
   <!-- Define the Import Map -->
-  <script type="importmap">
+  <script type="systemjs-importmap">
   {
     "imports": {
       "widget1": "https://cdn.skypack.dev/react",
@@ -47,6 +47,3 @@ The 1FE runtime uses SystemJS in conjunction with import maps to dynamically loa
 </body>
 </html>
 ```
-
-
-

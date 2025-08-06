@@ -1,23 +1,24 @@
 ---
-title: 1FE Server Reference
-description: 1FE Server Reference
+title: 1fe Server Reference
+description: 1fe Server Reference
 ---
 
 The 1fe/server package exposes a function `oneFEServer` that returns an express server instance. This reference page will list the configuration options available.
 
 ### Simple Usage Example
+
 ```tsx
-import oneFEServer from '@devhub/1fe-server';
+import oneFEServer from "@devhub/1fe-server";
 
 const app = oneFEServer({
-  mode: 'production',
-  environment: 'production',
-  orgName: 'My Organization',
+  mode: "production",
+  environment: "production",
+  orgName: "My Organization",
   configManagement: {
-    url: 'https://my-cdn.net/production/live-configuration.json',
-    refreshMs: 30 * 1000
+    url: "https://my-cdn.net/production/live-configuration.json",
+    refreshMs: 30 * 1000,
   },
-  shellBundleUrl: 'https://my-cdn.net/production/shell.js',
+  shellBundleUrl: "https://my-cdn.net/production/shell.js",
 });
 
 app.listen(3001, () => {
@@ -29,23 +30,24 @@ app.listen(3001, () => {
 
 **Type**: `'development' | 'preproduction' | 'production'`
 
-What type of environment is this? The 1FE runtime will use this information to determine certain behaviors, such as loading certain development tooling within the shell.
+What type of environment is this? The 1fe runtime will use this information to determine certain behaviors, such as loading certain development tooling within the shell.
 
 ### `environment`
 
-**Type**: string
+**Type**: `string`
 
 What is the name of your environment? This is used for certain capabilities such as fetching a widget's runtime configurations.
 
 ### `orgName`
 
-**Type**: string
+**Type**: `string`
 
 The name of your organization. This will be used as the default page title and for the `X-Powered-By` header.
 
 ### `configManagement`
 
 **Type**
+
 ```tsx
 type OneFEConfigManagement = {
   getDynamicConfigs?: () => Promise<OneFEDynamicConfigs>;
@@ -54,35 +56,34 @@ type OneFEConfigManagement = {
 };
 ```
 
-`**getDynamicConfigs**`: A function that returns a promise that resolves to your live configurations. This function will be called every time the server starts to hydrate the 1fe in memory cache. This will be called on an interval afterwards as defined by `refreshMs`. Use only one of this or `url` option.
-
-`**url**`: The URL to fetch the live configurations from. This should be used if `getDynamicConfigs` is not provided.
-
-`**refreshMs**`: The interval in milliseconds to refresh the live configurations.
+- `getDynamicConfigs`: A function that returns a promise that resolves to your live configurations. This function will be called every time the server starts to hydrate the 1fe in memory cache. This will be called on an interval afterwards as defined by `refreshMs`. Use only one of this or `url` option.
+- `url`: The URL to fetch the live configurations from. This should be used if `getDynamicConfigs` is not provided.
+- `refreshMs`: The interval in milliseconds to refresh the live configurations.
 
 ### `shellBundleUrl`
 
-**Type**: string
+**Type**: `string`
 
 The URL to fetch the shell bundle from. This should be a URL to the bundle that consumes 1fe/shell.
 
 ### `server`
 
 **Type**
+
 ```tsx
 type OneFEServer = {
-    bathtub?: boolean;
-    knownRoutes: string[];
+  playground?: boolean;
+  knownRoutes: string[];
 };
 ```
 
-`**bathtub**` (optional): Whether or not to enable the bathtub. Defaults to false.
-
-`**knownRoutes**`: An array of known routes that 1fe/server will use for plugin and 404 detection.
+- `playground` (optional): Whether or not to enable the playground. Defaults to false.
+- `knownRoutes`: An array of known routes that 1fe/server will use for plugin and 404 detection.
 
 ### `csp` (optional)
 
 **Type**
+
 ```tsx
 type CSPPerEnvironment = {
   scriptSrc?: string[];
@@ -106,14 +107,5 @@ type OneFECSP = {
 };
 ```
 
-`**csp.defaultCSP.enforced**` (optional): Content-Security-Policy to enforce in runtime.
-
-`**csp.defaultCSP.reportOnly**` (optional): report-only Content-Security-Policy.
-
-
-
-
-
-
-
-
+- `csp.defaultCSP.enforced` (optional): Content-Security-Policy to enforce in runtime.
+- `csp.defaultCSP.reportOnly` (optional): report-only Content-Security-Policy.

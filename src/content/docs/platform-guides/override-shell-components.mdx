@@ -1,11 +1,15 @@
 ---
-title: Overriding 1FE Shell Components
+title: Overriding 1fe Shell Components
 description: 'Need custom components for shell loader and error page?'
 ---
 
 The shell has two visual components that can be overridden if custom components are needed. Otherwise, the default components will be used.
 
-## `OneFEShellOptions.components.getLoader`
+## getLoader
+
+```ts
+OneFEShellOptions.components.getLoader
+```
 
 :::note
 The loader component is rendered when the shell is loading a widget.
@@ -24,17 +28,20 @@ renderOneFEShell({
 });
 ```
 
-## `OneFEShellOptions.components.getError`
+## getError
+
+```ts
+OneFEShellOptions.components.getError
+```
 
 :::note
 The error component is shown when:
 - The shell fails to load a widget
 - There is no plugin associated with the route
-- The 1FE error boundary is hit
+- The 1fe error boundary is hit
 :::
 
-**Types**
-
+### Types
 
 ```ts
 type OneFEErrorComponentProps = {
