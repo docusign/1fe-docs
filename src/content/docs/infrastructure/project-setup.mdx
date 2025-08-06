@@ -1,6 +1,6 @@
 ---
-title: Setting Up a Self-Contained CI/CD Pipeline
-description: This guide explains the philosophy behind self-contained CI/CD pipelines in 1FE.
+title: Setting Up CI/CD
+description: This guide explains the philosophy behind CI/CD pipelines in 1FE.
 sidebar:
   order: 2
 ---
@@ -25,9 +25,7 @@ import {
 
 **Audience:** Platform teams setting up production CI/CD infrastructure for their organization.
 
-This guide explains the philosophy of self-contained CI/CD and our implementation approach. We show how to take local development work and reliably deploy it to production environments using GitHub Actions as an example.
-
-**📋 Part of Infrastructure Setup:** See [Productionize Your 1FE Setup](/platform-guides/productionize/) for the complete production deployment checklist.
+This guide explains the philosophy of CI/CD and our implementation approach. We show how to take local development work and reliably deploy it to production environments using GitHub Actions as an example.
 
 </div>
 
@@ -41,53 +39,43 @@ This guide explains the philosophy of self-contained CI/CD and our implementatio
 
 ### <FcSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What You'll Need
 
-While this guide shows our specific implementation, you can adapt it to your needs. Here's what you'll typically need:
+:::caution[Prerequisites Required]
+**Before starting this CI/CD setup, you MUST have these infrastructure components already configured and operational.** This guide will show you how to tie everything together, but each component needs to be set up first.
+:::
 
-#### Essential Components & Our Implementation
+While this guide shows our specific implementation, **you can adapt it to your needs** using different tools and services. Here's what you'll typically need (see [Alternative Implementations](#alternative-implementations) for other platform options):
 
-• **Version Control:** To track code changes and enable collaboration (we use GitHub)
+#### Essential Components required before you can start building
 
-• **Build System:** Node.js for building and packaging (we use Node.js)
+• **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
 
-• **Deployment Target:** CDN or cloud storage for hosting (we use Akamai CDN)
+• **Hosting Service:** Where your 1FE application will run ([Azure Web App explained here](/infrastructure/hosting-setup/))
 
-• **Configuration Management:** Key-value stores for settings (we use Azure App Configuration)
+• **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/infrastructure/cdn-setup/))
 
-• **CI/CD Automation:** CI/CD platforms for automation (we use GitHub Actions)
+• **Configuration Management:** Key-value stores for live configuration settings ([Configuration Management explained here](/infrastructure/configuration-setup/))
+
+• **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
 
 </div>
 
-<div style={{ 
-  background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', 
-  color: 'white', 
-  padding: '1.5rem', 
-  borderRadius: '8px', 
-  marginBottom: '2rem'
-}}>
 
 ## <FcDeployment style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Setup Instructions
 
-</div>
+:::tip[Integration Focus]
+This guide assumes you've already set up the prerequisite infrastructure components listed above. **Our role here is to tie everything together** into a cohesive CI/CD pipeline that automatically deploys your widgets to the CDN, updates configuration management, and keeps your Azure Web App running smoothly.
+:::
 
 ## Our Suggested Approach
 
-:::tip[Quick Start with GitHub Actions]
+:::note[Quick Start with GitHub Actions]
 If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning or forking our complete CI/CD repository to get started quickly:
 
 **🚀 Clone or Fork:** [1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)
 
-**What you get:**
-- ✅ **Pre-built workflows** - Complete CI/CD pipelines ready to use
-- ✅ **Reusable actions** - Modular components for building, testing, and deploying
-- ✅ **Template files** - Standard workflow templates for widget repositories
-- ✅ **Proven patterns** - Battle-tested deployment strategies and configurations
+**What you get:** Pre-built workflows, reusable actions, template files, and proven patterns for CI/CD pipelines.
 
-**Benefits:**
-- 🎯 **Faster setup** - Skip manual workflow creation and use proven templates
-- 🔄 **Automatic updates** - Pull improvements and bug fixes from the central repository
-- 🛡️ **Consistent practices** - Use the same patterns across all your widget projects
-- 📚 **Complete examples** - Real working implementations you can study and modify
-:::
+**Benefits:** Faster setup, automatic updates from the central repository, consistent practices across widget projects, and access to complete examples for reference.
 
 ## 1. Repository Configuration
 
@@ -97,9 +85,7 @@ For a production setup, you need proper repository configuration to enable autom
 
 We use GitHub's secret management system to store sensitive credentials securely. All secrets are stored as repository secrets, never hardcoded in files.
 
-**What it does:** Securely stores deployment credentials, API tokens, and connection strings that workflows need to authenticate with external services. This ensures sensitive information is never exposed in code or commit history.
-
-:::note[Required Secrets for Our CI/CD Pipeline]
+:::danger[Required Secrets for Our CI/CD Pipeline]
 You need to configure these secrets in your repository to enable the CI/CD pipeline to deploy your widget:
 
 • **CDN Deployment Secret** (`AKAMAI_NS_SSH_PRIVATE_KEY`) - SSH private key for Akamai CDN deployment. This allows the pipeline to upload your built widget files to the content delivery network.
@@ -111,7 +97,7 @@ You need to configure these secrets in your repository to enable the CI/CD pipel
   - `NPM_TOKEN` - For publishing your widget package to the internal package registry
 :::
 
-**Steps to configure:**
+#### Steps to configure secrets
 
 1. Navigate to your repository **Settings** → **Secrets and variables** → **Actions**
 
@@ -332,7 +318,7 @@ The goal is to have a CI/CD system that moves with your code, is transparent to 
 
 ## Summary
 
-Our CI/CD setup provides a self-contained, automated deployment pipeline that moves with your code. Here's what we've covered:
+Our CI/CD setup provides an automated deployment pipeline that moves with your code. Here's what we've covered:
 
 ### What We've Set Up
 

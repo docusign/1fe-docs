@@ -1,6 +1,6 @@
 ---
 title: 'Hosting Service Setup'
-description: 'Deploy your 1FE application to production hosting services'
+description: 'Deploy your 1fe application to production hosting services'
 ---
 
 import {
@@ -23,9 +23,7 @@ import {
 
 **Audience:** Platform teams setting up production hosting infrastructure for their organization.
 
-Your 1FE application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally. This guide covers how to deploy your 1FE instance to production hosting services.
-
-**📋 Part of Infrastructure Setup:** See [Productionize Your 1FE Setup](/platform-guides/productionize/) for the complete production deployment checklist.
+Your 1fe application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally. This guide covers how to deploy your 1fe instance to production hosting services.
 
 </div>
 
@@ -33,7 +31,7 @@ Your 1FE application shell needs to be hosted on a reliable service that can han
 
 A hosting service provides:
 
-- **Application shell hosting** - Serves your main 1FE application
+- **Application shell hosting** - Serves your main 1fe application
 - **Static file serving** - HTML, CSS, JS files for your shell
 - **Global availability** - Ensures your app is accessible worldwide
 - **SSL/TLS termination** - Secure HTTPS connections
@@ -41,7 +39,7 @@ A hosting service provides:
 
 ### Azure Web App (Recommended for Enterprise)
 
-:::note[Why Azure Web App for 1FE]
+:::note[Why Azure Web App for 1fe]
 
 - ⚙️ **Platform-as-a-Service (PaaS) with built-in CI/CD integration**  
 - 🔗 **Seamless integration with Azure ecosystem and enterprise services**
@@ -144,7 +142,7 @@ This section details how to enable continuous deployment from a GitHub repositor
 
 **Official Documentation:** [Deploy to Azure App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)
 
-**Example Implementation:** [1FE Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
+**Example Implementation:** [1fe Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
 #### Step 4: Add and Configure a Custom Domain
 

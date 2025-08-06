@@ -1,6 +1,6 @@
 ---
 title: 'CDN Setup for Widget Bundles'
-description: 'Configure CDN hosting for your 1FE widget bundles and static assets'
+description: 'Configure CDN hosting for your 1fe widget bundles and static assets'
 ---
 
 import {
@@ -23,9 +23,7 @@ import {
 
 **Audience:** Platform teams setting up production CDN infrastructure for their organization.
 
-Your 1FE widgets need to be served from a fast, reliable CDN to ensure optimal performance for users worldwide. This guide covers how to set up and configure CDN services for hosting your widget bundles.
-
-**📋 Part of Infrastructure Setup:** See [Productionize Your 1FE Setup](/platform-guides/productionize/) for the complete production deployment checklist.
+Your 1fe widgets need to be served from a fast, reliable CDN to ensure optimal performance for users worldwide. This guide covers how to set up and configure CDN services for hosting your widget bundles.
 
 </div>
 
@@ -56,7 +54,7 @@ Your 1FE widgets need to be served from a fast, reliable CDN to ensure optimal p
 
 ### Why We Use Akamai
 
-**Benefits for 1FE:**
+**Benefits for 1fe:**
 - ⚡ **Enterprise-grade performance** - Global edge network with excellent performance
 - 🛡️ **Advanced security features** - DDoS protection, Web Application Firewall
 - 📊 **Real-time analytics** - Detailed performance and usage metrics
@@ -101,7 +99,7 @@ The first step is to create a new storage group. This is the foundation for your
    - Select **Create Storage Group** from the dropdown
 
 5. **Set Storage Group Name**
-   - **Storage Group Name**: Choose a unique and descriptive name (e.g., `1FE-Production`)
+   - **Storage Group Name**: Choose a unique and descriptive name (e.g., `1fe-Production`)
 
 6. **Select Contract**
    - **Contract**: Select your specific contract from the dropdown
@@ -362,7 +360,7 @@ Always use separate directories and credentials for different environments. This
 
 ## Additional Resources
 
-### 1FE Implementation Resources
+### 1fe Implementation Resources
 - **[1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)** - Complete CI/CD workflows and deployment automation
 - **[mock-cdn-assets Repository](https://github.com/docusign/mock-cdn-assets)** - Example asset structures and configurations
 
@@ -375,7 +373,7 @@ Always use separate directories and credentials for different environments. This
 ## Next Steps
 
 After setting up your CDN:
-1. [Set up Hosting Service for 1FE Instance](/infrastructure/hosting-setup/)
+1. [Set up Hosting Service for 1fe Instance](/infrastructure/hosting-setup/)
 2. [Configure Configuration Service](/infrastructure/configuration-setup/)
 3. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
 4. [Implement CI/CD Integration](/infrastructure/project-setup/) 
