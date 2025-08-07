@@ -31,6 +31,11 @@ export default defineConfig({
 			},
 			sidebar: sidebarConfig,
 			disable404Route: true,
+			redirects: {
+				'/getting-started/installation': '/start-here',
+				'/getting-started/local-development': '/tutorials/setup-and-deploy-1fe-poc/develop-locally',
+				'/getting-started/deploy-poc': '/tutorials/setup-and-deploy-1fe-poc/deploy-poc',
+			},
 			expressiveCode: {
 			  // You can optionally override the plugin's default settings here
 			  frames: {},

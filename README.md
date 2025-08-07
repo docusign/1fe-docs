@@ -64,9 +64,12 @@ Inside of this Astro documentation project, you'll see the following folders and
 ├── src/
 │   ├── content/
 │   │   ├── docs/           # Documentation content
-│   │   │   ├── getting-started/
-│   │   │   ├── main-concepts/
-│   │   │   ├── api-reference/
+│   │   │   ├── start-here/
+│   │   │   ├── tutorials/
+│   │   │   ├── learning/
+│   │   │   ├── how-to-guides/
+│   │   │   ├── infrastructure/
+│   │   │   ├── reference/
 │   │   │   └── ...
 │   │   └── config.ts       # Content collections config
 │   ├── components/         # Reusable Astro components
