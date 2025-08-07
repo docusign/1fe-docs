@@ -1,6 +1,6 @@
 ---
-title: Develop Locally
-description: Develop locally
+title: "Step 2: Develop Your First Widget"
+description: Learn the development workflow and build a custom widget
 sidebar:
   order: 2
 ---
@@ -11,8 +11,18 @@ import {
   SlCloudDownload,
   SlWrench,
   SlCloudUpload,
+  SlTarget,
 } from "react-icons/sl";
 import { FcOk } from "react-icons/fc";
+
+Great! You now have a working 1fe instance from Part 1. In this second part, you'll dive into the development experience by creating and customizing widgets. This is where you'll see the real power of 1fe's development workflow.
+
+## <SlTarget style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What You'll Learn
+
+- How to explore and test existing widgets
+- The widget development workflow and tooling
+- Platform utilities and how widgets integrate with the shell
+- Best practices for widget development in 1fe
 
 ## <SlSocialDropbox style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Explore the local 1fe instance
 
@@ -274,19 +284,31 @@ You need to update the CSP settings in the 1fe instance(`src/csp-configs.ts`) to
 
 You've successfully set up local development for your 1fe widgets! You can move on to the next section if you want to deploy your 1fe instance quickly to showcase it's benefits to your team. Or, you can use the below links to jump to different sections to learn more.
 
-### 🧠 **Learn the Core Concepts**
+## 🎯 What You've Accomplished
 
-- **[Live Configurations](../../main-concepts/live-configurations)** - Understand how 1fe dynamically loads widgets
-- **[Widgets vs Plugins](../../main-concepts/widgets)** - Learn the difference and when to use each
-- **[Platform Architecture](../../main-concepts/architecture)** - Deep dive into how 1fe works under the hood
+- ✅ **Explored the widget development workflow** using the playground
+- ✅ **Learned about platform utilities** and how widgets integrate with the shell
+- ✅ **Understood the development tools** and local development process
+- ✅ **Built hands-on experience** with widget creation and testing
 
-### 🔧 **Level Up Your Development**
+## 👉 Next Step
 
-- **[API Reference](../../api-reference/1fe-server-reference)** - Complete API documentation for building widgets
-- **[Externalizing Libraries](../../platform-guides/externalizing-libraries)** - Optimize bundle sizes and share dependencies
+Now that you understand how to develop widgets locally, it's time to take your proof of concept to production and show stakeholders a complete deployment.
 
-### 🚀 **Ready for Production?**
+**→ [Step 3: Deploy Your Proof of Concept](/tutorials/poc-tutorial/deploy-poc/)**
 
-- **[Productionize your setup](../../platform-guides/productionize)** - Take your app to production
+In the final step, you'll deploy your instance to a production environment and set up CI/CD pipelines to demonstrate the complete development-to-deployment workflow.
 
-Happy coding! 🚀
+---
+
+## 📚 Want to Learn More?
+
+### 🧠 **Core Concepts**
+
+- **[Live Configurations](/learning/live-configurations)** - How 1fe dynamically loads widgets
+- **[Widgets vs Plugins](/learning/widgets)** - Learn the difference and when to use each
+
+### 🔧 **Development Guides**
+
+- **[API Reference](/reference/1fe-server-reference)** - Complete technical documentation
+- **[Platform Utilities](/reference/platform-utilities/)** - Available utilities for widgets

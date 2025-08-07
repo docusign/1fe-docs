@@ -1,0 +1,90 @@
+---
+title: "Step 1: Create Your 1fe Instance"
+description: Set up a local 1fe instance and understand the core architecture
+sidebar:
+  order: 1
+---
+
+import { SlWrench, SlAnchor, SlCloudDownload, SlTarget } from "react-icons/sl";
+
+In this first part of our proof of concept tutorial, you'll set up a local 1fe instance from scratch. This will give you hands-on experience with the core architecture and help you understand how 1fe works at a fundamental level.
+
+## <SlTarget style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What You'll Learn
+
+- How to scaffold a new 1fe instance
+- The structure of a 1fe application
+- How the server and shell components work together
+- Local development workflow and tools
+
+## <SlAnchor style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Pre-requisites
+
+- Node.js 22.x.x+
+- Yarn 4.x.x+
+
+## <SlCloudDownload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Manual Installation
+
+<div className="prose">
+1. **Scaffold a starter application:**
+
+```bash
+npx @1fe/create-1fe-app <test-app-name>
+```
+
+2. **Clone the 1fe widget starter kit (WSK):**
+
+```bash
+git clone https://github.com/docusign/1fe-widget-starter-kit.git
+```
+
+3. **Set up both the repos:**
+
+First you need to build the 1fe monorepo and the starter kit.
+
+```bash
+cd <test-app-name> # adjust this to fit your directory structure
+yarn && yarn build
+```
+
+Then, you need to set up the starter kit.
+
+```bash
+cd 1fe-widget-starter-kit # adjust this to fit your directory structure
+yarn
+```
+
+4. **Run the starter app development server**
+
+```bash
+cd <test-app-name> # adjust this to fit your directory structure
+yarn dev
+```
+
+You can now visit your instance at [http://localhost:3000](http://localhost:3000). You will see this mirror our demo website [here](https://demo.1fe.com/). We will take a look later at how to customize this instance.
+
+5. **Run the development server for the WSK**
+
+```bash
+cd 1fe-widget-starter-kit/ # adjust this to fit your directory structure
+yarn dev
+```
+
+This will open WSK at the following [link](http://localhost:3001/playground?widgetUrl=http%3A%2F%2F127.0.0.1%3A8080%2Fjs%2F1fe-bundle.js).
+
+You now have a functioning 1fe instance running locally! 🎉
+
+## 🎯 What You've Accomplished
+
+- ✅ **Set up a complete 1fe development environment**
+- ✅ **Created your first 1fe instance** with server and shell components
+- ✅ **Understood the basic architecture** of how 1fe works
+- ✅ **Got hands-on experience** with the scaffolding and setup process
+
+## 👉 Next Step
+
+Now that you have a working 1fe instance, it's time to learn how to build widgets and understand the development workflow.
+
+**→ [Step 2: Develop Your First Widget](/tutorials/poc-tutorial/develop-locally/)**
+
+In the next step, you'll create a custom widget, learn about platform utilities, and see how widgets integrate with the 1fe ecosystem.
+
+</div>
