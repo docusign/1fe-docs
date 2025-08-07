@@ -1,0 +1,143 @@
+---
+title: 'Configuration Service Setup'
+description: 'Set up configuration management for your 1fe widgets and applications'
+---
+
+import {
+  FcSettings,
+  FcDatabase,
+  FcDeployment,
+  FcWorkflow,
+} from "react-icons/fc";
+import {
+  SiGooglecloud,
+  SiConsul,
+  SiRedis,
+} from "react-icons/si";
+import {
+  FaFileCode,
+  FaCog,
+  FaKey,
+  FaLock,
+  FaAws,
+  FaGoogle,
+  FaMicrosoft,
+} from "react-icons/fa";
+
+<div className="infrastructure-header">
+
+### <FcDatabase style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Configuration Service Overview
+
+**Audience:** Platform teams setting up production configuration management infrastructure for their organization.
+
+A configuration service is essential for managing 1fe widget data and environment-specific configurations. This guide covers how to set up Azure App Configuration as the foundation for automated widget data recording.
+
+</div>
+
+## Why You Need a Configuration Service
+
+We need to record and manage widget metadata and deployment records.
+
+Our CI/CD pipelines automatically record and manage:
+- 📋 **Widget metadata** - Version information, deployment status, change history
+- 📅 **Deployment records** - Timestamps, environment targets
+
+## <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Azure App Configuration Setup
+
+
+This guide shows how to set up Azure App Configuration, which is what we use for managing widget metadata and configuration data for 1fe applications. While you can choose any configuration management service that fits your needs, we'll focus on Azure App Configuration here. For alternatives, see the [Alternative Configuration Services](#alternative-configuration-services) section at the bottom of this guide.
+
+For a comprehensive overview of Azure App Configuration's capabilities and benefits, see the [Azure App Configuration overview](https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview).
+
+**Setup Instructions:**
+
+<section>
+
+1. **Access the Azure Portal**  
+   Open your web browser and go to the [Azure Portal](https://portal.azure.com/)  
+   Log in with your Azure account credentials.
+
+2. **Navigate to App Configuration**  
+   In the search bar at the very top of the portal, type **App Configuration**  
+   From the search results, select **App Configuration services**.
+
+3. **Create a New Resource**  
+   On the App Configuration services page, click the **+ Create** button (usually located at the top-left)  
+   This will open a form to configure your new App Configuration resource.
+
+4. **Configure Resource Settings**  
+   **Subscription**: Use the dropdown to select the Azure subscription you want to use  
+   **Resource group**: Select an existing one or click **Create new** and give it a name (e.g., `1fe-resources`)  
+   **Resource name**: Enter a unique name for your App Configuration instance (e.g., `1fe-config-yourname`)  
+   **Location**: Choose the geographic region where you want to host this service  
+   **Pricing tier**: Select **Standard** for most cases (recommended).
+
+5. **Review and Create**  
+   Click the **Review + create** button at the bottom of the form  
+   Azure will validate your settings  
+   After validation passes, click the **Create** button to start deployment.
+
+6. **Access Your Configuration Store**  
+   After deployment is complete, click **Go to resource**  
+   This takes you to the overview page for your new App Configuration resource.
+
+7. **Get Connection String**  
+   In your App Configuration resource, go to **Settings** > **Access keys**  
+   Copy the **Connection string** under either the **Read-write** or **Read-only** key  
+   Store this securely for use in your CI/CD pipelines.
+
+</section>
+
+### Using the Connection String in CI/CD
+
+**Environment Variable Configuration:**
+
+The connection string you copied in the last step needs to be configured as an environment variable named `AZURE_APP_CONFIG_CONNECTION_STRING` in your CI/CD pipeline. This enables automated widget metadata management during deployments.
+
+**For GitHub Actions:**
+Add this connection string as a repository secret. For detailed instructions on configuring this and other required secrets, see the [Secrets Management section](/infrastructure/project-setup/#11-secrets-management) in the CI/CD Pipeline setup guide.
+
+<section>
+
+### Automatic Configuration Management
+
+Widget configurations are automatically created by CI/CD pipelines during deployment. You do not need to manually add key-value pairs. The pipelines will:
+
+- 📝 **Create widget metadata entries** when widgets are deployed
+- 🔄 **Update version information and deployment status**
+- 📚 **Maintain historical records** of widget changes
+- 🏷️ **Manage environment-specific configurations** using labels
+
+To view your widget data, go to **Settings** > **Configuration explorer** after your first widget deployment.
+
+</section>
+
+:::tip[Automated Key Naming Convention]
+Our pipelines automatically use consistent naming patterns:
+- `integration:@1fe/playground` - Widget-specific settings (format: `environment:widget-name`)
+:::
+
+## Alternative Configuration Services
+
+While this guide focuses on Azure App Configuration, you can use other configuration management services for your 1fe applications:
+
+**Cloud Provider Services:**
+- <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure App Configuration**
+- <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure Key Vault**
+- <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS Systems Manager Parameter Store**
+- <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS AppConfig**
+- <SiGooglecloud style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Secret Manager**
+- <SiGooglecloud style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Runtime Config**
+
+**Third-Party Services:**
+- <FaLock style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **HashiCorp Vault**
+- <SiConsul style={{ display: 'inline', marginRight: '0.5rem', color: '#CA2171' }} /> **Consul**
+- <FaKey style={{ display: 'inline', marginRight: '0.5rem', color: '#419EDA' }} /> **etcd**
+- <SiRedis style={{ display: 'inline', marginRight: '0.5rem', color: '#DC382D' }} /> **Redis**
+
+## Next Steps
+
+After setting up configuration service:
+1. [Implement CI/CD Integration](/infrastructure/project-setup/)
+2. [Configure Widget Development Environment](/getting-started/local-development/)
+3. [Deploy Your First Widget](/getting-started/deploy-poc/) 

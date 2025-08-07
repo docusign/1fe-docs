@@ -1,0 +1,172 @@
+---
+title: 'NPM Registry Setup'
+description: 'Set up private NPM registry for 1fe widget packages and dependencies'
+---
+
+import {
+  FcPackage,
+  FcSettings,
+  FcDeployment,
+  FcLock,
+} from "react-icons/fc";
+import {
+  FaNpm,
+  FaGitAlt,
+  FaCogs,
+  FaRocket,
+  FaDownload,
+  FaUpload,
+  FaCode,
+  FaTag,
+} from "react-icons/fa";
+
+<div className="infrastructure-header">
+
+### <FcPackage style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> NPM Registry Overview
+
+**Audience:** Platform teams setting up production package management infrastructure for their organization.
+
+A private NPM registry is essential for managing 1fe widget packages, shared dependencies, and ensuring security for your organization's packages. This guide covers setting up and configuring private NPM registries.
+
+</div>
+
+## Why You Need a Private NPM Registry
+
+### Package Management Benefits
+- **Private packages** - Keep proprietary widget code secure and internal
+- **Dependency management** - Control and version shared dependencies
+
+#### 1fe Packages that are stored in the NPM registry
+
+**Core Infrastructure:**
+- **[`@1fe/cli`](https://www.npmjs.com/package/@1fe/cli)** - CLI tools for 1fe development and build infrastructure
+- **[`@1fe/server`](https://www.npmjs.com/package/@1fe/server)** - 1fe server runtime and hosting infrastructure
+- **[`@1fe/shell`](https://www.npmjs.com/package/@1fe/shell)** - Core application shell and runtime framework
+
+**Development Tools:**
+- **[`@1fe/create-1fe-app`](https://www.npmjs.com/package/@1fe/create-1fe-app)** - CLI tool to quickly scaffold a new 1fe instance
+- **[`@1fe/starter-app`](https://www.npmjs.com/package/@1fe/starter-app)** - Quickly bootstrap a new project with Vite Boilerplate
+
+**Configuration & Utilities:**
+- **[`@1fe/sample-widget-base-config`](https://www.npmjs.com/package/@1fe/sample-widget-base-config)** - A shared configuration package providing base settings and environment configurations for 1fe widgets. This package standardizes widget development configurations across the 1fe ecosystem
+
+## <FaNpm style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> NPM.org Organization Setup
+
+If you're using the public NPM registry with scoped packages, you'll need to create an organization to manage your private packages.  
+See the [official NPM documentation on organizations](https://docs.npmjs.com/organizations) for detailed instructions.
+
+**Step 1: Create the NPM Organization**
+
+The first step is to create the organization itself. You'll need to be logged into your NPM account to do this.
+
+**Setup Instructions:**
+
+<section>
+
+1. **Access NPM Website**  
+   Go to the NPM website: https://www.npmjs.com/  
+   Log in to your account if you haven't already.
+
+2. **Navigate to Organizations**  
+   Click on your profile picture or username in the top right corner  
+   Select **Organizations** from the dropdown menu.
+
+3. **Create Organization**  
+   On the Organizations page, click the **Create an Organization** button  
+   You'll be prompted to choose a plan - for private packages, you will need a paid plan.
+
+4. **Configure Organization**  
+   **Organization Name:** Choose a name for your organization (e.g., `@1fe`)  
+   **Email:** Enter an email address for the organization  
+   **Team Name:** Create a default team (e.g., "Developers")  
+   Follow the prompts to complete the payment and creation process.
+
+</section>
+
+**Step 2: Add Members to the Organization (Optional)**
+
+If you're working with a team, you'll need to invite them to the organization so they can publish and install packages. See the [official NPM documentation on adding members to your organization](https://docs.npmjs.com/adding-members-to-your-organization) for detailed instructions.
+
+**Setup Instructions:**
+
+<section>
+
+1. **Access Organization Dashboard**  
+   From your organization's dashboard, navigate to the **Members** or **Teams** tab.
+
+2. **Invite Members**  
+   Click the **Add Member** or **Invite Members** button  
+   Enter the NPM usernames or email addresses of the people you want to invite  
+   Assign them to a team and specify their role (e.g., read-only, write access)  
+   They will receive an email invitation to join the organization.
+
+</section>
+
+If all the steps above are completed, you can now publish packages to the NPM registry.
+
+## Automated Publishing
+
+Package publishing is handled automatically through our CI/CD pipeline. For the complete automation implementation, see the [CI/CD workflow](https://github.com/docusign/1fe/blob/main/.github/workflows/ci-cd.yml) in the 1fe repository.
+
+### <FaGitAlt style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#F05032' }} /> Changeset Workflow for Version Management
+
+**Creating Changesets:**
+
+1. **Navigate to the Package Directory**  
+   Go into the specific package you want to publish (e.g., `@1fe/shell`):
+   ```bash
+   cd packages/1fe-shell
+   ```
+   Example: https://github.com/docusign/1fe/tree/main/packages/1fe-shell
+
+2. **Run Changeset Command**  
+   Execute the changeset command to create a changeset markdown file:
+   ```bash
+   yarn changeset
+   ```
+   
+   **What the Command Does:**
+   - **Interactive prompts** ask you to select which packages have changed
+   - **Version bump selection** - choose patch, minor, or major for each package
+   - **Change description** - provide a summary of what changed
+   
+   **Files Produced:**
+   The command creates markdown files in the `.changeset/` directory:
+   ```
+   .changeset/
+   ├── config.json
+   └── random-name-here.md  # Generated changeset file
+   ```
+   
+   **Example Changeset File:**
+   ```markdown
+   ---
+   "@1fe/shell": patch
+   ---
+   
+   Fix widget loading issue in production environment
+   ```
+
+3. **<FaCogs style={{ display: 'inline', marginRight: '0.5rem', color: '#2E8B57' }} /> How CI/CD Processes Changesets**  
+   When you merge your branch, the CI/CD pipeline automatically:
+   
+   **<FaDownload style={{ display: 'inline', marginRight: '0.5rem', color: '#4169E1' }} /> During Merge:**
+   - **Builds the packages** with the updated versions
+   - **Publishes to NPM registry** using the organization scope
+   - **Deletes processed changeset files** to keep the repository clean
+   - **Commits version updates** back to the main branch
+   
+   **<FaRocket style={{ display: 'inline', marginRight: '0.5rem', color: '#FF6347' }} /> Publishing Process:**
+   - **Builds the packages** with the updated versions
+   - **Publishes to NPM registry** using the organization scope
+   - **Deletes processed changeset files** to keep the repository clean
+   - **Commits version updates** back to the main branch
+
+Once you've published a package, you can install it in your 1fe application by adding it to your `package.json` file.
+
+## Next Steps
+
+After setting up NPM registry:
+1. [Set up Configuration Service](/infrastructure/configuration-setup/)
+2. [Implement CI/CD Integration](/infrastructure/project-setup/)
+3. [Configure Widget Development Environment](/getting-started/local-development/) 

@@ -30,6 +30,7 @@ export default defineConfig({
 			  src: './src/assets/1fe-logo.svg',
 			},
 			sidebar: sidebarConfig,
+			disable404Route: true,
 			expressiveCode: {
 			  // You can optionally override the plugin's default settings here
 			  frames: {},
