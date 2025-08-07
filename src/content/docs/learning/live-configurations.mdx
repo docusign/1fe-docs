@@ -11,9 +11,176 @@ import { FcFlashOn } from "react-icons/fc";
 
 Live Configurations are a set of configurations that allows 1fe to provide dynamic features:
 
+<div class="prose">
+
 - **Build Time**: Dynamically build widgets and other build-time validations
 - **Development Tooling**: Enable runtime development tooling
 - **Externalize Dependencies**: Externalize dependencies
 - **Manage Dependency Versions**: Manage dependency versions
 - **Orchestrate Widget Versioning and Loading**: Orchestrate widget versioning and loading
 - **Configure Plugin Runtime Behaviors**: Configuring plugin runtime behaviors
+
+</div>
+
+## 🔧 Core Live Configurations in 1fe
+
+The 1fe platform relies on three primary live configurations that work together to enable dynamic micro-frontend management. These configurations allow platform teams to control widget deployment, library management, and runtime behavior without requiring code changes or redeployments.
+
+### 1. **widgetVersions** - Widget Deployment Control
+
+**Purpose**: Determines which widget bundle versions are live in each environment.
+
+**How it works**: The 1fe server polls this configuration to know which specific version of each widget to load and serve to users. This enables controlled rollouts, A/B testing, and instant rollbacks.
+
+<div class="prose">
+
+- **Environment-specific versioning**: Different environments can run different widget versions
+- **Zero-downtime deployments**: Update widget versions without server restarts
+- **Rollback capability**: Instantly revert to previous versions if issues arise
+- **Gradual rollouts**: Deploy to specific environments before full production release
+
+</div>
+
+**Configuration Example**:
+
+```json
+[
+  {
+    "widgetId": "@1fe/playground",
+    "version": "0.1.1"
+  },
+  {
+    "widgetId": "@1fe/sample-widget",
+    "version": "1.0.2"
+  }
+]
+```
+
+### 2. **libraryVersions** - Externalized Dependencies
+
+**Purpose**: Manages versions of externalized libraries that the 1fe shell provides to widgets at runtime.
+
+**How it works**: Instead of bundling common libraries (like React, Lodash) into every widget, 1fe externalizes them. The shell loads these libraries once and provides them to all widgets, reducing bundle sizes and improving performance.
+
+<div class="prose">
+
+- **Bundle size optimization**: Widgets don't include common dependencies
+- **Consistent library versions**: All widgets use the same library versions
+- **Performance improvement**: Libraries are loaded once and shared
+- **Memory efficiency**: Reduces duplicate library loading
+
+</div>
+
+**Configuration Example**:
+
+```json
+{
+  "externals": [
+    {
+      "id": "react",
+      "version": "18.2.0",
+      "name": "React"
+    },
+    {
+      "id": "lodash",
+      "version": "4.17.21",
+      "name": "lodash"
+    }
+  ]
+}
+```
+
+### 3. **dynamicConfigs** - Widget Runtime & Build Behavior
+
+**Purpose**: Provides comprehensive configurations that control both build-time optimizations and runtime behaviors for widgets and plugins throughout their lifecycle.
+
+**How it works**: This configuration serves dual purposes - it informs the 1fe/cli build process about widget settings and externalization requirements, while also providing runtime configurations that control how each plugin behaves when executed in the browser.
+
+<div class="prose">
+
+- **Build-time optimizations**: Informs 1fe/cli about widget configurations during the build process
+- **Runtime plugin behaviors**: Controls how each plugin behaves when loaded and executed
+- **Widget registration**: Defines which widgets are available in the platform
+- **Per-plugin runtime configs**: Individual configuration settings for each plugin's runtime behavior
+- **Environment-specific behaviors**: Different runtime behaviors for different environments
+
+</div>
+
+**Configuration Example**:
+
+```json
+{
+  "widgets": {
+    "configs": [
+      {
+        "widgetId": "@1fe/sample-widget",
+        "cdnBaseUrl": "https://cdn.example.com/widgets/",
+        "runtimeConfig": {
+          "apiBaseUrl": "https://api.example.com",
+          "enableFeatureFlags": true,
+          "theme": "light",
+          "debugMode": false
+        }
+      },
+      {
+        "widgetId": "@1fe/analytics-plugin",
+        "cdnBaseUrl": "https://cdn.example.com/widgets/",
+        "runtimeConfig": {
+          "trackingId": "UA-12345-1",
+          "sampleRate": 0.1,
+          "enableUserTracking": true
+        }
+      }
+    ]
+  },
+  "cdn": {
+    "libraries": {
+      "basePrefix": "https://cdn.example.com/libs/",
+      "managed": [
+        {
+          "id": "react",
+          "name": "React",
+          "version": "18.2.0",
+          "isPreloaded": true,
+          "path": "react.js",
+          "type": "external"
+        }
+      ]
+    }
+  }
+}
+```
+
+## ⚙️ Configuration Management Setup
+
+The 1fe server uses a `configManagement` option to define how these configurations are fetched and refreshed. See the [1fe Server Reference](/reference/1fe-server-reference/) for detailed `configManagement` options.
+
+**Example Setup**:
+
+```typescript
+export const configManagement: OneFEConfigManagement = {
+  widgetVersions: {
+    get: getWidgetVersions, // Custom function
+  },
+  libraryVersions: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/lib-versions.json`,
+  },
+  dynamicConfigs: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/live.json`,
+  },
+  refreshMs: 30 * 1000, // Refresh every 30 seconds
+};
+```
+
+## 🔄 How They Work Together
+
+<div class="prose">
+
+1. **Widget Discovery**: `dynamicConfigs` tells 1fe which widgets exist and their basic configuration
+2. **Version Resolution**: `widgetVersions` specifies which version of each widget to load
+3. **Dependency Management**: `libraryVersions` provides shared libraries that widgets depend on
+4. **Runtime Execution**: 1fe shell combines all three to load and execute widgets with the correct versions and dependencies
+
+</div>
+
+This coordinated approach enables 1fe to provide a dynamic, scalable micro-frontend platform where widgets can be deployed independently while maintaining consistency and performance across the entire application.

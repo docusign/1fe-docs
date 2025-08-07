@@ -51,16 +51,75 @@ The name of your organization. This will be used as the default page title and f
 **Type**
 
 ```tsx
+type EcosystemConfigs<T> = { url: string } | { get: () => Promise<T> };
+
 type OneFEConfigManagement = {
-  getDynamicConfigs?: () => Promise<OneFEDynamicConfigs>;
-  url?: string;
+  widgetVersions: EcosystemConfigs<WidgetVersion[]>;
+  libraryVersions: EcosystemConfigs<LibraryVersions>;
+  dynamicConfigs: EcosystemConfigs<OneFEDynamicConfigs>;
   refreshMs?: number;
 };
 ```
 
-- `getDynamicConfigs`: A function that returns a promise that resolves to your live configurations. This function will be called every time the server starts to hydrate the 1fe in memory cache. This will be called on an interval afterwards as defined by `refreshMs`. Use only one of this or `url` option.
-- `url`: The URL to fetch the live configurations from. This should be used if `getDynamicConfigs` is not provided.
-- `refreshMs`: The interval in milliseconds to refresh the live configurations.
+The `configManagement` object defines how 1fe fetches and manages the three core live configurations that power the platform's dynamic capabilities.
+
+#### Configuration Options
+
+- **`widgetVersions`**: Controls which widget bundle versions are live in each environment
+  - `url`: URL endpoint that returns widget version mappings
+  - `get`: Custom function that returns a Promise resolving to widget versions
+- **`libraryVersions`**: Manages externalized library versions provided by the shell
+
+  - `url`: URL endpoint that returns library version mappings
+  - `get`: Custom function that returns a Promise resolving to library versions
+
+- **`dynamicConfigs`**: Provides widget/plugin runtime behaviors, build-time configurations, and common settings
+
+  - `url`: URL endpoint that returns dynamic configuration object
+  - `get`: Custom function that returns a Promise resolving to dynamic configs
+
+- **`refreshMs`** (optional): The interval in milliseconds to refresh all live configurations. Defaults to 30 seconds.
+
+#### Configuration Examples
+
+**URL-based Configuration** (Recommended for production):
+
+```typescript
+export const configManagement: OneFEConfigManagement = {
+  widgetVersions: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/widget-versions.json`,
+  },
+  libraryVersions: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/lib-versions.json`,
+  },
+  dynamicConfigs: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/live.json`,
+  },
+  refreshMs: 30 * 1000, // 30 seconds
+};
+```
+
+**Function-based Configuration** (Useful for database integration):
+
+```typescript
+export const configManagement: OneFEConfigManagement = {
+  widgetVersions: {
+    get: async () => {
+      // Custom logic to fetch from database, Azure App Config, etc.
+      return await getWidgetVersionsFromDatabase();
+    },
+  },
+  libraryVersions: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/lib-versions.json`,
+  },
+  dynamicConfigs: {
+    url: `https://cdn.example.com/${ENVIRONMENT}/configs/live.json`,
+  },
+  refreshMs: 30 * 1000,
+};
+```
+
+See [Live Configurations](/learning/live-configurations/) for detailed information about what each configuration contains and how they work together.
 
 ### `shellBundleUrl`
 
