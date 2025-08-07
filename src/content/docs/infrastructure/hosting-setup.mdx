@@ -10,14 +10,7 @@ import {
   FcSupport,
 } from "react-icons/fc";
 
-<div style={{ 
-  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-  color: 'white', 
-  padding: '2rem', 
-  borderRadius: '12px', 
-  marginBottom: '2rem',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-}}>
+<div className="infrastructure-header">
 
 ### <FcGlobe style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Hosting Service Overview
 
@@ -37,39 +30,50 @@ A hosting service provides:
 - **SSL/TLS termination** - Secure HTTPS connections
 - **Load balancing** - Handle traffic spikes and ensure reliability
 
-### Azure Web App (Recommended for Enterprise)
+## Hosting Service Options
 
-:::note[Why Azure Web App for 1fe]
+### Azure Web App
 
-- ⚙️ **Platform-as-a-Service (PaaS) with built-in CI/CD integration**  
-- 🔗 **Seamless integration with Azure ecosystem and enterprise services**
-- 🛡️ **Built-in security, scalability, and monitoring features**
-- 🌐 **Support for custom domains and SSL certificates**
-- 🚀 **Continuous deployment from GitHub with automated workflows**
-:::
+**Who is this for?** This guide demonstrates setup with Azure Web App, but you can use any of the [other hosting providers](#other-hosting-providers) listed at the end of this page—such as AWS, Google Cloud, Vercel, Netlify, or traditional servers—based on your organization's needs.
 
-This comprehensive guide provides step-by-step instructions for creating and configuring an Azure Web App that allows replication of the 1fe-demo setup.
+This guide provides instructions for creating and configuring an Azure Web App for your 1fe application.
+
+
 
 #### Step 1: Introduction to Azure App Service
 
-Azure App Service is a Platform-as-a-Service (PaaS) for hosting web applications, REST APIs, and mobile backends. It supports various programming languages and provides built-in features like continuous deployment, security, and scalability. A key component of an App Service is the App Service Plan, which defines the underlying compute resources (CPU, memory, storage) for your app.
+Azure App Service is a Platform-as-a-Service (PaaS) for hosting web applications, REST APIs, and mobile backends. See the [official Azure App Service documentation](https://docs.microsoft.com/en-us/azure/app-service/) for a comprehensive overview.
 
-**Official Documentation:** [Azure App Service Documentation](https://docs.microsoft.com/en-us/azure/app-service/)
+**Official Documentation:** 
+- [Create a Node.js web app in Azure](https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs)
+- [Azure App Service pricing](https://azure.microsoft.com/en-us/pricing/details/app-service/)
 
 #### Step 2: Create a New Web App
 
-The first step is to create the core Web App resource.
+To begin, follow the official Azure documentation to create a new Web App: [Quickstart: Create a Node.js web app in Azure](https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs).
+
+Use the following template configuration values to match the recommended setup for your 1fe application:
+
+
+**Template Configuration Values:**
+
+| Setting | Example Value | Description |
+|---------|---------------|-------------|
+| **Subscription** | Choose from dropdown | Select your Azure subscription |
+| **Resource Group** | `1fe-demo-rg` | Logical container for resources |
+| **Web App Name** | `1fe-demo` | Globally unique name |
+| **Publish** | `Code` | Publishing method |
+| **Runtime Stack** | `Node 22-LTS` | Node.js runtime version |
+| **Operating System** | `Linux` | Recommended for Node.js |
+| **Region** | `Central US` | Choose region close to users |
 
 **Setup Instructions:**
 
-<div className="prose">
-1. **Log in to the Azure Portal**
-   - Navigate to [Azure Portal](https://portal.azure.com/)
+1. **Go to the Azure Portal:**  
+   [https://portal.azure.com/](https://portal.azure.com/)
 
-2. **Create a New Web App Resource**
-   - From the home page, click **+ Create a resource**
-   - Search for "Web App"
-   - Click **Create**
+2. **Create a new resource:**  
+   Click **+ Create a resource** on the home page.
 
 3. **Select Your Subscription**
    - Choose your Azure subscription from the dropdown
@@ -98,59 +102,59 @@ The name you choose will be part of the default URL (e.g., `1fe-demo.azurewebsit
 
 10. **Proceed to Deployment Configuration**
     - Click **Next: Deployment** to continue
-</div>
 
 #### Step 3: Configure Deployment from GitHub
 
-This section details how to enable continuous deployment from a GitHub repository, so that every time you push a change, your web app is automatically updated.
+To enable continuous deployment from a GitHub repository, follow the steps in the [official Azure documentation](https://learn.microsoft.com/en-us/azure/app-service/deploy-continuous-deployment) for connecting your web app to GitHub. This ensures your app is automatically updated with every push.
+
+
 
 **Setup Instructions:**
+<section>
 
-<div className="prose">
-1. **Navigate to Deployment Tab**
-   - On the **Deployment** tab during Web App creation (or by navigating to Deployment Center for an existing app)
+1. **Navigate to Deployment Tab**  
+   On the **Deployment** tab during Web App creation (or by navigating to Deployment Center for an existing app)
 
-2. **Enable Continuous Deployment**
-   - Set **Continuous deployment** to `Enable`
+2. **Enable Continuous Deployment**  
+   Set **Continuous deployment** to `Enable`
 
-3. **Select GitHub as Source**
-   - **Source**: Select `GitHub`
+3. **Select GitHub as Source**  
+   **Source**: Select `GitHub`
 
-4. **Authorize Azure to Access GitHub**
-   - You may need to authorize Azure to access your GitHub account
-   - Follow the prompts to sign in to GitHub
+4. **Authorize Azure to Access GitHub**  
+   You may need to authorize Azure to access your GitHub account  
+   Follow the prompts to sign in to GitHub
 
-5. **Grant Necessary Permissions**
-   - Grant the necessary permissions when prompted
+5. **Grant Necessary Permissions**  
+   Grant the necessary permissions when prompted
 
-6. **Select Your GitHub Organization**
-   - **Organization**: Select your GitHub organization from the dropdown
+6. **Select Your GitHub Organization**  
+   **Organization**: Select your GitHub organization from the dropdown
 
-7. **Choose Your Repository**
-   - **Repository**: Select the repository containing your application code
+7. **Choose Your Repository**  
+   **Repository**: Select the repository containing your application code
 
-8. **Select Deployment Branch**
-   - **Branch**: Select the branch you want to deploy from (e.g., `main` or `production`)
+8. **Select Deployment Branch**  
+   **Branch**: Select the branch you want to deploy from (e.g., `main` or `production`)
 
-9. **Review and Create Web App**
-   - Click **Review + create** to review all settings
+9. **Review and Create Web App**  
+   Click **Review + create** to review all settings
 
-10. **Complete Web App Creation**
-    - Click **Create** to create the Web App
-    - Azure will automatically generate a GitHub Actions workflow file in your repository to handle deployments
-</div>
+10. **Complete Web App Creation**  
+    Click **Create** to create the Web App  
+    Azure will automatically generate a GitHub Actions workflow file in your repository to handle deployments
 
-**Official Documentation:** [Deploy to Azure App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)
+</section>
 
 **Example Implementation:** [1fe Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
 #### Step 4: Add and Configure a Custom Domain
 
-Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you will likely want to use a custom domain.
+Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you will likely want to use a custom domain. Refer to **Official Documentation:** [Set up an existing custom domain name for your app](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain)
+
 
 **Setup Instructions:**
 
-<div className="prose">
 1. **Navigate to Your Web App Resource**
    - In the Azure Portal, navigate to your Web App resource
 
@@ -178,99 +182,75 @@ Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you 
 
 9. **Complete Domain Addition**
    - After validation is successful, click **Add custom domain**
-</div>
 
 :::note[App Service Plan Requirement]
 Your App Service plan must be a paid tier (e.g., Basic, Standard, Premium) to add a custom domain. The Free (F1) and Shared (D1) tiers do not support custom domains.
 :::
 
-**Official Documentation:** [Set up an existing custom domain name for your app](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain)
 
 #### Step 5: Configure Environment Variables
 
-Environment variables (known as "Application settings" in Azure) are a secure way to manage configuration values, such as API keys or database connection strings, without hard-coding them into your application.
+Environment variables (known as "Application settings" in Azure) are a secure way to manage configuration values, such as API keys or database connection strings, without hard-coding them into your application. **Official Documentation:** [Configure an App Service App - Environment variables](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings)
+
+**Required Environment Variables for 1FE Starter App in Azure Web App:**
+   
+   | Environment Variable Name | Example Value | Purpose & Meaning |
+   |------|---------------|-------------------|
+   | `APPLICATIONINSIGHTS_CONNECTION_STRING` | `InstrumentationKey=12345678-1234-5678-9abc-123456789012;IngestionEndpoint=https://...` | **Application Insights**: Connection string for telemetry and performance monitoring in Azure |
+   | `ApplicationInsightsAgent_EXTENSION_VERSION` | `~3` | **App Service Extension**: Version of Application Insights agent extension for automatic telemetry collection |
+   | `AZURE_APPCONFIG_CONNECTION_STRING` | `Endpoint=https://yourconfig.azconfig.io;Id=...;Secret=...` | **Configuration Service**: Connection string to Azure App Configuration for dynamic widget settings |
+   | `BUILD_NUMBER` | `20241201.1` | **Deployment Tracking**: Build identifier for tracking which version is deployed, typically set by CI/CD pipeline |
+   | `GITHUB_RUN_ID` | `123456789` | **CI/CD Tracking**: GitHub Actions run identifier for deployment traceability and debugging |
+   | `NODE_ENV` | `production` | **Runtime Environment**: Tells Node.js to run in production mode, enabling performance optimizations |
+   | `XDT_MicrosoftApplicationInsights_Mode` | `Recommended` | **Application Insights**: Configures the monitoring level for Azure Application Insights integration |
+
 
 **Setup Instructions:**
 
-<div className="prose">
-1. **Navigate to Your Web App Resource**
-   - In the Azure Portal, navigate to your Web App resource
+<section>
 
-2. **Access Configuration Section**
-   - In the left-hand menu, select **Configuration**
+1. **Navigate to Your Web App Resource**  
+   In the Azure Portal, navigate to your Web App resource.
 
-3. **Open Application Settings Tab**
-   - On the **Application settings** tab, click **+ New application setting**
+2. **Access Configuration Section**  
+   In the left-hand menu, select **Configuration**.
 
-4. **Enter Variable Name**
-   - Enter the **Name** for your environment variable
+3. **Open Application Settings Tab**  
+   On the **Application settings** tab, click **+ New application setting**.
 
-5. **Enter Variable Value**
-   - Enter the **Value** for your environment variable
+4. **Enter Variable Name and Value**  
+   
+   
+5. **Confirm Variable Addition**  
+   Click **OK** to confirm the new setting.
 
-6. **Confirm Variable Addition**
-   - Click **OK** to confirm the new setting
+6. **Save Configuration Changes**  
+   Click **Save** at the top of the page.
 
-7. **Save Configuration Changes**
-   - Click **Save** at the top of the page
+7. **Wait for App Restart**  
+   The app will restart automatically to apply the new settings.
 
-8. **Wait for App Restart**
-   - The app will restart automatically to apply the new settings
-
-9. **Handle Nested JSON Configuration (If Needed)**
-   - For nested JSON keys (e.g., `Logging:LogLevel:Default`)
-   - Replace the colons (`:`) with double underscores (`__`) in the name
-   - Example: `Logging__LogLevel__Default`
-</div>
+</section>
 
 :::caution[App Restart Required]
 The app will restart automatically when you save new application settings. Plan configuration changes during appropriate maintenance windows.
 :::
 
-**Official Documentation:** [Configure an App Service App - Environment variables](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings)
+### Other Hosting Providers
 
-## Environment Configuration
+:::note[Coming Soon]
+If you are using a different hosting provider, you can follow the same steps to configure your environment variables.
 
-### Multiple Environments Setup
+Here are some other hosting providers you can consider:
 
-:::tip[Environment Configuration]
-**Integration Environment:**
-- 🔧 **Use branch-based deployments** (e.g., `integration` branch)
-- 🌐 **Connect to integration CDN endpoints**
-- ⚙️ **Point to integration configuration service**
-- 🐛 **Enable debug mode and verbose logging**
-- ✅ **Run automated tests and validation**
+- **AWS (Amazon Web Services)** - EC2, Elastic Beanstalk, and Lambda deployment guides
+- **Google Cloud Platform** - App Engine and Compute Engine setup  
+- **Vercel** - Serverless deployment for 1fe applications
+- **Netlify** - Static site hosting with CI/CD integration
+- **Traditional VPS/Dedicated Servers** - Self-hosted deployment options
 
-**Production Environment:**
-- 🚀 **Deploy from `main`/`master` branch or release tags**
-- 🌍 **Use production CDN and configuration services**
-- 🛡️ **Implement deployment approval workflows**
-- 📊 **Enable comprehensive monitoring and alerting**
-- 🔒 **Enforce strict security policies**
+Check back soon for detailed setup guides for these platforms.
 :::
-
-:::note[Environment Isolation]
-Always use separate hosting instances and environment variables for different environments. This prevents accidental deployments and maintains proper isolation.
-:::
-
-## Security Considerations
-
-### HTTPS Configuration
-
-**SSL/TLS Requirements:**
-- 🔒 **Always use HTTPS in production environments**
-- 🛡️ **Configure HSTS (HTTP Strict Transport Security) headers**
-- 🍪 **Use secure cookie settings for any authentication**
-- 📝 **Implement proper CSP (Content Security Policy) headers**
-
-**Security Headers:**
-```
-Content-Security-Policy: default-src 'self' https://your-cdn.com
-Strict-Transport-Security: max-age=31536000; includeSubDomains
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-```
 
 ## Next Steps
 
@@ -279,3 +259,4 @@ After setting up hosting:
 2. [Set up Configuration Service](/infrastructure/configuration-setup/)
 3. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
 4. [Set up CI/CD Pipeline](/infrastructure/project-setup/)
+

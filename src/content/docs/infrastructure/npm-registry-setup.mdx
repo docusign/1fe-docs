@@ -10,14 +10,7 @@ import {
   FcLock,
 } from "react-icons/fc";
 
-<div style={{ 
-  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-  color: 'white', 
-  padding: '2rem', 
-  borderRadius: '12px', 
-  marginBottom: '2rem',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-}}>
+<div className="infrastructure-header">
 
 ### <FcPackage style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> NPM Registry Overview
 
@@ -65,44 +58,48 @@ If you're using the public NPM registry with scoped packages, you'll need to cre
 
 The first step is to create the organization itself. You'll need to be logged into your NPM account to do this.
 
-<div className="prose">
+**Setup Instructions:**
 
-1. **Access NPM Website**
-   - Go to the NPM website: https://www.npmjs.com/
-   - Log in to your account if you haven't already
+<section>
 
-2. **Navigate to Organizations** 
-   - Click on your profile picture or username in the top right corner
-   - Select **Organizations** from the dropdown menu
+1. **Access NPM Website**  
+   Go to the NPM website: https://www.npmjs.com/  
+   Log in to your account if you haven't already.
 
-3. **Create Organization**
-   - On the Organizations page, click the **Create an Organization** button
-   - You'll be prompted to choose a plan - for private packages, you will need a paid plan
+2. **Navigate to Organizations**  
+   Click on your profile picture or username in the top right corner  
+   Select **Organizations** from the dropdown menu.
 
-4. **Configure Organization**
-   - **Organization Name:** Choose a name for your organization (e.g., `@1fe`)
-   - **Email:** Enter an email address for the organization  
-   - **Team Name:** Create a default team (e.g., "Developers")
-   - Follow the prompts to complete the payment and creation process
+3. **Create Organization**  
+   On the Organizations page, click the **Create an Organization** button  
+   You'll be prompted to choose a plan - for private packages, you will need a paid plan.
 
-</div>
+4. **Configure Organization**  
+   **Organization Name:** Choose a name for your organization (e.g., `@1fe`)  
+   **Email:** Enter an email address for the organization  
+   **Team Name:** Create a default team (e.g., "Developers")  
+   Follow the prompts to complete the payment and creation process.
+
+</section>
 
 **Step 2: Add Members to the Organization (Optional)**
 
 If you're working with a team, you'll need to invite them to the organization so they can publish and install packages.
 
-<div className="prose">
+**Setup Instructions:**
 
-1. **Access Organization Dashboard**
-   - From your organization's dashboard, navigate to the **Members** or **Teams** tab
+<section>
 
-2. **Invite Members**
-   - Click the **Add Member** or **Invite Members** button
-   - Enter the NPM usernames or email addresses of the people you want to invite
-   - Assign them to a team and specify their role (e.g., read-only, write access)
-   - They will receive an email invitation to join the organization
+1. **Access Organization Dashboard**  
+   From your organization's dashboard, navigate to the **Members** or **Teams** tab.
 
-</div>
+2. **Invite Members**  
+   Click the **Add Member** or **Invite Members** button  
+   Enter the NPM usernames or email addresses of the people you want to invite  
+   Assign them to a team and specify their role (e.g., read-only, write access)  
+   They will receive an email invitation to join the organization.
+
+</section>
 
 :::note[Automated Publishing]
 Package publishing is automated through our CI/CD pipeline. See the CI/CD workflows for complete automation setup:

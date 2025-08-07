@@ -1,8 +1,8 @@
 ---
-title: Setting Up CI/CD
-description: This guide explains the philosophy behind CI/CD pipelines in 1FE.
+title: CI/CD Pipeline Connection
+description: Connect your hosting, configuration, and deployment services with automated CI/CD pipelines for 1fe.
 sidebar:
-  order: 2
+  order: 4
 ---
 
 import {
@@ -12,30 +12,17 @@ import {
   FcWorkflow,
 } from "react-icons/fc";
 
-<div style={{ 
-  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-  color: 'white', 
-  padding: '2rem', 
-  borderRadius: '12px', 
-  marginBottom: '2rem',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-}}>
+<div className="infrastructure-header">
 
-### <FcEngineering style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> CI/CD Pipeline Overview
+### <FcEngineering style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> CI/CD Pipeline Connection
 
-**Audience:** Platform teams setting up production CI/CD infrastructure for their organization.
+**Audience:** Platform teams ready to connect their hosting, configuration, and deployment services with automated pipelines.
 
-This guide explains the philosophy of CI/CD and our implementation approach. We show how to take local development work and reliably deploy it to production environments using GitHub Actions as an example.
+This guide shows how to tie together your hosting service, configuration management, and CDN deployment into a cohesive CI/CD pipeline using GitHub Actions. This assumes you have already set up the individual infrastructure components.
 
 </div>
 
-<div style={{ 
-  background: '#f8f9fa', 
-  padding: '1.5rem', 
-  borderRadius: '8px', 
-  border: '1px solid #e9ecef',
-  marginBottom: '2rem'
-}}>
+<div className="infrastructure-section">
 
 ### <FcSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What You'll Need
 
@@ -49,7 +36,7 @@ While this guide shows our specific implementation, **you can adapt it to your n
 
 • **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
 
-• **Hosting Service:** Where your 1FE application will run ([Azure Web App explained here](/infrastructure/hosting-setup/))
+• **Hosting Service:** Where your 1fe application will run ([Azure Web App explained here](/infrastructure/hosting-setup/))
 
 • **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/infrastructure/cdn-setup/))
 
@@ -63,7 +50,12 @@ While this guide shows our specific implementation, **you can adapt it to your n
 ## <FcDeployment style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Setup Instructions
 
 :::tip[Integration Focus]
-This guide assumes you've already set up the prerequisite infrastructure components listed above. **Our role here is to tie everything together** into a cohesive CI/CD pipeline that automatically deploys your widgets to the CDN, updates configuration management, and keeps your Azure Web App running smoothly.
+This guide assumes you've already completed the setup for each infrastructure component listed above. **Our role here is to connect everything together** into a cohesive automated pipeline that:
+
+- 🚀 **Deploys widget bundles** to your CDN automatically
+- ⚙️ **Updates configuration management** with new widget versions
+- 🔄 **Keeps your hosting service** running smoothly with zero downtime
+- 🧪 **Manages multiple environments** with proper approval workflows
 :::
 
 ## Our Suggested Approach
@@ -93,7 +85,7 @@ You need to configure these secrets in your repository to enable the CI/CD pipel
 • **Configuration Service Secret** (`AZURE_APP_CONFIG_CONNECTION_STRING`) - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
 
 • **Package Registry Secrets** - Authentication tokens for the internal NPM registry:
-  - `NPM_TOKEN_READONLY_1FE` - For reading packages from the registry
+  - `NPM_TOKEN_READONLY_1fe` - For reading packages from the registry
   - `NPM_TOKEN` - For publishing your widget package to the internal package registry
 :::
 
@@ -127,7 +119,7 @@ We configure two environments for every widget repository:
 - **Production Environment** - For live user-facing deployments with approval requirements
 :::
 
-**What it does:** Creates separate deployment environments with different approval rules. Integration environments allow automated deployments for testing, while production environments require manual approval to ensure oversight and control over production releases.
+**What it does:** Creates separate deployment environments with different approval rules for all environments. Some environments allow automated deployments for testing, while others require manual approval to ensure oversight and control.
 
 **Setting up approval groups:**
 
@@ -219,7 +211,7 @@ Our workflow files are present in the widget repository and work as follows:
 
   • No manual intervention needed for normal releases. Deployment to integration is automated.
 
-**Example Implementation:** [1FE Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
+**Example Implementation:** [1fe Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
 ### 3.2 Manual Rollbacks
 
@@ -233,7 +225,7 @@ Our workflow files are present in the widget repository and work as follows:
 
 4. Enter the target version we want to rollback to
 
-5. Select the environment (integration/production)
+5. Select the target environment
 
 6. Click **"Run workflow"**
 

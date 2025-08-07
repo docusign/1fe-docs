@@ -10,20 +10,13 @@ import {
   FcWorkflow,
 } from "react-icons/fc";
 
-<div style={{ 
-  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-  color: 'white', 
-  padding: '2rem', 
-  borderRadius: '12px', 
-  marginBottom: '2rem',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-}}>
+<div className="infrastructure-header">
 
 ### <FcDatabase style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Configuration Service Overview
 
 **Audience:** Platform teams setting up production configuration management infrastructure for their organization.
 
-A configuration service is essential for managing 1fe widget settings, feature flags, and environment-specific configurations. This guide covers how to set up Azure App Configuration as the foundation for automated widget data recording.
+A configuration service is essential for managing 1fe widget settings and environment-specific configurations. This guide covers how to set up Azure App Configuration as the foundation for automated widget data recording.
 
 </div>
 
@@ -31,9 +24,8 @@ A configuration service is essential for managing 1fe widget settings, feature f
 
 ### Configuration Management Benefits
 - ⚡ **Live configuration updates** - Change widget behavior without redeployment
-- 🏗️ **Environment separation** - Different settings for integration and production
-- 🎛️ **Feature flags** - Enable/disable features dynamically across widgets
-- 🧪 **A/B testing** - Configure different experiences for user segments
+- 🏗️ **Environment separation** - Different settings for all environments
+- 🎛️ **Dynamic configuration** - Change widget behavior without redeployment
 - ↩️ **Rollback capability** - Quickly revert configuration changes
 
 ### What Gets Automatically Stored
@@ -41,8 +33,8 @@ Our CI/CD pipelines automatically record and manage:
 - 📋 **Widget metadata** - Version information, deployment status, change history
 - 📅 **Deployment records** - Timestamps, environment targets, build artifacts
 - ⚙️ **Runtime settings** - API endpoints, feature toggles, UI configurations
-- 🌍 **Environment configurations** - Integration and production-specific settings
-- 🚩 **Feature flags** - Dynamic feature enabling/disabling status
+- 🌍 **Environment configurations** - Environment-specific settings for all environments
+- ⚙️ **Dynamic settings** - Live configuration changes and runtime toggles
 
 ## Azure App Configuration Setup
 
@@ -58,40 +50,42 @@ This guide will walk you through creating a new Azure App Configuration resource
 
 **Setup Instructions:**
 
-<div className="prose">
-1. **Access the Azure Portal**
-   - Open your web browser and go to the [Azure Portal](https://portal.azure.com/)
-   - Log in with your Azure account credentials
+<section>
 
-2. **Navigate to App Configuration**
-   - In the search bar at the very top of the portal, type **App Configuration**
-   - From the search results, select **App Configuration services**
+1. **Access the Azure Portal**  
+   Open your web browser and go to the [Azure Portal](https://portal.azure.com/)  
+   Log in with your Azure account credentials.
 
-3. **Create a New Resource**
-   - On the App Configuration services page, click the **+ Create** button (usually located at the top-left)
-   - This will open a form to configure your new App Configuration resource
+2. **Navigate to App Configuration**  
+   In the search bar at the very top of the portal, type **App Configuration**  
+   From the search results, select **App Configuration services**.
 
-4. **Configure Resource Settings**
-   - **Subscription**: Use the dropdown to select the Azure subscription you want to use
-   - **Resource group**: Select an existing one or click **Create new** and give it a name (e.g., `1fe-resources`)
-   - **Resource name**: Enter a unique name for your App Configuration instance (e.g., `1fe-config-yourname`)
-   - **Location**: Choose the geographic region where you want to host this service
-   - **Pricing tier**: Select **Standard** for most cases (recommended)
+3. **Create a New Resource**  
+   On the App Configuration services page, click the **+ Create** button (usually located at the top-left)  
+   This will open a form to configure your new App Configuration resource.
 
-5. **Review and Create**
-   - Click the **Review + create** button at the bottom of the form
-   - Azure will validate your settings
-   - After validation passes, click the **Create** button to start deployment
+4. **Configure Resource Settings**  
+   **Subscription**: Use the dropdown to select the Azure subscription you want to use  
+   **Resource group**: Select an existing one or click **Create new** and give it a name (e.g., `1fe-resources`)  
+   **Resource name**: Enter a unique name for your App Configuration instance (e.g., `1fe-config-yourname`)  
+   **Location**: Choose the geographic region where you want to host this service  
+   **Pricing tier**: Select **Standard** for most cases (recommended).
 
-6. **Access Your Configuration Store**
-   - After deployment is complete, click **Go to resource**
-   - This takes you to the overview page for your new App Configuration resource
+5. **Review and Create**  
+   Click the **Review + create** button at the bottom of the form  
+   Azure will validate your settings  
+   After validation passes, click the **Create** button to start deployment.
 
-7. **Get Connection String**
-   - In your App Configuration resource, go to **Settings** > **Access keys**
-   - Copy the **Connection string** under either the **Read-write** or **Read-only** key
-   - Store this securely for use in your CI/CD pipelines
-</div>
+6. **Access Your Configuration Store**  
+   After deployment is complete, click **Go to resource**  
+   This takes you to the overview page for your new App Configuration resource.
+
+7. **Get Connection String**  
+   In your App Configuration resource, go to **Settings** > **Access keys**  
+   Copy the **Connection string** under either the **Read-write** or **Read-only** key  
+   Store this securely for use in your CI/CD pipelines.
+
+</section>
 
 :::note[Automatic Configuration Management]
 **Widget configurations are automatically created by CI/CD pipelines** during deployment. You don't need to manually add key-value pairs. The pipelines will:
