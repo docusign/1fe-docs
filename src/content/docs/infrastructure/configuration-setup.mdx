@@ -16,37 +16,22 @@ import {
 
 **Audience:** Platform teams setting up production configuration management infrastructure for their organization.
 
-A configuration service is essential for managing 1fe widget settings and environment-specific configurations. This guide covers how to set up Azure App Configuration as the foundation for automated widget data recording.
+A configuration service is essential for managing 1fe widget data and environment-specific configurations. This guide covers how to set up Azure App Configuration as the foundation for automated widget data recording.
 
 </div>
 
 ## Why You Need a Configuration Service
 
-### Configuration Management Benefits
-- ⚡ **Live configuration updates** - Change widget behavior without redeployment
-- 🏗️ **Environment separation** - Different settings for all environments
-- 🎛️ **Dynamic configuration** - Change widget behavior without redeployment
-- ↩️ **Rollback capability** - Quickly revert configuration changes
+We need to record and manage widget metadata and deployment records.
 
-### What Gets Automatically Stored
 Our CI/CD pipelines automatically record and manage:
 - 📋 **Widget metadata** - Version information, deployment status, change history
-- 📅 **Deployment records** - Timestamps, environment targets, build artifacts
-- ⚙️ **Runtime settings** - API endpoints, feature toggles, UI configurations
-- 🌍 **Environment configurations** - Environment-specific settings for all environments
-- ⚙️ **Dynamic settings** - Live configuration changes and runtime toggles
+- 📅 **Deployment records** - Timestamps, environment targets
 
 ## Azure App Configuration Setup
 
-### Why We Use Azure App Configuration
 
-**Benefits for 1fe:**
-- 📝 **Configuration versioning** - Track changes over time with labels
-- ⚡ **Real-time updates** - Push configuration changes to applications
-
-### Azure App Configuration Setup Instructions
-
-This guide will walk you through creating a new Azure App Configuration resource and adding key-value pairs to it using the Azure Portal.
+This guide introduces Azure App Configuration, a centralized service for managing feature flags, settings, and configuration data for your 1fe widgets and applications. For a comprehensive overview of its capabilities and benefits, see the [Azure App Configuration overview](https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview).
 
 **Setup Instructions:**
 
@@ -87,8 +72,20 @@ This guide will walk you through creating a new Azure App Configuration resource
 
 </section>
 
-:::note[Automatic Configuration Management]
-**Widget configurations are automatically created by CI/CD pipelines** during deployment. You don't need to manually add key-value pairs. The pipelines will:
+### Using the Connection String in CI/CD
+
+**Environment Variable Configuration:**
+
+The connection string you copied in step 7 needs to be configured as an environment variable named `AZURE_APP_CONFIG_CONNECTION_STRING` in your CI/CD pipeline. This enables automated widget metadata management during deployments.
+
+**For GitHub Actions:**
+Add this connection string as a repository secret. For detailed instructions on configuring this and other required secrets, see the [Secrets Management section](/infrastructure/project-setup/#11-secrets-management) in the CI/CD Pipeline setup guide.
+
+<section>
+
+### Automatic Configuration Management
+
+Widget configurations are automatically created by CI/CD pipelines during deployment. You do not need to manually add key-value pairs. The pipelines will:
 
 - 📝 **Create widget metadata entries** when widgets are deployed
 - 🔄 **Update version information and deployment status**
@@ -96,25 +93,13 @@ This guide will walk you through creating a new Azure App Configuration resource
 - 🏷️ **Manage environment-specific configurations** using labels
 
 To view your widget data, go to **Settings** > **Configuration explorer** after your first widget deployment.
-:::
+
+</section>
 
 :::tip[Automated Key Naming Convention]
 Our pipelines automatically use consistent naming patterns:
 - `integration:@1fe/playground` - Widget-specific settings (format: `env:widget-name`)
 :::
-
-### Environment Configuration
-
-**Automated Label Strategy:**
-Our CI/CD pipelines automatically use these labels for environment separation:
-- `integration` - Integration environment settings
-- `production` - Production environment settings
-
-**Key Naming Convention:**
-```
-integration:@1fe/playground  # Widget-specific (format: env:widget-name)
-```
-
 
 ## Next Steps
 

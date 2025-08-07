@@ -199,7 +199,7 @@ For complete rsync command examples and production-ready scripts, see the **[1fe
 
 #### Step 4: Configure an Akamai CDN Property
 
-The final step is to create a CDN property to serve content from your NetStorage origin. Environments (such as "integration" and "production") are used to separate different versions of your widget bundles and static assets, ensuring safe testing and reliable production delivery. For official guidance, see [Akamai Property Manager documentation](https://techdocs.akamai.com/property-mgr/docs/).
+The final step is to create a CDN property to serve content from your NetStorage origin. 
 
 **Setup Instructions:**
 
@@ -283,7 +283,9 @@ We have setup two environments for our CDN:
 - **Integration environment:** `integration/` - For testing new features and integration testing
 - **Production environment:** `production/` - For live user-facing deployments
 
+:::note[Environment Separation]
 However, you may setup as many environments as you need. Different environments are used to separate different versions of your widget bundles and static assets, ensuring safe testing and reliable production delivery.
+::: 
 
 ## Additional Resources
 
@@ -318,7 +320,6 @@ While this guide focuses on Akamai CDN setup, you can use other CDN providers fo
 ## Next Steps
 
 After setting up your CDN:
-1. [Set up Hosting Service for 1fe Instance](/infrastructure/hosting-setup/)
-2. [Configure Configuration Service](/infrastructure/configuration-setup/)
-3. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
-4. [Implement CI/CD Integration](/infrastructure/project-setup/) 
+1. [Configure Configuration Service](/infrastructure/configuration-setup/)
+2. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
+3. [Implement CI/CD Integration](/infrastructure/project-setup/) 

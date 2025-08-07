@@ -25,18 +25,8 @@ A private NPM registry is essential for managing 1fe widget packages, shared dep
 ### Package Management Benefits
 - **Private packages** - Keep proprietary widget code secure and internal
 - **Dependency management** - Control and version shared dependencies
-- **Security** - Scan packages for vulnerabilities before distribution
-- **Performance** - Cache public packages for faster installs
-- **Compliance** - Meet enterprise security and auditing requirements
 
-### What Gets Stored
-- **Widget packages** - Published 1fe widget bundles
-- **Shared libraries** - Common utilities and components used across widgets
-- **Internal tools** - Development and build tools specific to your organization
-- **Cached public packages** - Mirror of public NPM packages for reliability
-- **Scoped packages** - Organization-specific packages under your scope
-
-#### Example 1fe Packages
+#### 1fe Packages that are stored in the NPM registry
 
 **Core Infrastructure:**
 - **`@1fe/cli`** - CLI tools for 1fe development and build infrastructure
@@ -44,7 +34,7 @@ A private NPM registry is essential for managing 1fe widget packages, shared dep
 - **`@1fe/shell`** - Core application shell and runtime framework
 
 **Development Tools:**
-- **`@1fe/create-1fe-app`** - 🚀 CLI tool to quickly scaffold a new 1fe instance
+- **`@1fe/create-1fe-app`** - CLI tool to quickly scaffold a new 1fe instance
 - **`@1fe/starter-app`** - Quickly bootstrap a new project with Vite Boilerplate
 
 **Configuration & Utilities:**
@@ -52,7 +42,8 @@ A private NPM registry is essential for managing 1fe widget packages, shared dep
 
 ## NPM.org Organization Setup
 
-If you're using the public NPM registry with scoped packages, you'll need to create an organization to manage your private packages.
+If you're using the public NPM registry with scoped packages, you'll need to create an organization to manage your private packages.  
+See the [official NPM documentation on organizations](https://docs.npmjs.com/organizations) for detailed instructions.
 
 **Step 1: Create the NPM Organization**
 
@@ -84,7 +75,7 @@ The first step is to create the organization itself. You'll need to be logged in
 
 **Step 2: Add Members to the Organization (Optional)**
 
-If you're working with a team, you'll need to invite them to the organization so they can publish and install packages.
+If you're working with a team, you'll need to invite them to the organization so they can publish and install packages. See the [official NPM documentation on adding members to your organization](https://docs.npmjs.com/adding-members-to-your-organization) for detailed instructions.
 
 **Setup Instructions:**
 
@@ -101,43 +92,65 @@ If you're working with a team, you'll need to invite them to the organization so
 
 </section>
 
-:::note[Automated Publishing]
-Package publishing is automated through our CI/CD pipeline. See the CI/CD workflows for complete automation setup:
-- [Main CI/CD workflow](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/ci-widgets.yml) - Main orchestrator for build, test, and deploy
-- [Rollback workflow](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-rollback-ci.yml) - Handles rollback procedures with asset verification
-:::
+If all the steps above are completed, you can now publish packages to the NPM registry.
 
-:::tip[Version Management]
-Use `yarn changeset version` and follow the prompts to create changeset files for version management. These changeset files will be automatically processed and applied during the merge process to handle package versioning.
-:::
+## Automated Publishing
 
-## Security Best Practices
+Package publishing is handled automatically through our CI/CD pipeline. For the complete automation implementation, see the [CI/CD workflow](https://github.com/docusign/1fe/blob/main/.github/workflows/ci-cd.yml) in the 1fe repository.
 
-### Access Control
-- **Scoped packages** - Use organization scopes (@yourorg/package-name)
-- **Team-based permissions** - Different access levels for different teams
-- **Two-factor authentication** - Require 2FA for package publishing
-- **Token rotation** - Regularly rotate authentication tokens
+### Changeset Workflow for Version Management
 
-## Best Practices
+**Creating Changesets:**
 
-### Package Naming
-- **Consistent scoping** - Always use organization scope
-- **Descriptive names** - Clear purpose from package name
-- **Avoid conflicts** - Check for existing package names
-- **Follow conventions** - Use kebab-case for package names
+1. **Navigate to the Package Directory**  
+   Go into the specific package you want to publish (e.g., `@1fe/shell`):
+   ```bash
+   cd packages/1fe-shell
+   ```
+   Example: https://github.com/docusign/1fe/tree/main/packages/1fe-shell
 
-### Documentation
-- **README files** - Clear installation and usage instructions
-- **API documentation** - Document all public interfaces
-- **CHANGELOG** - Track version changes and breaking changes
-- **Examples** - Provide usage examples and demos
+2. **Run Changeset Command**  
+   Execute the changeset command to create a changeset markdown file:
+   ```bash
+   yarn changeset
+   ```
+   
+   **What the Command Does:**
+   - **Interactive prompts** ask you to select which packages have changed
+   - **Version bump selection** - choose patch, minor, or major for each package
+   - **Change description** - provide a summary of what changed
+   
+   **Files Produced:**
+   The command creates markdown files in the `.changeset/` directory:
+   ```
+   .changeset/
+   ├── config.json
+   └── random-name-here.md  # Generated changeset file
+   ```
+   
+   **Example Changeset File:**
+   ```markdown
+   ---
+   "@1fe/shell": patch
+   ---
+   
+   Fix widget loading issue in production environment
+   ```
 
-### Quality Assurance
-- **Testing** - Comprehensive test coverage before publishing
-- **Linting** - Consistent code style and quality
-- **Type definitions** - Provide TypeScript definitions
-- **Peer dependencies** - Clearly define external dependencies
+3. **How CI/CD Processes Changesets**  
+   When you merge your branch, the CI/CD pipeline automatically:
+   
+   **During Merge:**
+   - **Reads changeset files** from the `.changeset/` directory
+   - **Calculates new version numbers** based on the specified bump types
+   - **Updates package.json** files with the new versions
+   - **Creates git tags** for the new versions
+   
+   **Publishing Process:**
+   - **Builds the packages** with the updated versions
+   - **Publishes to NPM registry** using the organization scope
+   - **Deletes processed changeset files** to keep the repository clean
+   - **Commits version updates** back to the main branch
 
 ## Next Steps
 

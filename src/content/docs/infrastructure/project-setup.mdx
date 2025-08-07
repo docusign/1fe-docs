@@ -1,5 +1,5 @@
 ---
-title: CI/CD Pipeline Connection
+title: Setting up CI/CD Integration
 description: Connect your hosting, configuration, and deployment services with automated CI/CD pipelines for 1fe.
 sidebar:
   order: 4
@@ -18,7 +18,6 @@ import {
 
 **Audience:** Platform teams ready to connect their hosting, configuration, and deployment services with automated pipelines.
 
-This guide shows how to tie together your hosting service, configuration management, and CDN deployment into a cohesive CI/CD pipeline using GitHub Actions. This assumes you have already set up the individual infrastructure components.
 
 </div>
 
@@ -27,7 +26,7 @@ This guide shows how to tie together your hosting service, configuration managem
 ### <FcSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What You'll Need
 
 :::caution[Prerequisites Required]
-**Before starting this CI/CD setup, you MUST have these infrastructure components already configured and operational.** This guide will show you how to tie everything together, but each component needs to be set up first.
+This guide shows how to tie together your hosting service, configuration management, packages on the NPM registry, and CDN deployment into a cohesive CI/CD pipeline using GitHub Actions. This assumes you have already set up the individual infrastructure components.
 :::
 
 While this guide shows our specific implementation, **you can adapt it to your needs** using different tools and services. Here's what you'll typically need (see [Alternative Implementations](#alternative-implementations) for other platform options):
@@ -41,6 +40,8 @@ While this guide shows our specific implementation, **you can adapt it to your n
 • **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/infrastructure/cdn-setup/))
 
 • **Configuration Management:** Key-value stores for live configuration settings ([Configuration Management explained here](/infrastructure/configuration-setup/))
+
+• **Private NPM Registry:** Internal registry for publishing and consuming widget packages ([NPM Registry Setup explained here](/infrastructure/npm-registry-setup/))
 
 • **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
 
