@@ -4,31 +4,59 @@ description: "Setup infra for production 1fe instance"
 ---
 
 import { SlRocket } from "react-icons/sl";
+import {
+  FaMicrosoft,
+  FaCloud,
+  FaNpm,
+  FaGithub,
+  FaDatabase,
+} from "react-icons/fa";
 
 Let's get your 1fe instance ready for production! We shall cover the following topics in this guide:
 
-<div className="prose">
-  1. **Setup a hosting service for your 1fe instance.** 2. **Setup a static
-  hosting service for your bundles.** 3. **Setup a npm registry.** 4. **Setup a
-  configuration service.** 5. **Setup a CI/CD system.**
-</div>
+## Quick Start Checklist
 
-## 1. Setup a Hosting Service for Your 1fe Instance
+:::tip[Recommended Setup Order]
+Follow these steps in order for the smoothest setup experience:
 
-Coming soon... This section will cover how to deploy your 1fe instance to production hosting services like Vercel, Netlify, AWS, or your preferred cloud provider.
+1. [Setup Hosting Service](/infrastructure/hosting-setup/) - Deploy your 1FE application
+2. [Setup CDN](/infrastructure/cdn-setup/) - Configure widget bundle hosting  
+3. [Setup NPM Registry](/infrastructure/npm-registry-setup/) - Manage NPM packages
+4. [Setup Configuration Service](/infrastructure/configuration-setup/) - Manage live configurations
+5. [Setup CI/CD](/infrastructure/project-setup/) - Automate deployments
+:::
 
-## 2. Setup a Static Hosting Service for Your Bundles
+Each step builds on the previous one, ensuring your production infrastructure is robust and scalable.
 
-Coming soon... This section will cover how to set up CDN hosting for your widget bundles using services like AWS S3 + CloudFront, Azure Blob Storage, or other CDN providers.
+## <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> 1. Setup a Hosting Service for Your 1fe Instance
 
-## 3. Setup a NPM Registry
+Your 1fe application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally.
 
-Coming soon... This section will cover how to set up a private NPM registry for your widgets and manage package distribution in a production environment.
+**[→ Detailed Hosting Setup Guide](/infrastructure/hosting-setup/)**
 
-## 4. Setup a Configuration Service
+## <FaCloud style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#1F8BF3' }} /> 2. Setup a Static Hosting Service for Your Bundles
 
-Coming soon... This section will cover how to set up a robust configuration management system for your Live Configurations, including environment-specific settings and deployment strategies.
+You can use a CDN service to host your built widget bundles for both integration and production environments.
 
-## 5. Setup a CI/CD System
+**[→ Detailed CDN Setup Guide](/infrastructure/cdn-setup/)**
 
-Coming soon... This section will cover how to implement continuous integration and deployment pipelines for your 1fe widgets and instances, including automated testing, building, and deployment to your CDN and hosting services.
+
+## <FaNpm style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> 3. Setup a NPM Registry
+
+A private NPM registry is essential for managing your 1fe widget packages securely and efficiently in a production environment.
+
+**[→ Detailed NPM Registry Setup Guide](/infrastructure/npm-registry-setup/)**
+
+## <FaDatabase style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#4CAF50' }} /> 4. Setup a Configuration Service
+
+
+1fe requires a configuration service to manage **widget metadata** including version information, deployment status, and dependencies.
+
+
+**[→ Detailed Configuration Service Setup Guide](/infrastructure/configuration-setup/)**
+
+## <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> 5. Setup a CI/CD System
+
+1fe uses a centralized CI/CD system to manage deployments across all widgets.
+
+**[→ CI/CD Project Setup Documentation](/infrastructure/project-setup/)**

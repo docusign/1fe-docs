@@ -1,0 +1,341 @@
+---
+title: 'CDN Setup for Widget Bundles'
+description: 'Configure CDN hosting for your 1fe widget bundles and static assets'
+---
+
+import {
+  FcFlashOn,
+  FcSettings,
+  FcDeployment,
+  FcGlobe,
+} from "react-icons/fc";
+import {
+  FaCloud,
+  FaDatabase,
+  FaUpload,
+  FaCog,
+  FaNpm,
+  FaMicrosoft,
+  FaAws,
+  FaGoogle,
+} from "react-icons/fa";
+import {
+  SiAkamai,
+  SiCloudflare,
+  SiFastly,
+  SiJsdelivr,
+} from "react-icons/si";
+
+<div className="infrastructure-header">
+
+### <FcFlashOn style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> CDN Service Overview
+
+**Audience:** Platform teams setting up production CDN infrastructure for their organization.
+
+Your 1fe widgets need to be served from a fast, reliable CDN to ensure optimal performance for users worldwide. This guide covers how to set up and configure CDN services for hosting your widget bundles.
+
+</div>
+
+## What Your CDN Will Host
+
+- **JavaScript bundles** - Compiled widget code
+- **CSS stylesheets** - Widget-specific styles
+- **Source maps** - For debugging and error tracking
+- **Asset files** - Images, fonts, icons used by widgets
+
+## <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Akamai CDN Setup
+
+### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Detailed Akamai NetStorage Setup
+
+We use Akamai NetStorage to host our widget bundles and static assets, but your team can choose any CDN provider that fits your requirements. For more information, see the [Alternative CDN Providers](#alternative-cdn-providers) section at the bottom of this guide.
+
+**Official Documentation:** [Akamai NetStorage User Guide](https://techdocs.akamai.com/netstorage/docs)
+
+:::note[Key Concepts]
+- **Storage Group**: A logical container for your content that defines its storage location and replication settings.
+- **Upload Directory**: A specific directory within a Storage Group where you upload your files. Each directory is assigned a unique CP Code (Content Provider Code) which is used to link it to your CDN configuration.
+:::
+
+:::note
+NetStorage serves as the origin for your CDN. All widget bundles, assets, and manifests will be stored here and served globally through Akamai's edge network.
+:::
+
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 1: Create a NetStorage Storage Group
+
+:::tip[Recommended Setup Order]
+Follow these steps in order for the smoothest setup experience. Each step builds on the previous one.
+:::
+
+The first step is to create a new storage group in Akamai NetStorage. For official step-by-step instructions, see [Create a storage group](https://techdocs.akamai.com/netstorage/docs/create-a-storage-group) in the Akamai documentation.
+
+**Setup Instructions:**
+
+<section>
+
+1. **Log in to Akamai Control Center**  
+   Navigate to [Akamai Control Center](https://control.akamai.com/).
+
+2. **Navigate to NetStorage**  
+   Go to **Akamai** > **NetStorage**.
+
+3. **Start Creating Storage Group**  
+   Click the **Create** button.
+
+4. **Select Storage Group Type**  
+   Select **Create Storage Group** from the dropdown.
+
+5. **Set Storage Group Name**  
+   **Storage Group Name**: Choose a unique and descriptive name (e.g., `1fe-Production`).
+
+6. **Select Contract**  
+   **Contract**: Select your specific contract from the dropdown.
+
+7. **Select Group**  
+   **Group**: Select the group associated with your contract.
+
+8. **Configure Primary Replica**  
+   **Replica No. 1**: Select a primary geographic zone (e.g., `us-east`).
+
+9. **Set Failover Action**  
+   **Failover Action**: Choose `spill outside` to ensure content is served from other replicas if the primary fails.
+
+10. **Configure Upload and Download Permissions**  
+    Set **Allow upload** to `Yes`  
+    Set **Allow download** to `Yes`.
+
+11. **Add Secondary Replica (Recommended)**  
+    Click **Add Replica** to configure redundancy  
+    Select a different geographic zone from the primary replica  
+    This provides redundancy and improved global performance  
+    **High Availability Requirement**: Always configure at least two replicas in different geographic zones for high availability. This ensures your content remains accessible even if one region experiences issues.
+
+12. **Finalize Creation**  
+    Click **Create Storage Group** to complete the process.
+
+13. **Verify Creation**  
+    Verify the storage group appears in your NetStorage dashboard  
+    Note the storage group details for future reference.
+
+</section>
+
+**Official Documentation:** [Creating Storage Groups](https://techdocs.akamai.com/netstorage/docs/create-a-storage-group)
+
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 2: Add an Upload Directory
+
+Next, you'll upload your content to the directory you created within your storage group. Each upload directory is associated with a unique CP Code, which you'll use for CDN configuration. For step-by-step instructions on uploading content to NetStorage, refer to the [official documentation on uploading content](https://techdocs.akamai.com/netstorage/docs/upload-content).
+
+**Setup Instructions:**
+
+<section>
+
+1. **Navigate to NetStorage Storage Groups**  
+   Go to **NetStorage** > **Storage Groups** page.
+
+2. **Select Your Storage Group**  
+   Select the storage group you just created.
+
+3. **Access Upload Directories Section**  
+   In the details pane, find the **Upload directories** section.
+
+4. **Start Creating New Directory**  
+   Click the **+** icon to add a new directory.
+
+5. **Set Directory Name**  
+   **Directory Name**: Enter a descriptive name (e.g., `production`)  
+   This name becomes part of your file path structure  
+   Choose names that clearly identify the environment or purpose.
+
+6. **Record the CP Code**  
+   The system automatically assigns a unique **CP Code**  
+   **Save this code immediately** - you'll need it for CDN configuration.
+
+7. **Store CP Code Securely**  
+   Store the CP Code in a secure location accessible to your team.
+
+8. **Configure Download Security**  
+   Set **Download security** to `All edge servers`  
+   This allows global content delivery through the CDN.
+
+9. **Ensure Global Access**  
+   This setting ensures your content can be served from all Akamai edge locations.
+
+10. **Complete Directory Creation**  
+    Click **Create Directory** to finalize the configuration.
+
+11. **Verify Directory Creation**  
+    Verify the directory appears in your Upload directories list.
+
+</section>
+
+:::caution[Important: Save Your CP Code]
+The CP Code is crucial for linking your NetStorage directory to your CDN property. **Write it down immediately** - you'll need it in Step 4 for CDN configuration.
+:::
+
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 3: Upload Content to NetStorage
+
+With the storage configured, you can now upload your content using rsync over SSH for efficient and reliable file transfers. For official documentation on uploading to NetStorage with rsync, see [Akamai NetStorage: Use Rsync](https://techdocs.akamai.com/netstorage/docs/use-rsync).
+
+**Setup Instructions:**
+
+<section>
+
+1. **Access Storage Group Details**  
+   From your Storage Group details, locate the **rsync domain name**.
+
+2. **Note Down Domain Name**  
+   Example: `1fe.rsync.upload.akamai.com`  
+   Record this domain as you'll use it in upload commands.
+
+3. **Navigate to Security Settings**  
+   Go to the **Access & Security** tab in your Storage Group.
+
+4. **Configure SSH Key**  
+   Retrieve or generate your NetStorage SSH key.
+
+5. **Set Key Permissions**  
+   Ensure the key file has proper permissions (`chmod 600`).
+
+6. **Store Key Securely**  
+   Store the key securely for CI/CD use. For guidance on adding secrets to your CI/CD pipeline, see the [Secrets Management section](/infrastructure/project-setup/#11-secrets-management).
+
+</section>
+
+:::tip[rsync Command Examples]
+The rsync command uses specific flags for secure, efficient file transfers to NetStorage. For detailed command examples and scripts, see:
+
+- **[1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)** - Complete CI/CD workflows and deployment scripts
+- **[mock-cdn-assets Repository](https://github.com/docusign/mock-cdn-assets)** - Example asset structures and upload configurations
+:::
+
+:::tip[Complete Examples Available]
+For complete rsync command examples and production-ready scripts, see the **[1fe-ci-cd repository](https://github.com/docusign/1fe-ci-cd)** which contains tested deployment workflows.
+:::
+
+**Official Documentation:** [Uploading Content to NetStorage](https://techdocs.akamai.com/netstorage/docs/upload-content)
+
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 4: Configure an Akamai CDN Property
+
+The final step is to create a CDN property to serve content from your NetStorage origin. 
+
+**Setup Instructions:**
+
+<section>
+
+1. **Navigate to Property Manager**  
+   Go to **Akamai** > **CDN** > **Property Manager** in the [Akamai Control Center](https://control.akamai.com/).
+
+2. **Start New Property Creation**  
+   Click **Create a New Property** to start the setup process.
+
+3. **Select Product and Contract**  
+   Choose the appropriate product and contract for your property.
+
+4. **Add Hostname**  
+   Add the **Hostname** for accessing your content (e.g., `assets.yourdomain.com`).
+
+5. **Verify Domain Control**  
+   Ensure the domain is under your control and DNS can be configured.
+
+6. **Locate Origin Server Behavior**  
+   Find the **Origin Server** behavior in the **Default Rule**.
+
+7. **Set Origin Type**  
+   Set **Origin Type** to `NetStorage`.
+
+8. **Select CP Code**  
+   Select the **CP Code** you saved from Step 2.
+
+9. **Verify Origin Hostname**  
+   The **Origin Hostname** will automatically populate based on your NetStorage configuration.
+
+10. **Configure Caching Rules**  
+    Set up caching rules for optimal performance and efficiency.
+
+11. **Set Up SSL Certificate**  
+    Configure SSL certificate for HTTPS support (required for production).
+
+12. **Configure Security Headers**  
+    Add security headers and CORS settings as needed for your application.
+
+13. **Enable Compression**  
+    Configure compression and optimization settings.
+
+14. **Activate on Staging**  
+    **First**: Activate the property on the **staging network** for testing.
+
+15. **Test and Verify**  
+    **Test**: Verify content delivery, functionality, and performance  
+    **Monitor**: Check edge cache behavior and response times.
+
+16. **Deploy to Production**  
+    **Finally**: Activate on the **production network** when validation is complete.
+
+</section>
+
+**Official Documentation:** 
+- [Property Manager User Guide](https://techdocs.akamai.com/property-mgr/docs)
+- [Creating a New Property](https://techdocs.akamai.com/property-mgr/docs/create-a-new-property)
+
+---
+
+## CI/CD Integration
+
+### Automated Deployment with Akamai
+
+**CI/CD Integration:**
+
+For complete, production-ready CI/CD workflows and deployment automation, refer to our dedicated repositories:
+
+- **[1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)** - Complete GitHub Actions workflows, deployment scripts, and automation templates
+- **[Akamai Upload Action](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-upload-akamai/action.yml)** - Specific GitHub Action for uploading widget files to Akamai CDN
+- **[mock-cdn-assets Repository](https://github.com/docusign/mock-cdn-assets)** - Example asset structures, directory layouts, and configuration files
+
+### Deployment Strategy
+
+**Environment Management:**
+
+We have setup two environments for our CDN:
+
+- **Integration environment:** `integration/` - For testing new features and integration testing
+- **Production environment:** `production/` - For live user-facing deployments
+
+:::note[Environment Separation]
+However, you may setup as many environments as you need. Different environments are used to separate different versions of your widget bundles and static assets, ensuring safe testing and reliable production delivery.
+::: 
+
+## Additional Resources
+
+### 1fe Implementation Resources
+- **[1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)** - Complete CI/CD workflows and deployment automation
+- **[mock-cdn-assets Repository](https://github.com/docusign/mock-cdn-assets)** - Example asset structures and configurations
+
+### Akamai Resources
+- **[Akamai Control Center](https://control.akamai.com/)** - Main management interface
+- **[Akamai Developer Portal](https://developer.akamai.com/)** - APIs and automation tools
+- **[Akamai CLI](https://github.com/akamai/cli)** - Command-line interface for automation
+- **[NetStorage API Documentation](https://techdocs.akamai.com/netstorage-api/docs)** - For automated uploads and management
+
+## Alternative CDN Providers
+
+While this guide focuses on Akamai CDN setup, you can use other CDN providers for hosting your 1fe widget bundles:
+
+**Cloud Provider CDNs:**
+- <FaAws style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#FF9900' }} /> Amazon CloudFront (AWS)
+- <FaMicrosoft style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Azure CDN
+- <FaGoogle style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#4285F4' }} /> Google Cloud CDN
+
+**Modern CDN Services:**
+- <SiCloudflare style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#F38020' }} /> Cloudflare
+- <SiFastly style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#FF282D' }} /> Fastly
+- <FaCloud style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#00AAFF' }} /> KeyCDN
+
+**Specialized Solutions:**
+- <SiJsdelivr style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#E84D3D' }} /> JSDelivr
+- <FaNpm style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> UnPkg
+
+## Next Steps
+
+After setting up your CDN:
+1. [Configure Configuration Service](/infrastructure/configuration-setup/)
+2. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
+3. [Implement CI/CD Integration](/infrastructure/project-setup/) 
