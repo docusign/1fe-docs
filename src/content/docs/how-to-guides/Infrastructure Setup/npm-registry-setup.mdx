@@ -1,14 +1,9 @@
 ---
-title: 'NPM Registry Setup'
-description: 'Set up private NPM registry for 1fe widget packages and dependencies'
+title: "NPM Registry Setup"
+description: "Set up private NPM registry for 1fe widget packages and dependencies"
 ---
 
-import {
-  FcPackage,
-  FcSettings,
-  FcDeployment,
-  FcLock,
-} from "react-icons/fc";
+import { FcPackage, FcSettings, FcDeployment, FcLock } from "react-icons/fc";
 import {
   FaNpm,
   FaGitAlt,
@@ -33,21 +28,25 @@ A private NPM registry is essential for managing 1fe widget packages, shared dep
 ## Why You Need a Private NPM Registry
 
 ### Package Management Benefits
+
 - **Private packages** - Keep proprietary widget code secure and internal
 - **Dependency management** - Control and version shared dependencies
 
 #### 1fe Packages that are stored in the NPM registry
 
 **Core Infrastructure:**
+
 - **[`@1fe/cli`](https://www.npmjs.com/package/@1fe/cli)** - CLI tools for 1fe development and build infrastructure
 - **[`@1fe/server`](https://www.npmjs.com/package/@1fe/server)** - 1fe server runtime and hosting infrastructure
 - **[`@1fe/shell`](https://www.npmjs.com/package/@1fe/shell)** - Core application shell and runtime framework
 
 **Development Tools:**
+
 - **[`@1fe/create-1fe-app`](https://www.npmjs.com/package/@1fe/create-1fe-app)** - CLI tool to quickly scaffold a new 1fe instance
 - **[`@1fe/starter-app`](https://www.npmjs.com/package/@1fe/starter-app)** - Quickly bootstrap a new project with Vite Boilerplate
 
 **Configuration & Utilities:**
+
 - **[`@1fe/sample-widget-base-config`](https://www.npmjs.com/package/@1fe/sample-widget-base-config)** - A shared configuration package providing base settings and environment configurations for 1fe widgets. This package standardizes widget development configurations across the 1fe ecosystem
 
 ## <FaNpm style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> NPM.org Organization Setup
@@ -114,49 +113,57 @@ Package publishing is handled automatically through our CI/CD pipeline. For the 
 
 1. **Navigate to the Package Directory**  
    Go into the specific package you want to publish (e.g., `@1fe/shell`):
+
    ```bash
    cd packages/1fe-shell
    ```
+
    Example: https://github.com/docusign/1fe/tree/main/packages/1fe-shell
 
 2. **Run Changeset Command**  
    Execute the changeset command to create a changeset markdown file:
+
    ```bash
    yarn changeset
    ```
-   
+
    **What the Command Does:**
+
    - **Interactive prompts** ask you to select which packages have changed
    - **Version bump selection** - choose patch, minor, or major for each package
    - **Change description** - provide a summary of what changed
-   
+
    **Files Produced:**
    The command creates markdown files in the `.changeset/` directory:
+
    ```
    .changeset/
    ├── config.json
    └── random-name-here.md  # Generated changeset file
    ```
-   
+
    **Example Changeset File:**
+
    ```markdown
    ---
    "@1fe/shell": patch
    ---
-   
+
    Fix widget loading issue in production environment
    ```
 
 3. **<FaCogs style={{ display: 'inline', marginRight: '0.5rem', color: '#2E8B57' }} /> How CI/CD Processes Changesets**  
    When you merge your branch, the CI/CD pipeline automatically:
-   
+
    **<FaDownload style={{ display: 'inline', marginRight: '0.5rem', color: '#4169E1' }} /> During Merge:**
+
    - **Builds the packages** with the updated versions
    - **Publishes to NPM registry** using the organization scope
    - **Deletes processed changeset files** to keep the repository clean
    - **Commits version updates** back to the main branch
-   
+
    **<FaRocket style={{ display: 'inline', marginRight: '0.5rem', color: '#FF6347' }} /> Publishing Process:**
+
    - **Builds the packages** with the updated versions
    - **Publishes to NPM registry** using the organization scope
    - **Deletes processed changeset files** to keep the repository clean
@@ -167,6 +174,7 @@ Once you've published a package, you can install it in your 1fe application by a
 ## Next Steps
 
 After setting up NPM registry:
-1. [Set up Configuration Service](/infrastructure/configuration-setup/)
-2. [Implement CI/CD Integration](/infrastructure/project-setup/)
-3. [Configure Widget Development Environment](/getting-started/local-development/) 
+
+1. [Set up Configuration Service](/how-to-guides/infrastructure%20setup/configuration-setup/)
+2. [Implement CI/CD Integration](/how-to-guides/infrastructure%20setup/project-setup/)
+3. [Configure Widget Development Environment](/getting-started/local-development/)
