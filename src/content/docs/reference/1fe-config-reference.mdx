@@ -1,0 +1,365 @@
+---
+title: .1fe.config.ts Reference
+description: Complete reference for .1fe.config.ts configuration options
+sidebar:
+  order: 4
+---
+
+import { SlSettings, SlLayers, SlDoc } from "react-icons/sl";
+
+The `.1fe.config.ts` file is the central configuration file for 1fe widgets. It defines both build-time behavior and runtime configurations, enabling the 1fe CLI to properly build, externalize dependencies, and configure widgets for deployment.
+
+## <SlSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Configuration Structure
+
+### Basic Type Definition
+
+```typescript
+type OneFeConfiguration = {
+  baseConfig: OneFeBaseConfiguration;
+  runtimeConfig?: Record<string, OneFeRuntimeConfigObject>;
+  webpackConfigs?: Record<string, WebpackConfig>;
+};
+```
+
+## <SlLayers style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Configuration Options
+
+### `baseConfig` (Required)
+
+The base configuration defines environment-specific settings, live configuration URLs, and shared settings across environments.
+
+**Type:**
+
+```typescript
+type OneFeBaseConfiguration =
+  | OneFeBaseConfigurationObject
+  | string // URL to fetch config from
+  | (() => Promise<OneFeBaseConfigurationObject>); // Function returning config
+```
+
+#### Option 1: Inline Configuration Object
+
+```typescript
+const configuration: OneFeConfiguration = {
+  baseConfig: {
+    environments: {
+      integration: {
+        dynamicConfig: {
+          /* live config object */
+        },
+        libraryVersions: [
+          /* library versions array */
+        ],
+        shellBaseUrl: "https://shell-integration.example.com",
+        serverBaseUrl: "https://server-integration.example.com",
+      },
+      production: {
+        dynamicConfig: {
+          /* live config object */
+        },
+        libraryVersions: [
+          /* library versions array */
+        ],
+        shellBaseUrl: "https://shell.example.com",
+        serverBaseUrl: "https://server.example.com",
+      },
+    },
+    bathtubUrl: "https://bathtub.example.com",
+  },
+};
+```
+
+#### Option 2: URL-based Configuration
+
+```typescript
+const configuration: OneFeConfiguration = {
+  baseConfig: "https://config.example.com/widget-base-config.json",
+};
+```
+
+#### Option 3: Function-based Configuration (Shared Package)
+
+```typescript
+import { getBaseConfig } from "@my-org/widget-base-config";
+
+const configuration: OneFeConfiguration = {
+  baseConfig: getBaseConfig, // Function that returns Promise<OneFeBaseConfigurationObject>
+};
+```
+
+### `baseConfig.environments` (Required)
+
+Defines all available environments and their specific configurations.
+
+**Type:**
+
+```typescript
+type Environments = Record<
+  string,
+  {
+    dynamicConfig: OneFeDynamicConfig;
+    libraryVersions: ManagedLibrary[];
+    shellBaseUrl: string;
+    serverBaseUrl: string;
+  }
+>;
+```
+
+**Properties:**
+
+- **`dynamicConfig`**: The complete live configuration object for this environment containing widget configs, CDN settings, and externalization rules
+- **`libraryVersions`**: Array of externalized libraries available from the shell in this environment
+- **`shellBaseUrl`**: Base URL where the 1fe shell is hosted for this environment
+- **`serverBaseUrl`**: Base URL where the 1fe server is running for this environment
+
+### `baseConfig.bathtubUrl` (Optional)
+
+URL for the bathtub testing environment used during development and testing.
+
+**Type:** `string`
+
+### `runtimeConfig` (Optional)
+
+Environment-specific runtime configurations that control widget behavior at runtime.
+
+**Type:**
+
+```typescript
+type RuntimeConfig = Record<
+  string,
+  {
+    dependsOn?: {
+      pinnedWidgets?: { widgetId: string; version: string }[];
+      widgets?: { widgetId: string }[];
+    };
+    preload?: Array<{ apiGet: string } | { widget: string } | { html: string }>;
+  }
+>;
+```
+
+**Example:**
+
+```typescript
+const configuration: OneFeConfiguration = {
+  baseConfig: getBaseConfig,
+  runtimeConfig: {
+    integration: {
+      dependsOn: {
+        widgets: [
+          { widgetId: "@my-org/shared-header" },
+          { widgetId: "@my-org/analytics-tracker" },
+        ],
+        pinnedWidgets: [
+          { widgetId: "@my-org/legacy-component", version: "1.2.3" },
+        ],
+      },
+      preload: [
+        { apiGet: "/api/user/profile" },
+        { widget: "@my-org/loading-spinner" },
+      ],
+    },
+    production: {
+      dependsOn: {
+        widgets: [
+          { widgetId: "@my-org/shared-header" },
+          { widgetId: "@my-org/analytics-tracker" },
+        ],
+      },
+    },
+  },
+};
+```
+
+#### `dependsOn` Configuration
+
+Defines widget dependencies that must be available before this widget can function properly.
+
+- **`widgets`**: Array of widgets this widget depends on (latest versions)
+- **`pinnedWidgets`**: Array of widgets with specific version requirements
+
+#### `preload` Configuration
+
+Defines resources to preload for performance optimization.
+
+- **`apiGet`**: API endpoints to prefetch
+- **`widget`**: Widgets to preload
+- **`html`**: HTML content to preload
+
+### `webpackConfigs` (Optional)
+
+Environment-specific webpack configuration overrides.
+
+**Type:**
+
+```typescript
+type WebpackConfigs = Record<string, WebpackConfig>;
+```
+
+**Example:**
+
+```typescript
+const configuration: OneFeConfiguration = {
+  baseConfig: getBaseConfig,
+  webpackConfigs: {
+    development: {
+      mode: "development",
+      devtool: "source-map",
+      optimization: {
+        minimize: false,
+      },
+    },
+    production: {
+      mode: "production",
+      optimization: {
+        minimize: true,
+        usedExports: true,
+      },
+    },
+  },
+};
+```
+
+## <SlDoc style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Complete Example
+
+### Shared Package Configuration
+
+```typescript
+// .1fe.config.ts
+import { OneFeConfiguration } from "@1fe/cli";
+import { getBaseConfig } from "@my-org/widget-base-config";
+
+const configuration: OneFeConfiguration = {
+  // Use shared base configuration
+  baseConfig: getBaseConfig,
+
+  // Widget-specific runtime configurations
+  runtimeConfig: {
+    integration: {
+      dependsOn: {
+        widgets: [
+          { widgetId: "@my-org/design-system" },
+          { widgetId: "@my-org/auth-provider" },
+        ],
+      },
+      preload: [
+        { apiGet: "/api/widget/config" },
+        { widget: "@my-org/loading-component" },
+      ],
+    },
+    production: {
+      dependsOn: {
+        widgets: [
+          { widgetId: "@my-org/design-system" },
+          { widgetId: "@my-org/auth-provider" },
+        ],
+        pinnedWidgets: [
+          { widgetId: "@my-org/legacy-integration", version: "2.1.0" },
+        ],
+      },
+    },
+  },
+
+  // Environment-specific webpack overrides
+  webpackConfigs: {
+    development: {
+      devtool: "eval-source-map",
+      mode: "development",
+    },
+    production: {
+      mode: "production",
+      optimization: {
+        splitChunks: {
+          chunks: "all",
+        },
+      },
+    },
+  },
+};
+
+export default configuration;
+```
+
+### Inline Configuration
+
+```typescript
+// .1fe.config.ts - Full inline configuration
+import { OneFeConfiguration } from "@1fe/cli";
+
+const configuration: OneFeConfiguration = {
+  baseConfig: {
+    environments: {
+      integration: {
+        dynamicConfig: {
+          widgets: {
+            configs: [
+              {
+                widgetId: "@my-org/my-widget",
+                cdnBaseUrl: "https://cdn-integration.example.com/",
+                runtimeConfig: {
+                  apiBaseUrl: "https://api-integration.example.com",
+                },
+              },
+            ],
+          },
+          cdn: {
+            libraries: {
+              basePrefix: "https://cdn-integration.example.com/libs/",
+              managed: [
+                {
+                  id: "react",
+                  name: "React",
+                  version: "18.2.0",
+                  isPreloaded: true,
+                  path: "react.js",
+                  type: "external",
+                },
+              ],
+            },
+          },
+        },
+        libraryVersions: [
+          {
+            id: "react",
+            name: "React",
+            version: "18.2.0",
+            isPreloaded: true,
+            path: "react.js",
+            type: "external",
+          },
+        ],
+        shellBaseUrl: "https://shell-integration.example.com",
+        serverBaseUrl: "https://server-integration.example.com",
+      },
+      production: {
+        // ... similar structure for production
+      },
+    },
+    bathtubUrl: "https://bathtub.example.com",
+  },
+};
+
+export default configuration;
+```
+
+## 🔧 CLI Usage
+
+The 1fe CLI uses this configuration file automatically when building widgets:
+
+```bash
+# Build for integration environment (environment is required global option)
+1fe --environment integration build
+
+# Build for production environment with development mode
+1fe --environment production build --mode development
+
+# Use different environment for fetching live versions
+1fe --environment production build --live-version-env integration
+
+# Build with bundle analysis
+1fe --environment integration build --mode production --analyze-bundle-locally
+```
+
+## 🔗 Related Documentation
+
+- [Shared Configurations](/learning/shared-configurations/) - Learn how to create and use shared base configuration packages
+- [Live Configurations](/learning/live-configurations/) - Understand the dynamic configuration system
+- [1fe Server Reference](/reference/1fe-server-reference/) - Server-side configuration options

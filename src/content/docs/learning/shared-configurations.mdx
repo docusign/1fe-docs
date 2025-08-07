@@ -1,0 +1,247 @@
+---
+title: Shared Configuration for Widgets
+description: How to share common configurations across widgets using base config packages
+sidebar:
+  order: 5
+---
+
+import { FcSettings, FcFolder, FcDocument } from "react-icons/fc";
+import { SlSettings, SlLayers, SlPuzzle } from "react-icons/sl";
+
+## <FcSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What are Shared Configurations?
+
+Shared configurations allow platform teams to distribute common build-time and runtime settings across multiple widgets in their organization. Instead of duplicating configuration logic in every widget's `.1fe.config.ts` file, teams can create a shared base configuration package that widgets can import and extend.
+
+This approach ensures consistency across widgets while reducing maintenance overhead when configuration changes are needed.
+
+## <SlLayers style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> How Shared Configurations Work
+
+### The `.1fe.config.ts` File
+
+Every 1fe widget requires a `.1fe.config.ts` file in its root directory. This configuration file serves dual purposes:
+
+<div class="prose">
+
+- **Build-time Configuration**: Tells 1fe CLI how to build the widget, which environments exist, and what libraries to externalize
+- **Runtime Configuration**: Defines runtime behaviors, dependencies, and environment-specific settings for the widget
+
+</div>
+
+The 1fe CLI automatically looks for this file at the project root and uses it to:
+
+<div class="prose">
+
+- **Identify available environments** (e.g., integration, production)
+- **Locate live configuration URLs** for dynamic configs and library versions
+- **Configure webpack build behavior** per environment
+- **Set up externalization** of common libraries
+- **Define runtime dependencies** and preload settings
+- **Identify browser targets** to optimize builds for specific browser versions and features
+
+</div>
+
+### Base Configuration Package Pattern
+
+One approach is to create a shared npm package containing common configuration logic that individual widgets can import. This pattern is demonstrated by [`@1fe/sample-widget-base-config`](https://github.com/docusign/1fe-sample-widget-base-config).
+
+## <SlPuzzle style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Example: @1fe/sample-widget-base-config
+
+### Package Structure
+
+The `@1fe/sample-widget-base-config` package provides a centralized configuration that:
+
+<div class="prose">
+
+- **Defines available environments** (integration, production)
+- **Centralizes live configuration URLs** for each environment
+- **Provides consistent base URLs** for shells and servers
+- **Fetches dynamic configurations** and library versions at build time
+
+</div>
+
+### Base Config Implementation
+
+```typescript
+// @1fe/sample-widget-base-config/src/index.ts
+import {
+  OneFeDynamicConfig,
+  OneFeBaseConfigurationObject,
+  OneFeEnvironmentObject,
+} from "@1fe/cli";
+import ky from "ky";
+
+const environments = ["integration", "production"] as const;
+export type Environments = (typeof environments)[number];
+
+// Centralized URLs for live configurations
+const dynamicConfigUrls: Record<Environments, string> = {
+  integration: "https://1fe-a.akamaihd.net/integration/configs/live.json",
+  production: "https://1fe-a.akamaihd.net/production/configs/live.json",
+};
+
+const libraryVersionsUrl: Record<Environments, string> = {
+  integration:
+    "https://1fe-a.akamaihd.net/integration/configs/lib-versions.json",
+  production: "https://1fe-a.akamaihd.net/production/configs/lib-versions.json",
+};
+
+// Functions to fetch live configurations
+function getDynamicConfig(env: Environments) {
+  return ky.get(dynamicConfigUrls[env]).json<OneFeDynamicConfig>();
+}
+
+function getLibraryVersions(env: Environments) {
+  return ky
+    .get(libraryVersionsUrl[env])
+    .json<OneFeEnvironmentObject["libraryVersions"]>();
+}
+
+// Main export that widgets will import
+export async function getBaseConfig(): Promise<OneFeBaseConfigurationObject> {
+  const isCI = process.env.CI === "true";
+
+  // Environment-specific URLs
+  const bathtubUrl = isCI
+    ? "https://demo.1fe.com/bathtub"
+    : "http://localhost:3001/bathtub";
+
+  const shellBaseUrl = isCI ? "https://demo.1fe.com" : "http://localhost:3001";
+
+  const serverBaseUrl = isCI ? "https://demo.1fe.com" : "http://localhost:3001";
+
+  const baseConfig: OneFeBaseConfigurationObject = {
+    environments: {},
+    bathtubUrl,
+  };
+
+  // Populate environment-specific configurations
+  for (const env of environments) {
+    baseConfig.environments[env] = {
+      dynamicConfig: await getDynamicConfig(env),
+      libraryVersions: await getLibraryVersions(env),
+      shellBaseUrl,
+      serverBaseUrl,
+    };
+  }
+
+  return baseConfig;
+}
+```
+
+### Widget Implementation
+
+Individual widgets then import and use this shared configuration:
+
+```typescript
+// my-widget/.1fe.config.ts
+import { OneFeConfiguration } from "@1fe/cli";
+import { getBaseConfig } from "@1fe/sample-widget-base-config";
+
+const configuration: OneFeConfiguration = {
+  baseConfig: getBaseConfig,
+
+  // Widget-specific runtime configurations (optional)
+  runtimeConfig: {
+    integration: {
+      dependsOn: {
+        widgets: [{ widgetId: "@my-org/shared-component" }],
+      },
+    },
+    production: {
+      dependsOn: {
+        widgets: [{ widgetId: "@my-org/shared-component" }],
+      },
+    },
+  },
+};
+
+export default configuration;
+```
+
+## <FcDocument style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> How 1fe CLI Uses Configurations
+
+### Build-Time Processing
+
+When you run `1fe build`, the CLI:
+
+<div class="prose">
+
+1. **Loads `.1fe.config.ts`** from the widget's root directory
+2. **Resolves base configuration** (whether from function, URL, or object)
+3. **Validates configuration schema** to ensure all required fields are present
+4. **Extracts environment information** to understand available deployment targets
+5. **Fetches live configurations** (dynamic configs and library versions) for the specified environment
+6. **Configures webpack externals** based on library versions
+7. **Sets browser targets** for Babel and other build tools to optimize for specific browser support
+8. **Applies environment-specific webpack overrides** if defined
+
+</div>
+
+### Environment Resolution
+
+The CLI requires the environment to be specified as a global argument and allows mode as a build-specific option:
+
+```bash
+# Build for integration environment (environment is required)
+1fe --environment integration build
+
+# Build for production environment with development mode
+1fe --environment production build --mode development
+
+# Use different environment for live version fetching
+1fe --environment production build --live-version-env integration
+
+# Build with bundle analysis
+1fe --environment integration build --mode production --analyze-bundle-locally
+```
+
+### Runtime Configuration Generation
+
+During the build process, the CLI:
+
+<div class="prose">
+
+- **Generates runtime configuration files** that widgets can access at runtime
+- **Validates runtime dependencies** to ensure required widgets exist
+- **Processes preload configurations** for performance optimization
+- **Creates contract files** for type safety between widgets
+
+</div>
+
+## <FcFolder style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Benefits of Shared Configurations
+
+### Consistency
+
+<div class="prose">
+
+- **Standardized environments** across all widgets in the organization
+- **Consistent URLs** for live configurations and CDN endpoints
+- **Unified build behavior** regardless of which team builds the widget
+
+</div>
+
+### Maintainability
+
+<div class="prose">
+
+- **Single source of truth** for organization-wide configuration changes
+- **Easy updates** - change the base config package and all widgets inherit updates
+- **Reduced duplication** of configuration logic across widget repositories
+
+</div>
+
+### Developer Experience
+
+<div class="prose">
+
+- **Simplified widget creation** - minimal configuration required for new widgets
+- **Clear separation** between organization-level and widget-specific configurations
+- **Type safety** through shared TypeScript types and interfaces
+
+</div>
+
+## 🔗 Next Steps
+
+- See [.1fe.config.ts Reference](/reference/1fe-config-reference/) for complete configuration options
+- Learn about [Live Configurations](/learning/live-configurations/) to understand the dynamic configuration system
+- Explore [Platform Utilities](/reference/platform-utilities/overview/) for runtime capabilities available to widgets
