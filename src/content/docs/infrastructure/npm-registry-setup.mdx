@@ -9,6 +9,16 @@ import {
   FcDeployment,
   FcLock,
 } from "react-icons/fc";
+import {
+  FaNpm,
+  FaGitAlt,
+  FaCogs,
+  FaRocket,
+  FaDownload,
+  FaUpload,
+  FaCode,
+  FaTag,
+} from "react-icons/fa";
 
 <div className="infrastructure-header">
 
@@ -29,18 +39,18 @@ A private NPM registry is essential for managing 1fe widget packages, shared dep
 #### 1fe Packages that are stored in the NPM registry
 
 **Core Infrastructure:**
-- **`@1fe/cli`** - CLI tools for 1fe development and build infrastructure
-- **`@1fe/server`** - 1fe server runtime and hosting infrastructure
-- **`@1fe/shell`** - Core application shell and runtime framework
+- **[`@1fe/cli`](https://www.npmjs.com/package/@1fe/cli)** - CLI tools for 1fe development and build infrastructure
+- **[`@1fe/server`](https://www.npmjs.com/package/@1fe/server)** - 1fe server runtime and hosting infrastructure
+- **[`@1fe/shell`](https://www.npmjs.com/package/@1fe/shell)** - Core application shell and runtime framework
 
 **Development Tools:**
-- **`@1fe/create-1fe-app`** - CLI tool to quickly scaffold a new 1fe instance
-- **`@1fe/starter-app`** - Quickly bootstrap a new project with Vite Boilerplate
+- **[`@1fe/create-1fe-app`](https://www.npmjs.com/package/@1fe/create-1fe-app)** - CLI tool to quickly scaffold a new 1fe instance
+- **[`@1fe/starter-app`](https://www.npmjs.com/package/@1fe/starter-app)** - Quickly bootstrap a new project with Vite Boilerplate
 
 **Configuration & Utilities:**
-- **`@1fe/sample-widget-base-config`** - A shared configuration package providing base settings and environment configurations for 1fe widgets. This package standardizes widget development configurations across the 1fe ecosystem
+- **[`@1fe/sample-widget-base-config`](https://www.npmjs.com/package/@1fe/sample-widget-base-config)** - A shared configuration package providing base settings and environment configurations for 1fe widgets. This package standardizes widget development configurations across the 1fe ecosystem
 
-## NPM.org Organization Setup
+## <FaNpm style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> NPM.org Organization Setup
 
 If you're using the public NPM registry with scoped packages, you'll need to create an organization to manage your private packages.  
 See the [official NPM documentation on organizations](https://docs.npmjs.com/organizations) for detailed instructions.
@@ -98,7 +108,7 @@ If all the steps above are completed, you can now publish packages to the NPM re
 
 Package publishing is handled automatically through our CI/CD pipeline. For the complete automation implementation, see the [CI/CD workflow](https://github.com/docusign/1fe/blob/main/.github/workflows/ci-cd.yml) in the 1fe repository.
 
-### Changeset Workflow for Version Management
+### <FaGitAlt style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#F05032' }} /> Changeset Workflow for Version Management
 
 **Creating Changesets:**
 
@@ -137,20 +147,22 @@ Package publishing is handled automatically through our CI/CD pipeline. For the 
    Fix widget loading issue in production environment
    ```
 
-3. **How CI/CD Processes Changesets**  
+3. **<FaCogs style={{ display: 'inline', marginRight: '0.5rem', color: '#2E8B57' }} /> How CI/CD Processes Changesets**  
    When you merge your branch, the CI/CD pipeline automatically:
    
-   **During Merge:**
-   - **Reads changeset files** from the `.changeset/` directory
-   - **Calculates new version numbers** based on the specified bump types
-   - **Updates package.json** files with the new versions
-   - **Creates git tags** for the new versions
-   
-   **Publishing Process:**
+   **<FaDownload style={{ display: 'inline', marginRight: '0.5rem', color: '#4169E1' }} /> During Merge:**
    - **Builds the packages** with the updated versions
    - **Publishes to NPM registry** using the organization scope
    - **Deletes processed changeset files** to keep the repository clean
    - **Commits version updates** back to the main branch
+   
+   **<FaRocket style={{ display: 'inline', marginRight: '0.5rem', color: '#FF6347' }} /> Publishing Process:**
+   - **Builds the packages** with the updated versions
+   - **Publishes to NPM registry** using the organization scope
+   - **Deletes processed changeset files** to keep the repository clean
+   - **Commits version updates** back to the main branch
+
+Once you've published a package, you can install it in your 1fe application by adding it to your `package.json` file.
 
 ## Next Steps
 

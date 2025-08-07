@@ -9,6 +9,22 @@ import {
   FcDeployment,
   FcGlobe,
 } from "react-icons/fc";
+import {
+  FaCloud,
+  FaDatabase,
+  FaUpload,
+  FaCog,
+  FaNpm,
+  FaMicrosoft,
+  FaAws,
+  FaGoogle,
+} from "react-icons/fa";
+import {
+  SiAkamai,
+  SiCloudflare,
+  SiFastly,
+  SiJsdelivr,
+} from "react-icons/si";
 
 <div className="infrastructure-header">
 
@@ -27,9 +43,9 @@ Your 1fe widgets need to be served from a fast, reliable CDN to ensure optimal p
 - **Source maps** - For debugging and error tracking
 - **Asset files** - Images, fonts, icons used by widgets
 
-## Akamai CDN Setup
+## <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Akamai CDN Setup
 
-### Detailed Akamai NetStorage Setup
+### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Detailed Akamai NetStorage Setup
 
 We use Akamai NetStorage to host our widget bundles and static assets, but your team can choose any CDN provider that fits your requirements. For more information, see the [Alternative CDN Providers](#alternative-cdn-providers) section at the bottom of this guide.
 
@@ -44,7 +60,7 @@ We use Akamai NetStorage to host our widget bundles and static assets, but your 
 NetStorage serves as the origin for your CDN. All widget bundles, assets, and manifests will be stored here and served globally through Akamai's edge network.
 :::
 
-#### Step 1: Create a NetStorage Storage Group
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 1: Create a NetStorage Storage Group
 
 :::tip[Recommended Setup Order]
 Follow these steps in order for the smoothest setup experience. Each step builds on the previous one.
@@ -104,7 +120,7 @@ The first step is to create a new storage group in Akamai NetStorage. For offici
 
 **Official Documentation:** [Creating Storage Groups](https://techdocs.akamai.com/netstorage/docs/create-a-storage-group)
 
-#### Step 2: Add an Upload Directory
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 2: Add an Upload Directory
 
 Next, you'll upload your content to the directory you created within your storage group. Each upload directory is associated with a unique CP Code, which you'll use for CDN configuration. For step-by-step instructions on uploading content to NetStorage, refer to the [official documentation on uploading content](https://techdocs.akamai.com/netstorage/docs/upload-content).
 
@@ -155,7 +171,7 @@ Next, you'll upload your content to the directory you created within your storag
 The CP Code is crucial for linking your NetStorage directory to your CDN property. **Write it down immediately** - you'll need it in Step 4 for CDN configuration.
 :::
 
-#### Step 3: Upload Content to NetStorage
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 3: Upload Content to NetStorage
 
 With the storage configured, you can now upload your content using rsync over SSH for efficient and reliable file transfers. For official documentation on uploading to NetStorage with rsync, see [Akamai NetStorage: Use Rsync](https://techdocs.akamai.com/netstorage/docs/use-rsync).
 
@@ -197,7 +213,7 @@ For complete rsync command examples and production-ready scripts, see the **[1fe
 
 **Official Documentation:** [Uploading Content to NetStorage](https://techdocs.akamai.com/netstorage/docs/upload-content)
 
-#### Step 4: Configure an Akamai CDN Property
+#### <SiAkamai style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0096D6' }} /> Step 4: Configure an Akamai CDN Property
 
 The final step is to create a CDN property to serve content from your NetStorage origin. 
 
@@ -304,18 +320,18 @@ However, you may setup as many environments as you need. Different environments 
 While this guide focuses on Akamai CDN setup, you can use other CDN providers for hosting your 1fe widget bundles:
 
 **Cloud Provider CDNs:**
-- Amazon CloudFront (AWS)
-- Azure CDN
-- Google Cloud CDN
+- <FaAws style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#FF9900' }} /> Amazon CloudFront (AWS)
+- <FaMicrosoft style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Azure CDN
+- <FaGoogle style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#4285F4' }} /> Google Cloud CDN
 
 **Modern CDN Services:**
-- Cloudflare
-- Fastly
-- KeyCDN
+- <SiCloudflare style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#F38020' }} /> Cloudflare
+- <SiFastly style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#FF282D' }} /> Fastly
+- <FaCloud style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#00AAFF' }} /> KeyCDN
 
 **Specialized Solutions:**
-- JSDelivr
-- UnPkg
+- <SiJsdelivr style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#E84D3D' }} /> JSDelivr
+- <FaNpm style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> UnPkg
 
 ## Next Steps
 

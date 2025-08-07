@@ -4,6 +4,13 @@ description: "Setup infra for production 1fe instance"
 ---
 
 import { SlRocket } from "react-icons/sl";
+import {
+  FaMicrosoft,
+  FaCloud,
+  FaNpm,
+  FaGithub,
+  FaDatabase,
+} from "react-icons/fa";
 
 Let's get your 1fe instance ready for production! We shall cover the following topics in this guide:
 
@@ -21,36 +28,35 @@ Follow these steps in order for the smoothest setup experience:
 
 Each step builds on the previous one, ensuring your production infrastructure is robust and scalable.
 
-## 1. Setup a Hosting Service for Your 1fe Instance
+## <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> 1. Setup a Hosting Service for Your 1fe Instance
 
-Your 1FE application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally.
+Your 1fe application shell needs to be hosted on a reliable service that can handle user traffic and serve your application globally.
 
 **[→ Detailed Hosting Setup Guide](/infrastructure/hosting-setup/)**
 
-## 2. Setup a Static Hosting Service for Your Bundles
+## <FaCloud style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#1F8BF3' }} /> 2. Setup a Static Hosting Service for Your Bundles
 
 You can use a CDN service to host your built widget bundles for both integration and production environments.
 
 **[→ Detailed CDN Setup Guide](/infrastructure/cdn-setup/)**
 
 
-## 3. Setup a NPM Registry
+## <FaNpm style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#CB3837' }} /> 3. Setup a NPM Registry
 
-A private NPM registry is essential for managing your 1FE widget packages securely and efficiently in a production environment.
+A private NPM registry is essential for managing your 1fe widget packages securely and efficiently in a production environment.
 
 **[→ Detailed NPM Registry Setup Guide](/infrastructure/npm-registry-setup/)**
 
-## 4. Setup a Configuration Service
+## <FaDatabase style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#4CAF50' }} /> 4. Setup a Configuration Service
 
-### Why Configuration Service is Needed
 
-1FE requires a configuration service to manage **widget metadata** including version information, deployment status, and dependencies.
+1fe requires a configuration service to manage **widget metadata** including version information, deployment status, and dependencies.
 
 
 **[→ Detailed Configuration Service Setup Guide](/infrastructure/configuration-setup/)**
 
-## 5. Setup a CI/CD System
+## <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> 5. Setup a CI/CD System
 
-1FE uses a centralized CI/CD system to manage deployments across all widgets.
+1fe uses a centralized CI/CD system to manage deployments across all widgets.
 
 **[→ CI/CD Project Setup Documentation](/infrastructure/project-setup/)**

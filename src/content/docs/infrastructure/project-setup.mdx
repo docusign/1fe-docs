@@ -11,6 +11,22 @@ import {
   FcDeployment,
   FcWorkflow,
 } from "react-icons/fc";
+import {
+  FaGithub,
+  FaMicrosoft,
+  FaNpm,
+  FaCloud,
+  FaAws,
+  FaGoogle,
+  FaLock,
+} from "react-icons/fa";
+import {
+  SiVercel,
+  SiNetlify,
+  SiGitlab,
+  SiBitbucket,
+  SiJenkins,
+} from "react-icons/si";
 
 <div className="infrastructure-header">
 
@@ -33,17 +49,17 @@ While this guide shows our specific implementation, **you can adapt it to your n
 
 #### Essential Components required before you can start building
 
-• **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
+• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
 
-• **Hosting Service:** Where your 1fe application will run ([Azure Web App explained here](/infrastructure/hosting-setup/))
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Hosting Service:** Where your 1fe application will run ([Azure Web App explained here](/infrastructure/hosting-setup/))
 
-• **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/infrastructure/cdn-setup/))
+• <FaCloud style={{ display: 'inline', marginRight: '0.5rem', color: '#1F8BF3' }} /> **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/infrastructure/cdn-setup/))
 
-• **Configuration Management:** Key-value stores for live configuration settings ([Configuration Management explained here](/infrastructure/configuration-setup/))
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Configuration Management:** Key-value stores for live configuration settings ([Configuration Management explained here](/infrastructure/configuration-setup/))
 
-• **Private NPM Registry:** Internal registry for publishing and consuming widget packages ([NPM Registry Setup explained here](/infrastructure/npm-registry-setup/))
+• <FaNpm style={{ display: 'inline', marginRight: '0.5rem', color: '#CB3837' }} /> **Private NPM Registry:** Internal registry for publishing and consuming widget packages ([NPM Registry Setup explained here](/infrastructure/npm-registry-setup/))
 
-• **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
+• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
 
 </div>
 
@@ -61,8 +77,8 @@ This guide assumes you've already completed the setup for each infrastructure co
 
 ## Our Suggested Approach
 
-:::note[Quick Start with GitHub Actions]
-If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning or forking our complete CI/CD repository to get started quickly:
+### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> Quick Start with GitHub Actions
+We use GitHub Actions, but your team may choose a different CI/CD platform (see [Alternative Implementations](#alternative-implementations) at the bottom of this page for more options). If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning or forking our complete CI/CD repository to get started quickly:
 
 **🚀 Clone or Fork:** [1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)
 
@@ -74,18 +90,18 @@ If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning 
 
 For a production setup, you need proper repository configuration to enable automated workflows. This involves setting up secrets, environments, and permissions for taking local development work to production.
 
-### 1.1 Secrets Management
+### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> 1.1 Secrets Management
 
 We use GitHub's secret management system to store sensitive credentials securely. All secrets are stored as repository secrets, never hardcoded in files.
 
 :::danger[Required Secrets for Our CI/CD Pipeline]
 You need to configure these secrets in your repository to enable the CI/CD pipeline to deploy your widget:
 
-• **CDN Deployment Secret** (`AKAMAI_NS_SSH_PRIVATE_KEY`) - SSH private key for Akamai CDN deployment. This allows the pipeline to upload your built widget files to the content delivery network.
+• <FaCloud style={{ display: 'inline', marginRight: '0.3rem', color: '#1F8BF3' }} /> **CDN Deployment Secret** (`AKAMAI_NS_SSH_PRIVATE_KEY`) - SSH private key for Akamai CDN deployment. This allows the pipeline to upload your built widget files to the content delivery network.
 
-• **Configuration Service Secret** (`AZURE_APP_CONFIG_CONNECTION_STRING`) - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.3rem', color: '#0078D4' }} /> **Configuration Service Secret** (`AZURE_APP_CONFIG_CONNECTION_STRING`) - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
 
-• **Package Registry Secrets** - Authentication tokens for the internal NPM registry:
+• <FaNpm style={{ display: 'inline', marginRight: '0.3rem', color: '#CB3837' }} /> **Package Registry Secrets** - Authentication tokens for the internal NPM registry:
   - `NPM_TOKEN_READONLY_1fe` - For reading packages from the registry
   - `NPM_TOKEN` - For publishing your widget package to the internal package registry
 :::
@@ -115,7 +131,7 @@ You need to configure these secrets in your repository to enable the CI/CD pipel
 Each widget repository needs environment configuration to control deployment rules and approvals. This ensures proper oversight and prevents unauthorized deployments to production.
 
 :::note[Our Environment Setup]
-We configure two environments for every widget repository:
+We configured two environments for every widget repository:
 - **Integration Environment** - For automated testing and validation of widget changes
 - **Production Environment** - For live user-facing deployments with approval requirements
 :::
@@ -168,9 +184,8 @@ Our widget repositories contain the necessary CI/CD workflow files in the `.gith
 **Example:** [Rollback Workflow Run](https://github.com/docusign/1fe-widget-starter-kit/actions/runs/15864169532)
 :::
 
-:::important[Platform Integration]
+#### Platform Integration
 These workflow files are pre-configured to work with the 1fe platform and call into the centralized CI/CD repository (`1fe-ci-cd`) for the actual pipeline logic.
-:::
 
 ### 1.4 Template Workflow Files (1fe-ci-cd Repository)
 
@@ -212,7 +227,7 @@ Our workflow files are present in the widget repository and work as follows:
 
   • No manual intervention needed for normal releases. Deployment to integration is automated.
 
-**Example Implementation:** [1fe Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
+**Example Implementation:** [1fe Widget Starter Kit CI Run](https://github.com/docusign/1fe-widget-starter-kit/actions/runs/16732162363?pr=8)
 
 ### 3.2 Manual Rollbacks
 
@@ -281,52 +296,35 @@ Here's our specific implementation stack with all the tools and services we use:
 
 Our example uses GitHub Actions and specific cloud services, but you can implement the same philosophy with different tools:
 
-### CI/CD Platforms
+### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> CI/CD Platforms
 
-• **GitLab CI/CD:** [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
+• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **GitHub Actions:** [GitHub Actions Documentation](https://docs.github.com/en/actions) (recommended)
 
-• **Bitbucket Pipelines:** [Bitbucket Pipelines Documentation](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/)
+• <SiGitlab style={{ display: 'inline', marginRight: '0.5rem', color: '#FC6D26' }} /> **GitLab CI/CD:** [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
 
-• **Jenkins:** [Jenkins Documentation](https://www.jenkins.io/doc/)
+• <SiBitbucket style={{ display: 'inline', marginRight: '0.5rem', color: '#0052CC' }} /> **Bitbucket Pipelines:** [Bitbucket Pipelines Documentation](https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/)
 
-### Deployment Platforms
+• <SiJenkins style={{ display: 'inline', marginRight: '0.5rem', color: '#D33833' }} /> **Jenkins:** [Jenkins Documentation](https://www.jenkins.io/doc/)
 
-• **AWS S3 + CloudFront:** [AWS S3 Documentation](https://docs.aws.amazon.com/s3/), [CloudFront Documentation](https://docs.aws.amazon.com/cloudfront/)
+### <FaCloud style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#1F8BF3' }} /> Deployment Platforms
 
-• **Google Cloud Storage + CDN:** [Google Cloud Storage Documentation](https://cloud.google.com/storage/docs)
+• <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS S3 + CloudFront:** [AWS S3 Documentation](https://docs.aws.amazon.com/s3/), [CloudFront Documentation](https://docs.aws.amazon.com/cloudfront/)
 
-• **Azure Blob Storage + CDN:** [Azure Storage Documentation](https://docs.microsoft.com/en-us/azure/storage/)
+• <FaGoogle style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Storage + CDN:** [Google Cloud Storage Documentation](https://cloud.google.com/storage/docs)
 
-• **Vercel/Netlify:** [Vercel Documentation](https://vercel.com/docs), [Netlify Documentation](https://docs.netlify.com/)
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure Blob Storage + CDN:** [Azure Storage Documentation](https://docs.microsoft.com/en-us/azure/storage/)
 
-### Configuration Management
+• <SiVercel style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **Vercel** / <SiNetlify style={{ display: 'inline', marginRight: '0.5rem', color: '#00C7B7' }} /> **Netlify:** [Vercel Documentation](https://vercel.com/docs), [Netlify Documentation](https://docs.netlify.com/)
 
-• **AWS Parameter Store:** [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
+### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Configuration Management
 
-• **HashiCorp Vault:** [Vault Documentation](https://www.vaultproject.io/docs)
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure App Configuration:** [Azure App Configuration Documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) (recommended)
 
-• **Google Secret Manager:** [Google Secret Manager Documentation](https://cloud.google.com/secret-manager/docs)
+• <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS Parameter Store:** [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
 
-The goal is to have a CI/CD system that moves with your code, is transparent to your team, and can be easily understood and modified as your needs change.
+• <FaLock style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **HashiCorp Vault:** [Vault Documentation](https://www.vaultproject.io/docs)
 
-## Summary
-
-Our CI/CD setup provides an automated deployment pipeline that moves with your code. Here's what we've covered:
-
-### What We've Set Up
-
-• **Repository Configuration** - Secrets, environments, and workflow files
-• **Automated Workflows** - Release and rollback processes
-• **Centralized Templates** - Reusable CI/CD components
-• **Complete Toolchain** - GitHub Actions, Akamai CDN, Azure App Configuration
-
-### Key Benefits
-
-• **Self-contained** - All pipeline logic stays with your code
-• **Automated** - No manual intervention for normal releases
-• **Secure** - Proper secret management and approval workflows
-• **Flexible** - Can be adapted to different tools and platforms
-• **Maintainable** - Clear documentation and modular design
+• <FaGoogle style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Secret Manager:** [Google Secret Manager Documentation](https://cloud.google.com/secret-manager/docs)
 
 ### Next Steps
 
@@ -340,5 +338,3 @@ Our CI/CD setup provides an automated deployment pipeline that moves with your c
 1. [Configure Widget Development Environment](/getting-started/local-development/)
 2. [Deploy Your First Widget](/getting-started/deploy-poc/)
 3. [Explore Platform Utilities](/development/Platform%20Utilities/Overview/)
-
-This setup ensures your CI/CD pipeline is transparent, reliable, and can grow with your team's needs.

@@ -9,6 +9,17 @@ import {
   FcDeployment,
   FcSupport,
 } from "react-icons/fc";
+import {
+  FaMicrosoft,
+  FaGithub,
+  FaAws,
+  FaGoogle,
+  FaServer,
+} from "react-icons/fa";
+import {
+  SiVercel,
+  SiNetlify,
+} from "react-icons/si";
 
 <div className="infrastructure-header">
 
@@ -40,7 +51,7 @@ This guide provides instructions for creating and configuring an Azure Web App f
 
 
 
-#### Step 1: Introduction to Azure App Service
+#### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 1: Introduction to Azure App Service
 
 Azure App Service is a Platform-as-a-Service (PaaS) for hosting web applications, REST APIs, and mobile backends. See the [official Azure App Service documentation](https://docs.microsoft.com/en-us/azure/app-service/) for a comprehensive overview.
 
@@ -48,7 +59,7 @@ Azure App Service is a Platform-as-a-Service (PaaS) for hosting web applications
 - [Create a Node.js web app in Azure](https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs)
 - [Azure App Service pricing](https://azure.microsoft.com/en-us/pricing/details/app-service/)
 
-#### Step 2: Create a New Web App
+#### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 2: Create a New Web App
 
 To begin, follow the official Azure documentation to create a new Web App: [Quickstart: Create a Node.js web app in Azure](https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs).
 
@@ -103,7 +114,7 @@ The name you choose will be part of the default URL (e.g., `1fe-demo.azurewebsit
 10. **Proceed to Deployment Configuration**
     - Click **Next: Deployment** to continue
 
-#### Step 3: Configure Deployment from GitHub
+#### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> Step 3: Configure Deployment from GitHub
 
 To enable continuous deployment from a GitHub repository, follow the steps in the [official Azure documentation](https://learn.microsoft.com/en-us/azure/app-service/deploy-continuous-deployment) for connecting your web app to GitHub. This ensures your app is automatically updated with every push.
 
@@ -148,7 +159,7 @@ To enable continuous deployment from a GitHub repository, follow the steps in th
 
 **Example Implementation:** [1fe Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
-#### Step 4: Add and Configure a Custom Domain
+#### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 4: Add and Configure a Custom Domain
 
 Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you will likely want to use a custom domain. Refer to **Official Documentation:** [Set up an existing custom domain name for your app](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain)
 
@@ -188,7 +199,7 @@ Your App Service plan must be a paid tier (e.g., Basic, Standard, Premium) to ad
 :::
 
 
-#### Step 5: Configure Environment Variables
+#### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 5: Configure Environment Variables
 
 Environment variables (known as "Application settings" in Azure) are a secure way to manage configuration values, such as API keys or database connection strings, without hard-coding them into your application. **Official Documentation:** [Configure an App Service App - Environment variables](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings)
 
@@ -243,11 +254,10 @@ If you are using a different hosting provider, you can follow the same steps to 
 
 Here are some other hosting providers you can consider:
 
-- **AWS (Amazon Web Services)** - EC2, Elastic Beanstalk, and Lambda deployment guides
-- **Google Cloud Platform** - App Engine and Compute Engine setup  
-- **Vercel** - Serverless deployment for 1fe applications
-- **Netlify** - Static site hosting with CI/CD integration
-- **Traditional VPS/Dedicated Servers** - Self-hosted deployment options
+- <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS (Amazon Web Services)** - EC2, Elastic Beanstalk, and Lambda deployment guides
+- <FaGoogle style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Platform** - App Engine and Compute Engine setup  
+- <SiVercel style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **Vercel** - Serverless deployment for 1fe applications
+- <SiNetlify style={{ display: 'inline', marginRight: '0.5rem', color: '#00C7B7' }} /> **Netlify** - Static site hosting with CI/CD integration
 
 Check back soon for detailed setup guides for these platforms.
 :::
