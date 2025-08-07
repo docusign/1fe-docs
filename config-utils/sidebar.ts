@@ -1,7 +1,13 @@
 export const sidebarConfig = [
   {
-    label: "Getting Started",
-    autogenerate: { directory: "getting-started" },
+    label: "Start Here",
+    autogenerate: { directory: "start-here" },
+    collapsed: true,
+    // attrs: { style: "text-transform: 'capitalized'" },
+  },
+  {
+    label: "Tutorials",
+    autogenerate: { directory: "tutorials" },
     collapsed: true,
     // attrs: { style: "text-transform: 'capitalized'" },
   },

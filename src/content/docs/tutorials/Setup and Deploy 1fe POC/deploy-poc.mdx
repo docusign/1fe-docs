@@ -1,6 +1,6 @@
 ---
-title: Deploy your starter setup
-description: Deploy your local setup to showcase its benefits.
+title: "Step 3: Deploy Your Proof of Concept"
+description: Deploy your 1fe instance to production and demonstrate the complete workflow
 sidebar:
   order: 3
 ---
@@ -10,19 +10,30 @@ import {
   SlPencil,
   SlRocket,
   SlCloudUpload,
+  SlTarget,
+  SlCheck,
+  SlArrowRight,
 } from "react-icons/sl";
 import { FcOk } from "react-icons/fc";
+
+Perfect! You've set up your 1fe instance and experienced the development workflow. In this final part of the tutorial, you'll deploy your proof of concept to production. This will give you a live demo to share with stakeholders and demonstrate the complete development-to-deployment flow.
+
+## <SlTarget style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What You'll Learn
+
+<div class="prose">
+
+- How to deploy 1fe instances to production environments
+- Setting up CDN infrastructure for widget assets
+- Creating a demonstration-ready proof of concept
+- Understanding the production deployment workflow
+
+</div>
 
 :::caution
 **This is a POC deployment guide!**
 
-We are using public tooling in this guide to get something out on the internet so you can showcase your 1fe instance. If you're ready to set up a production environment with proper CDN infrastructure, CI/CD pipelines, and robust hosting, visit our [productionization guide](../../platform-guides/productionize).
+We are using public tooling in this guide to get something out on the internet so you can showcase your 1fe instance. If you're ready to set up a production environment with proper CDN infrastructure, CI/CD pipelines, and robust hosting, visit our [productionization guide](/how-to-guides/productionize).
 :::
-
-Now that we have setup our local 1fe instance and widget starter kit, it's time to deploy our setup to showcase its benefits. This will allow us to share our work with others and demonstrate the power of 1fe. We will do the following in this guide.
-
-1.  **Deploy our assets to a public CDN (JSDelivr).**
-2.  **Deploy our 1fe instance to a hosting service.**
 
 ### Setup the required github repositories
 
@@ -36,7 +47,7 @@ You need a repository for the `mock-cdn-assets` that will hold our assets. We wi
 
 You need a repository for your 1fe instance that will be used to deploy your 1fe instance.
 
-## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Deploy our assets to a CDN
+## ☁️ Deploy our assets to a CDN
 
 We have already learnt how to host assets locally in the previous guide. Let's deploy to them a CDN so our hosted 1fe instance can access them. For this process, we will need to
 
@@ -133,7 +144,7 @@ Let's now add all the changes you have made to your CDN assets repository and cr
 **JSDelivr not reflecting your changes?** Try purging the cache at https://www.jsdelivr.com/tools/purge. Changes typically appear within a few minutes.
 :::
 
-## Deploy our 1fe instance to a hosting service
+## 🌐 Deploy our 1fe instance to a hosting service
 
 Now that we have our CDN setup, let's deploy our 1fe instance to a hosted service such that it's pointing to our CDN.
 
@@ -162,4 +173,43 @@ As a quick start, you can also use the links below with your 1fe instance reposi
 
 After you have deployed your 1fe instance, you will be able to access it at the URL provided by your hosting service!
 
-🎉 Congratulations! You have successfully deployed your 1fe instance and its assets to a public CDN. You can now share this URL with others to showcase the benefits of using 1fe.
+## 🎉 Congratulations! Tutorial Complete!
+
+You have successfully completed the entire 1fe proof of concept tutorial! You now have a live, working 1fe instance that demonstrates the complete development-to-deployment workflow.
+
+## 🎯 What You've Accomplished
+
+- ✅ **Built a complete 1fe proof of concept** from scratch to production
+- ✅ **Deployed to production** with CDN infrastructure and hosting
+- ✅ **Experienced the full development workflow** from setup to deployment
+- ✅ **Created a demonstrable example** to share with stakeholders
+- ✅ **Understood 1fe's architecture and benefits** through hands-on experience
+
+## 🚀 What's Next?
+
+### For Immediate Use
+
+- **Share your POC** with stakeholders and team members
+- **Demonstrate the development workflow** you just experienced
+- **Evaluate 1fe's fit** for your organization's needs
+
+### For Production Implementation
+
+- **[Productionize Your Setup](/how-to-guides/productionize/)** - Move beyond POC to production-ready infrastructure
+- **[Authentication Setup](/how-to-guides/authentication/)** - Implement proper user authentication
+- **[Custom Utilities](/how-to-guides/custom-utilities/)** - Build platform-specific utilities for your teams
+
+### For Deeper Understanding
+
+- **[What is 1fe?](/learning/what-is-1fe/)** - Dive deeper into 1fe concepts and architecture
+- **[Productionize Your Setup](/how-to-guides/productionize/)** - Solve specific implementation challenges
+- **[1fe Server Reference](/reference/1fe-server-reference/)** - Access technical documentation and API references
+
+---
+
+## 💡 Need Help?
+
+- **Questions?** Check our [FAQs](/learning/faqs/)
+- **Terminology unclear?** Visit our [Terminology guide](/reference/terminology/)
+
+**You've successfully proven that 1fe can standardize your frontend development while maintaining team independence. Welcome to the 1fe community!** 🎊
