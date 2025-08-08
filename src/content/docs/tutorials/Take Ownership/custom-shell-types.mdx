@@ -1,0 +1,445 @@
+---
+title: "Step 3: Setting Up Custom Shell Types"
+description: Create TypeScript definitions for your organization's custom platform utilities
+sidebar:
+  order: 3
+---
+
+import {
+  SlTarget,
+  SlCheck,
+  SlArrowRight,
+  SlWrench,
+  SlSettings,
+  SlCode,
+} from "react-icons/sl";
+
+The final step in taking platform ownership is setting up **custom shell types** for your organization. This is crucial when you need to extend the platform with your own utilities that go beyond what `@1fe/shell` provides.
+
+## 🎯 What You'll Accomplish
+
+By the end of this step, you'll have:
+
+<div class="prose">
+
+- **Custom platform utilities** - Organization-specific tools integrated into your 1fe instance
+- **TypeScript definitions** - Full IntelliSense and compile-time safety for widget developers
+- **Automated publishing** - Shell types automatically published when your 1fe instance updates
+- **Enhanced developer experience** - Widget teams get excellent tooling for your custom utilities
+
+</div>
+
+## 🔧 Why Custom Shell Types Are Needed
+
+While `@1fe/shell` provides excellent baseline platform utilities, organizations often need:
+
+<div class="prose">
+
+- **Custom authentication flows** - Integration with your specific SSO system
+- **Organization-specific APIs** - Wrappers for your internal services
+- **Custom logging/monitoring** - Integration with your observability stack
+- **Business-specific utilities** - Domain logic shared across widgets
+
+</div>
+
+When you add these custom utilities to your 1fe instance, widget developers need TypeScript definitions to use them effectively.
+
+## 🏗️ Understanding the Shell Types Pattern
+
+Your organization's 1fe instance (based on `1fe-starter-app`) will have custom platform utilities:
+
+```typescript title="src/shell/platform-utilities.ts"
+// Your custom utilities extend the base platform
+import { basePlatformProps } from "@1fe/shell";
+
+export const platformProps = {
+  ...basePlatformProps,
+
+  // Your organization's custom utilities
+  auth: {
+    getCurrentUser: () => getCurrentUser(),
+    hasPermission: (permission: string) => checkPermission(permission),
+    refreshToken: () => refreshAuthToken(),
+  },
+
+  analytics: {
+    track: (event: string, properties: any) => trackEvent(event, properties),
+    identify: (userId: string) => identifyUser(userId),
+  },
+
+  api: {
+    request: (endpoint: string, options?: RequestOptions) =>
+      apiRequest(endpoint, options),
+    graphql: (query: string, variables?: any) =>
+      graphqlRequest(query, variables),
+  },
+};
+```
+
+Widget developers need TypeScript definitions for these utilities:
+
+```typescript title="widget-code.tsx"
+import { platformProps } from "@your-org/shell-types";
+
+// This should have full TypeScript support
+const user = platformProps.auth.getCurrentUser();
+platformProps.analytics.track("widget-loaded", { widgetId: "my-widget" });
+```
+
+## ⚙️ Setting Up Shell Types Generation
+
+### 1. Add Type Generation to Your 1fe Instance
+
+In your 1fe starter app repository:
+
+```json title="package.json"
+{
+  "scripts": {
+    "build": "npm run build:app",
+    "build:app": "1fe build",
+    "build:types": "npm run generate-types && npm run build-types-package",
+    "generate-types": "tsc --declaration --emitDeclarationOnly --outDir types-temp",
+    "build-types-package": "node scripts/build-types-package.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^18.0.0"
+  }
+}
+```
+
+### 2. Create Type Generation Script
+
+```javascript title="scripts/build-types-package.js"
+const fs = require("fs");
+const path = require("path");
+
+// Extract platform utilities types
+const platformTypesSource = `
+import type { BasePlatformProps } from '@1fe/shell';
+
+export interface CustomAuth {
+  getCurrentUser(): Promise<User>;
+  hasPermission(permission: string): boolean;
+  refreshToken(): Promise<string>;
+}
+
+export interface CustomAnalytics {
+  track(event: string, properties?: any): void;
+  identify(userId: string): void;
+}
+
+export interface CustomAPI {
+  request(endpoint: string, options?: RequestOptions): Promise<any>;
+  graphql(query: string, variables?: any): Promise<any>;
+}
+
+export interface YourOrgPlatformProps extends BasePlatformProps {
+  auth: CustomAuth;
+  analytics: CustomAnalytics;
+  api: CustomAPI;
+}
+
+declare global {
+  const platformProps: YourOrgPlatformProps;
+}
+
+export { platformProps };
+`;
+
+// Create types package structure
+const typesDir = path.join(__dirname, "../dist-types");
+if (!fs.existsSync(typesDir)) {
+  fs.mkdirSync(typesDir, { recursive: true });
+}
+
+// Write main types file
+fs.writeFileSync(path.join(typesDir, "index.d.ts"), platformTypesSource);
+
+// Create package.json for types package
+const typesPackageJson = {
+  name: "@your-org/shell-types",
+  version: process.env.npm_package_version || "1.0.0",
+  description: "TypeScript definitions for YOUR-ORG 1fe platform utilities",
+  main: "index.d.ts",
+  types: "index.d.ts",
+  files: ["index.d.ts"],
+  dependencies: {
+    "@1fe/shell": "^latest",
+  },
+};
+
+fs.writeFileSync(
+  path.join(typesDir, "package.json"),
+  JSON.stringify(typesPackageJson, null, 2)
+);
+
+console.log("Shell types package built successfully!");
+```
+
+### 3. Automate Types Publishing
+
+Add to your 1fe instance CI/CD pipeline:
+
+```yaml title=".github/workflows/publish-shell-types.yml"
+name: Publish Shell Types
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  publish-types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate shell types
+        run: npm run build:types
+
+      - name: Publish types package
+        working-directory: dist-types
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+```
+
+## 📦 Using Custom Shell Types in Widgets
+
+Once published, widget developers can use your custom shell types:
+
+### 1. Install in Widget Projects
+
+```json title="widget-package.json"
+{
+  "devDependencies": {
+    "@your-org/shell-types": "^1.0.0",
+    "@1fe/cli": "^latest"
+  }
+}
+```
+
+### 2. Configure TypeScript
+
+```json title="widget-tsconfig.json"
+{
+  "extends": "@your-org/widget-base-config/typescript.json",
+  "compilerOptions": {
+    "types": ["@your-org/shell-types"]
+  }
+}
+```
+
+### 3. Use in Widget Code
+
+```typescript title="src/my-widget.tsx"
+import React, { useEffect, useState } from "react";
+
+// platformProps is now fully typed with your custom utilities
+declare const platformProps: import("@your-org/shell-types").YourOrgPlatformProps;
+
+export const MyWidget: React.FC = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Full TypeScript intellisense for your custom auth
+    platformProps.auth.getCurrentUser().then(setUser);
+
+    // Track widget usage with your analytics
+    platformProps.analytics.track("widget-mounted", {
+      widgetId: "my-widget",
+      timestamp: Date.now(),
+    });
+  }, []);
+
+  const handleApiCall = async () => {
+    // Your custom API wrapper with full typing
+    const data = await platformProps.api.request("/api/data", {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+
+    console.log("API response:", data);
+  };
+
+  return (
+    <div>
+      <h1>Welcome, {user?.name}</h1>
+      <button onClick={handleApiCall}>Fetch Data</button>
+    </div>
+  );
+};
+```
+
+## 🚀 Advanced Shell Types Patterns
+
+### 1. Environment-Specific Types
+
+```typescript title="types/environment-specific.d.ts"
+export interface EnvironmentConfig {
+  apiBaseUrl: string;
+  cdnBaseUrl: string;
+  features: {
+    betaFeatures: boolean;
+    debugMode: boolean;
+  };
+}
+
+export interface YourOrgPlatformProps extends BasePlatformProps {
+  env: EnvironmentConfig;
+  // ... other utilities
+}
+```
+
+### 2. Plugin-Specific Extensions
+
+```typescript title="types/plugin-extensions.d.ts"
+export interface PluginUtilities {
+  navigation: {
+    goToRoute(route: string): void;
+    openModal(modalId: string, props?: any): void;
+  };
+  state: {
+    getGlobalState<T>(key: string): T | null;
+    setGlobalState<T>(key: string, value: T): void;
+  };
+}
+
+export interface YourOrgPlatformProps extends BasePlatformProps {
+  plugin: PluginUtilities;
+}
+```
+
+### 3. Utility-Specific Type Guards
+
+```typescript title="types/type-guards.d.ts"
+export interface TypeGuards {
+  isAuthenticated(): user is AuthenticatedUser;
+  hasFeature(feature: string): feature is EnabledFeature;
+  isEnvironment(env: string): env is ValidEnvironment;
+}
+
+export interface YourOrgPlatformProps extends BasePlatformProps {
+  guards: TypeGuards;
+}
+```
+
+## 🔄 Maintaining Shell Types
+
+### Version Management
+
+Keep shell types in sync with your 1fe instance:
+
+```json title="package.json"
+{
+  "version": "2.1.0",
+  "scripts": {
+    "postversion": "npm run build:types && cd dist-types && npm version $npm_package_version"
+  }
+}
+```
+
+### Documentation Generation
+
+Auto-generate documentation from your types:
+
+```javascript title="scripts/generate-docs.js"
+const TypeDoc = require("typedoc");
+
+async function generateDocs() {
+  const app = new TypeDoc.Application();
+
+  app.options.addReader(new TypeDoc.TSConfigReader());
+  app.bootstrap({
+    entryPoints: ["src/types/index.ts"],
+    out: "docs/shell-types",
+  });
+
+  const project = app.convert();
+  if (project) {
+    await app.generateDocs(project, "docs/shell-types");
+  }
+}
+
+generateDocs();
+```
+
+## 🎯 Benefits of Custom Shell Types
+
+**For Platform Teams:**
+
+- **Type safety enforcement** - Compile-time checking of platform API usage
+- **Documentation as code** - Types serve as live documentation
+- **Refactoring support** - IDEs can help with platform API changes
+- **API evolution** - Clear versioning and migration paths
+
+**For Widget Developers:**
+
+- **Excellent developer experience** - Full IntelliSense and autocomplete
+- **Reduced errors** - Catch platform API misuse at compile time
+- **Self-documenting code** - Types explain available platform capabilities
+- **Faster development** - No guessing about API signatures
+
+## ✅ Validation Checklist
+
+Before completing this tutorial series, ensure:
+
+<div class="prose">
+
+- [ ] **Custom utilities implemented** - Your 1fe instance has organization-specific tools
+- [ ] **Types generation working** - Automated TypeScript definition creation
+- [ ] **Publishing pipeline active** - Shell types automatically published with instance updates
+- [ ] **Widget integration tested** - Developers can use types with full IntelliSense
+- [ ] **Documentation provided** - Clear examples and API reference available
+
+</div>
+
+## 🎉 Congratulations!
+
+You have successfully taken complete ownership of your 1fe ecosystem! Your platform team now has:
+
+**✅ Infrastructure Ownership:**
+
+- Complete control over 1fe configurations and standards
+- Automated deployment pipelines for all widget teams
+- Custom platform utilities tailored to your organization
+
+**✅ Team Enablement:**
+
+- Standardized tooling that teams can adopt immediately
+- Self-service deployment workflows with built-in quality gates
+- Excellent developer experience with full TypeScript support
+
+**✅ Organizational Scale:**
+
+- Foundation for scaling 1fe across multiple teams
+- Governance controls and compliance built into the platform
+- Clear upgrade paths and maintenance strategies
+
+## 👉 Next Steps
+
+With platform ownership complete, consider:
+
+1. **Rolling out to development teams** - Start onboarding widget teams to your infrastructure
+2. **Monitoring and observability** - Set up dashboards for widget deployments and usage
+3. **Advanced features** - Progressive rollouts, A/B testing, performance monitoring
+4. **Community building** - Internal documentation, training, and support processes
+
+**→ [Return to Tutorial Overview](/tutorials/take-ownership/)**
+
+Or explore advanced topics in our [How-to Guides](/how-to-guides/) section.
+
+---
+
+:::tip[Platform Team Success]
+The infrastructure you've built forms the backbone of a scalable, maintainable 1fe ecosystem. Your investment in platform ownership will pay dividends as your organization scales 1fe across multiple teams and products.
+:::

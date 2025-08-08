@@ -1,0 +1,296 @@
+---
+title: "Step 1: Getting Started with Widget Development"
+description: Set up your development environment and understand the widget development workflow
+sidebar:
+  order: 1
+---
+
+import {
+  SlTarget,
+  SlCheck,
+  SlArrowRight,
+  SlWrench,
+  SlSettings,
+  SlFolder,
+} from "react-icons/sl";
+
+Welcome to widget development! In this step, you'll set up your development environment and get familiar with the widget development workflow.
+
+## 🎯 What You'll Accomplish
+
+By the end of this step, you'll have:
+
+<div class="prose">
+
+- **Development environment ready** - All prerequisites installed and configured
+- **Widget starter kit cloned** - Your own copy of the widget template
+- **Development server running** - Local widget development environment active
+- **Project structure understanding** - Know how widget projects are organized
+
+</div>
+
+## 🏢 Check With Your Organization First
+
+Before diving into the standard tools, **check with your platform team** to see if your organization provides:
+
+<div class="prose">
+
+- **Custom widget starter kit** - Organization-specific template with company standards
+- **Internal development guidelines** - Company-specific setup instructions
+- **Custom development tools** - Organization-specific CLI tools or workflows
+- **Internal widget registry** - Private package registry for dependencies
+
+</div>
+
+If your organization has custom tools, use those instead! The concepts in this tutorial will still apply.
+
+## 🔧 Prerequisites Check
+
+Ensure you have the following installed:
+
+### Node.js and Package Manager
+
+```bash
+# Check Node.js version (18+ required)
+node --version
+
+# Check npm version
+npm --version
+
+# Or if using yarn
+yarn --version
+```
+
+### Code Editor Setup
+
+We recommend **VS Code** with these extensions for the best development experience:
+
+<div class="prose">
+
+- **ES7+ React/Redux/React-Native snippets** - React development helpers
+- **TypeScript and JavaScript Language Features** - Enhanced TS support
+- **Prettier** - Code formatting
+- **ESLint** - Code linting and quality
+
+</div>
+
+## 📦 Cloning the Widget Starter Kit
+
+Let's get the standard 1fe widget starter kit:
+
+### 1. Clone the Repository
+
+```bash
+# Clone the widget starter kit
+git clone https://github.com/docusign/1fe-widget-starter-kit.git my-first-widget
+
+# Navigate to the project
+cd my-first-widget
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install all dependencies
+yarn install
+
+# Or if using npm
+npm install
+```
+
+This will install all the necessary dependencies for widget development, including:
+- **@1fe/cli** - Build and development tools
+- **React and TypeScript** - Core development libraries
+- **Testing frameworks** - Jest and testing utilities
+
+### 3. Explore the Project Structure
+
+Let's understand what you just cloned:
+
+```
+my-first-widget/
+├── src/                    # Your widget source code
+│   ├── components/         # Reusable React components
+│   ├── contract.ts         # Widget contract definition
+│   ├── app1.tsx           # Main widget entry point
+│   └── widget.ts          # Widget configuration
+├── tests/                  # Test files
+├── .1fe.config.ts         # Widget build configuration
+├── package.json           # Dependencies and scripts
+└── README.md              # Project documentation
+```
+
+## 🏗️ Understanding Key Files
+
+### Widget Entry Point (`src/app1.tsx`)
+
+This is your main widget component:
+
+```typescript title="src/app1.tsx"
+import React, { useEffect } from 'react';
+import { platformProps } from '@1fe/shell';
+import { WidgetProps } from './contract';
+
+const MyWidget: React.FC<WidgetProps> = (props) => {
+  useEffect(() => {
+    // Widget initialization
+    platformProps.utils.appLoadTime.end();
+    console.log('Hello from my first widget!');
+  }, []);
+
+  return (
+    <div>
+      <h1>My First Widget</h1>
+      <p>Welcome to 1fe widget development!</p>
+    </div>
+  );
+};
+
+export default MyWidget;
+```
+
+### Widget Contract (`src/contract.ts`)
+
+Defines the interface between your widget and the platform:
+
+```typescript title="src/contract.ts"
+export interface WidgetProps {
+  // Define the props your widget expects
+  title?: string;
+  theme?: 'light' | 'dark';
+  // Add more props as needed
+}
+```
+
+### Configuration (`.1fe.config.ts`)
+
+Controls how your widget is built and deployed:
+
+```typescript title=".1fe.config.ts"
+import { defineConfig } from '@1fe/cli';
+
+export default defineConfig({
+  widget: {
+    name: 'my-first-widget',
+    entry: 'src/app1.tsx',
+  },
+  // Additional configuration options
+});
+```
+
+## 🚀 Starting the Development Server
+
+Now let's get your widget running locally:
+
+```bash
+# Start the development server
+yarn dev
+
+# Or with npm
+npm run dev
+```
+
+You should see output similar to:
+
+```
+✓ Widget development server started
+✓ Widget bundle available at: http://localhost:8080/js/1fe-bundle.js
+✓ Ready for development!
+```
+
+**What just happened?**
+- The 1fe CLI compiled your widget
+- Started a local development server
+- Made your widget available at a local URL
+- Enabled hot reloading for development
+
+## 🔍 Verifying Your Setup
+
+Let's make sure everything is working:
+
+### 1. Check the Bundle URL
+
+Open your browser and visit:
+```
+http://localhost:8080/js/1fe-bundle.js
+```
+
+You should see JavaScript code (the compiled widget bundle).
+
+### 2. Check Development Logs
+
+In your terminal, you should see:
+- No TypeScript errors
+- Successful compilation messages
+- Hot reload ready status
+
+### 3. Make a Test Change
+
+Edit `src/app1.tsx` and change the heading:
+
+```typescript title="src/app1.tsx" {8}
+return (
+  <div>
+    <h1>My Awesome First Widget!</h1>
+    <p>Welcome to 1fe widget development!</p>
+  </div>
+);
+```
+
+Save the file and watch your terminal - you should see the widget recompile automatically.
+
+## 📁 Understanding Widget Architecture
+
+### Platform Integration
+
+Your widget runs within the 1fe platform and has access to:
+
+<div class="prose">
+
+- **Platform utilities** - Shared functions for logging, navigation, etc.
+- **Shared dependencies** - React, design systems, and common libraries
+- **Shell context** - Platform-wide state and configuration
+- **Event system** - Communication with other widgets and the shell
+
+</div>
+
+### Development Workflow
+
+The typical development cycle is:
+
+1. **Code** - Write widget functionality in `src/`
+2. **Test** - Use the playground for immediate feedback
+3. **Build** - Compile with `yarn build:widget`
+4. **Deploy** - Push to your organization's deployment pipeline
+
+## ✅ Validation Checklist
+
+Before moving to the next step, ensure:
+
+<div class="prose">
+
+- [ ] **Node.js 18+** installed and working
+- [ ] **Widget starter kit** cloned and dependencies installed
+- [ ] **Development server** running without errors
+- [ ] **Bundle URL** accessible at http://localhost:8080/js/1fe-bundle.js
+- [ ] **Hot reloading** working when you make code changes
+
+</div>
+
+## 🎉 Success!
+
+Congratulations! You now have a fully functional widget development environment. Your widget is compiled, served locally, and ready for development.
+
+## 👉 Next Step
+
+Now that your development environment is ready, let's learn how to use the 1fe Playground to develop and test your widget interactively.
+
+**→ [Step 2: Using the Playground for Development](/tutorials/developing-your-first-widget/using-playground/)**
+
+In the next step, you'll load your widget in the playground and start the interactive development workflow.
+
+---
+
+:::tip[Organization Integration]
+Once you're comfortable with this standard workflow, ask your platform team about organization-specific development tools. The concepts you're learning here apply to any custom tooling your organization provides!
+:::
