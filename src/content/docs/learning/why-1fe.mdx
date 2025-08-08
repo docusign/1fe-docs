@@ -1,0 +1,265 @@
+---
+title: Why 1fe?
+description: Understanding the transformational benefits of the 1fe platform for modern organizations
+sidebar:
+  order: 1
+---
+
+import {
+  FcDownload,
+  FcMindMap,
+  FcElectronics,
+  FcFlashOn,
+  FcOrganization,
+  FcSettings,
+  FcTimeline,
+} from "react-icons/fc";
+
+There are already multiple standards and patterns across the industry and within organizations. The point of 1fe is not to be yet another standard, but to be a **unified platform** that brings your organization's existing standards together while enabling unprecedented flexibility and team velocity.
+
+## <FcOrganization style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> The Organizational Challenge
+
+Modern organizations face a fundamental problem: **frontend fragmentation**. Each team independently recreates the same foundational infrastructure, leading to massive redundancy and inefficiency.
+
+### Redundancy of Effort
+
+In large organizations, top-level experiences typically include multiple products and services, each having independently created:
+
+- **Backend servers** for serving and proxying
+- **Frontend shells** with their own layout systems
+- **Application experiences** (top-level routing and navigation)
+- **PR checks and release processes**
+- **Testing infrastructure** and quality gates
+- **Common utilities** reinvented multiple times
+
+Taking a step back, we can identify a pattern that is repetitive and ungoverned. Each team has solved the same problems with similar solutions with almost no sharing of assets, resources, or knowledge.
+
+Going deeper, the core utilities required by typical web applications are re-implemented multiple times across teams:
+
+- **Internationalization (i18n)** - Every team builds their own translation system
+- **Analytics integration** - Multiple implementations of the same tracking tools
+- **State management** - Redux, Zustand, and custom solutions scattered across teams
+- **UI components** - Deviations from and migrations to design systems happening independently
+- **Logging systems** - Different approaches to error tracking and monitoring
+- **API communication** - Fetch wrappers, GraphQL clients, and WebSocket implementations
+- **Feature flags** - Multiple feature flag services and management approaches
+- **Authentication flows** - Login, logout, and session management recreated everywhere
+- **Navigation systems** - Internal and external routing solved differently by each team
+
+### Lack of Unified Approach
+
+From a bird's eye view, most organizations' frontend ecosystems look like a bad collaboration between different companies. Each team's experience is completely unique and disparate from the rest. There is no knowledge sharing or pattern reuse.
+
+This leads to:
+
+- **Inconsistent code quality** - A single repository looks like it's been written by dozens of developers due to lack of uniformity
+- **Tribal knowledge** - Domain experts emerge around basic tooling setup, creating knowledge silos
+- **High onboarding costs** - Engineers face high ramp-up times when contributing to other teams' codebases
+- **Poor interoperability** - Long PR review times when teams with different patterns try to collaborate
+- **Unnecessary reinvention** - Teams build custom solutions instead of leveraging existing tools
+- **Painful upgrades** - Technology migrations become multi-team, multi-quarter efforts
+- **Version incompatibilities** - One team uses React 18 while another uses React 16, requiring complex bridges
+
+## <FcSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> What Makes 1fe Different
+
+1fe is **NOT** just another JavaScript framework. It's a **platform and set of standards** that can be implemented with any framework or library. The goal is to provide a consistent and predictable way to build and maintain frontend applications that enables:
+
+### Team Independence
+
+- **Isolated and independent** sandboxed components
+- **Micro-frontends with micro-repositories** for true team autonomy
+- **Reduction of guest development** - no more waiting for other teams
+- **Independent deployment cycles** - deploy when you're ready
+
+### Developer Experience
+
+- **Consistent and predictable development** patterns across all projects
+- **Simplified onboarding** for new developers joining any team
+- **Reduced cognitive load** from maintaining multiple standards
+- **Unparalleled DX** with hot reloading, instant feedback, and modern tooling
+
+### Organizational Efficiency
+
+- **Maximize reuse** across the organization through shared utilities
+- **Increased speed** of development and deployment
+- **Abstract complexity away** from product teams
+- **Clear separation** between platform and product concerns
+- **Smooth upgrade paths** for applications and dependencies
+
+## <FcElectronics style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Dynamic Module Federation
+
+What makes 1fe truly transformational is its **dynamic module federation** capability - the ability to load, update, and compose widgets at runtime without rebuilding or redeploying the host application.
+
+### Independent Team Velocity
+
+Teams can develop, test, and deploy widgets completely independently:
+
+- **Deploy multiple times per day** without coordinating with other teams
+- **No shared release cycles** or blocking dependencies
+- **Instant rollbacks** without affecting other widgets
+
+### Operational Excellence
+
+Platform teams gain unprecedented control:
+
+- **Zero-downtime deployments** for individual widgets
+- **Progressive rollouts** with instant rollback capability
+- **Centralized dependency management** across all widgets
+- **Performance optimization** through intelligent caching and preloading
+
+### How Dynamic Federation Works
+
+1fe achieves this through **SystemJS** and **Import Maps** that create a true runtime module federation system:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Import SystemJS from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.10.0/dist/s.min.js"></script>
+
+    <!-- Define the Import Map -->
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "widget1": "https://cdn.skypack.dev/react"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>SystemJS + Import Maps Example</h1>
+
+    <script type="module">
+      // Use SystemJS to import modules as defined by the import map
+      System.import("widget1")
+        .then((widgetModule) => {
+          console.log("Widget loaded:", widgetModule);
+        })
+        .catch((err) => console.error("Error loading Widget:", err));
+    </script>
+  </body>
+</html>
+```
+
+### Why Traditional Micro-Frontend Approaches Fall Short
+
+Some organizations attempt to solve frontend fragmentation with **Module Federation** or similar build-time solutions. However, these approaches are fundamentally limited:
+
+**Module Federation Limitations:**
+
+- **Build-time coupling** - Widgets must be known and configured at compile time
+- **Tool-specific** - Tied to webpack@5, making migrations painful and expensive
+- **Maintenance overhead** - Requires complex host/child configurations
+- **Not truly dynamic** - Cannot load arbitrary widgets at runtime
+- **Poor caching** - Unable to benefit from intelligent preloading and caching strategies
+
+Module Federation keeps teams tied to specific build tools and versions, making migrations to newer, faster tools (like Turbopack, which offers 700x faster builds than webpack) extremely difficult and expensive.
+
+### 1fe's ES Module Approach
+
+1fe solves this with **standards-based dynamic loading** using ES Modules and SystemJS:
+
+**Benefits of the ES Module approach:**
+
+- **Tool-agnostic** - Works with any bundler (webpack, Vite, Turbopack, etc.)
+- **Truly dynamic** - Load any widget at runtime without prior configuration
+- **Future-proof** - Based on web standards, not tool-specific implementations
+- **Intelligent caching** - Sophisticated preloading and cache strategies
+- **Zero coupling** - Widgets and shell are completely independent
+
+## <FcMindMap style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Technical Architecture
+
+1fe provides a **central abstraction** for the development, deployment, and execution of all frontend experiences through three core components:
+
+### Single Frontend Server
+
+- **Single page application** - Consolidates all HTML delivery to one optimized shell
+- **Backend proxying** - Routes API calls from widgets to their respective backend services
+- **Version monitoring** - Tracks widget and plugin release versions across environments
+- **Dependency serving** - Manages shared libraries and configurations
+- **Logging aggregation** - Centralizes UI logging and error reporting
+
+### Application Shell
+
+- **Layout system** - Provides consistent header, footer, navigation, and sidebar components
+- **Platform utilities** - Sandbox environment with logging, i18n, navigation, and more
+- **Dependency management** - Standardized libraries (React, design systems, etc.) loaded once
+- **Runtime execution** - Handles dynamic loading, lazy loading, and intelligent preloading
+- **Authentication** - Centralized auth flows for all widgets that need them
+
+### Development & Build Standards
+
+- **Asset governance** - Standardized output formats and module definitions
+- **Runtime guarantees** - Well-defined APIs and execution contracts
+- **Code quality** - Shared linting, formatting, and testing configurations
+- **Independent releases** - Each widget can deploy daily or hourly as needed
+- **Version control** - Plugins can pin or update widget versions independently
+- **Performance optimization** - Best practices baked into the build process
+- **Scaffolding tools** - Starter kits for rapid widget and plugin development
+
+### Release Pipeline Revolution
+
+Traditional approaches suffer from **interdependent and blocking release schedules** where everyone writes to the same repository, leading to:
+
+- Poor developer experience for cross-team contributions
+- Long review times and overhead
+- No standardized deployment patterns
+- Escalations when fixes miss the release train
+
+**1fe's approach:**
+
+- **Independent repositories** - Each widget owns its codebase and CI/CD pipeline
+- **Standardized templates** - Common deployment patterns ensure consistency
+- **Dynamic configuration** - Central config drives versioned releases across environments
+- **Zero server restarts** - Widget deployments happen without downtime
+- **Quality gates** - Automated promotion to environments based on build quality
+- **Complete automation** - Teams get GitHub repos, webhooks, Slack notifications, and deployment pipelines for free
+
+## <FcElectronics style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Real-World Use Case
+
+Consider a common organizational challenge: **building cross-product experiences**.
+
+A team needs to create an onboarding flow that guides users through multiple products and captures profile information. The traditional approach leads to:
+
+- **Uncertainty and delays** - Unclear how to build a "one size fits all" solution
+- **Communication overhead** - Extensive coordination with multiple product teams
+- **Blocking dependencies** - Waiting for other teams' release cycles
+- **Duplicate efforts** - Building similar experiences in separate applications
+
+With 1fe, the team can:
+
+1. **Build independently** - Create their onboarding widget with its own development and deployment pipeline
+2. **Deploy everywhere** - The widget can run in any 1fe-enabled application immediately
+3. **Update freely** - Make changes and improvements without coordinating releases
+4. **Share automatically** - Other teams can consume the onboarding widget in minutes, not weeks
+
+### The Widget Reuse Problem
+
+Organizations often recreate the same user experiences multiple times. For example, a document viewer might be built separately by three different teams, each solving the same technical challenges:
+
+- **PDF rendering** and optimization
+- **Annotation systems** and user interactions
+- **File format support** and conversion
+- **Performance optimization** and caching
+
+In an ideal world, **one dedicated team** builds the document viewer widget, and all other teams consume it. Updates to functionality, performance improvements, and new features benefit everyone automatically.
+
+**1fe makes this possible** by providing the infrastructure for true widget sharing and composition.
+
+## <FcFlashOn style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> The 1fe Promise
+
+1fe delivers on a simple but powerful promise: **allowing teams to focus on creating exceptional user experiences while the platform handles all the complexity of modern frontend development**.
+
+By providing dynamic module federation, standardized tooling, and operational excellence out of the box, 1fe transforms how organizations build and deploy frontend applications - enabling true team independence while maintaining consistency and quality at scale.
+
+The result is faster development cycles, higher quality applications, reduced maintenance overhead, and happier developers who can focus on what they do best: building great products for users.
+
+### What 1fe Enables for Your Organization
+
+- **Eliminate redundant effort** across teams and products
+- **Accelerate development velocity** with standardized tooling and patterns
+- **Improve user experiences** through consistent design and faster performance
+- **Reduce maintenance costs** by centralizing common infrastructure
+- **Enable true innovation** by freeing teams from infrastructure concerns
+- **Future-proof your architecture** with standards-based, tool-agnostic solutions
