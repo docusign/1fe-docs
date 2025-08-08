@@ -5,13 +5,17 @@ sidebar:
   order: 5
 ---
 
-### `runtime_config_overrides`
+import { FcLink, FcSettings } from "react-icons/fc";
+
+## <FcLink style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Special Query Parameters
+
+### <FcSettings style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> `runtime_config_overrides`
 
 A stringified key-value mapping of widgets to runtime configurations. When provided, 1fe will apply the runtime configurations when loading the widget instead of the widget's live runtime configuration.
 
 **Supported Environments**: Pre-Production
 
-### `widget_url_overrides`
+### <FcLink style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> `widget_url_overrides`
 
 A stringified key-value mapping of widgets to bundle source. When provided, 1fe will use the provided bundle url instead of the widget's evergreen bundle.
 
