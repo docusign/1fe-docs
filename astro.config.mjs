@@ -21,11 +21,6 @@ export default defineConfig({
 	site: isLocalDevelopment
 	  ? `http://localhost:${DEV_PORT}`
 	  : 'https://1fe.com',
-	redirects: {
-		'/getting-started/installation': '/start-here',
-		'/getting-started/local-development': '/tutorials/setup-and-deploy-1fe-poc/develop-locally',
-		'/getting-started/deploy-poc': '/tutorials/setup-and-deploy-1fe-poc/deploy-poc',
-	},
   integrations: [starlight({
 			title: 'Docs',
 			social: {
@@ -34,8 +29,8 @@ export default defineConfig({
 			logo: {
 			  src: './src/assets/1fe-logo.svg',
 			},
-					sidebar: sidebarConfig,
-		disable404Route: true,
+			sidebar: sidebarConfig,
+			disable404Route: true,
 			expressiveCode: {
 			  // You can optionally override the plugin's default settings here
 			  frames: {},
