@@ -105,3 +105,9 @@ Documentation content is written in MDX format and stored in the `src/content/do
 - [Astro Documentation](https://docs.astro.build)
 - [Starlight Documentation](https://starlight.astro.build)
 - [TailwindCSS Documentation](https://tailwindcss.com/docs)
+
+---
+
+### Issues and Discussions
+
+If you have questions or want to discuss this project, please visit the [Issues](https://github.com/docusign/1fe/issues) or [Discussions](https://github.com/docusign/1fe/discussions) pages in our monorepo.
