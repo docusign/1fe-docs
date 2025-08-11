@@ -1,2 +1,8 @@
+# 1fe Documentation Site Robots.txt
+# https://1fe.com
+
 User-agent: *
-Disallow: /
+Allow: /
+
+# Crawl delay for respectful crawling (for bots that support it)
+Crawl-delay: 1
