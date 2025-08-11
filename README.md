@@ -52,32 +52,6 @@ yarn dev
 yarn build
 ```
 
-## Project Structure
-
-Inside of this Astro documentation project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   ├── favicon.svg
-│   └── robots.txt
-├── src/
-│   ├── content/
-│   │   ├── docs/           # Documentation content
-│   │   │   ├── start-here/
-│   │   │   ├── tutorials/
-│   │   │   ├── learning/
-│   │   │   ├── how-to-guides/
-│   │   │   ├── infrastructure/
-│   │   │   ├── reference/
-│   │   │   └── ...
-│   │   └── config.ts       # Content collections config
-│   ├── components/         # Reusable Astro components
-│   ├── layouts/           # Page layouts
-│   └── assets/            # Images and other assets
-├── astro.config.mjs       # Astro configuration
-└── package.json
-```
 
 Documentation content is written in MDX format and stored in the `src/content/docs/` directory. Each file automatically becomes a page based on its file path.
 

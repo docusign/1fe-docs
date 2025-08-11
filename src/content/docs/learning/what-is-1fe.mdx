@@ -2,14 +2,14 @@
 title: What is 1fe?
 description: Learn about the architecture of 1fe and how it standardizes development, deployment, and execution.
 sidebar:
-  order: 1
+  order: 3
 ---
 
-import { SlWrench, SlCloudUpload, SlEnergy } from "react-icons/sl";
+import { FcSettings, FcDeployment, FcElectronics } from "react-icons/fc";
 
 1fe is a micro-frontend platform which allows teams to focus on creating experiences for the front end utilizing shared utilities and governance controls provided by a single platform team. 1fe achieves this by standardizing the development, deployment and execution of the experiences.
 
-## <SlWrench style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Development
+## 🔧 Development
 
 The 1fe platform streamlines the development process by providing a standardized set of tools, libraries, and best practices. This approach is designed to prevent redundancy, facilitate high reuse, and improve overall code quality and developer experience.
 
@@ -28,7 +28,7 @@ To bring these concepts to life, 1fe provides a suite of packages to standardize
 - **[create-1fe-app](https://www.npmjs.com/settings/1fe/packages)**: A scaffolding tool that allows teams to create a new 1fe instance from scratch by answering a few simple questions in the terminal.
 - **[1fe-sample-widget-base-config](https://github.com/docusign/1fe-sample-widget-base-config)**: This repository demonstrates the concept of shared configurations. It produces a package that can be consumed by all widgets within a company's ecosystem to ensure that common settings are propagated consistently. configurations. `@1fe/cli` enforces these configs during the build and development process to ensure code quality and consistency.
 
-## <SlCloudUpload style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Deployment
+## 🚀 Deployment
 
 1fe revolutionizes the deployment process by enabling independent, fast, and safe releases. It decouples individual experiences from a monolithic release train.
 
@@ -44,7 +44,7 @@ For deployment, 1fe provides templates to ensure a consistent and reliable path 
 
 - **[1fe-ci-cd](https://github.com/docusign/1fe-ci-cd)**: This repository contains reusable CI/CD pipeline templates (e.g., for GitHub Actions). By using these templates, all widgets and plugins adhere to the same standards for building, testing, and deploying. This creates a uniform process with built-in quality gates and controls, which platform teams can adapt for their CI/CD platform of choice.
 
-## <SlEnergy style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Execution
+## ⚡ Execution
 
 At runtime, 1fe provides a robust and performant execution environment that guarantees how widgets and plugins behave, regardless of where or how they are loaded.
 

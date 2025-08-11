@@ -1,0 +1,492 @@
+---
+title: "Step 4: Building and Testing Your Widget"
+description: Learn the complete build process, testing strategies, and deployment preparation
+sidebar:
+  order: 4
+---
+
+import {
+  SlTarget,
+  SlCheck,
+  SlArrowRight,
+  SlWrench,
+  SlSettings,
+  SlRocket,
+} from "react-icons/sl";
+
+The final step in widget development is building, testing, and preparing your widget for deployment. This step covers the complete production workflow and integration with your organization's deployment pipeline.
+
+## 🎯 What You'll Accomplish
+
+By the end of this step, you'll know how to:
+
+<div class="prose">
+
+- **Build production-ready widgets** - Create optimized bundles for deployment
+- **Validate widget contracts** - Ensure compatibility with the platform
+- **Test widget functionality** - Implement comprehensive testing strategies
+- **Prepare for deployment** - Understand the deployment workflow and requirements
+
+</div>
+
+## 🏗️ Building Your Widget
+
+The build process transforms your development code into a production-ready bundle that can be deployed and consumed by the 1fe platform.
+
+### 1. Production Build
+
+Create a production-optimized bundle:
+
+```bash
+# Build the widget for production
+yarn build:widget
+
+# Or with npm
+npm run build:widget
+```
+
+This command:
+
+- **Compiles TypeScript** to JavaScript
+- **Bundles all dependencies** (except externals)
+- **Optimizes for production** (minification, tree-shaking)
+- **Generates source maps** (if configured)
+- **Validates the contract** (if enabled)
+
+### 2. Understanding Build Output
+
+After building, check the `dist/` folder:
+
+```
+dist/
+├── js/
+│   ├── 1fe-bundle.js        # Main widget bundle
+│   ├── 1fe-bundle.js.map    # Source map for debugging
+│   └── manifest.json        # Bundle metadata
+├── css/
+│   └── styles.css           # Extracted CSS (if any)
+└── assets/
+    └── [asset files]        # Static assets
+```
+
+### 3. Bundle Analysis
+
+Check your bundle size and composition:
+
+```bash
+# Analyze bundle size
+yarn build:widget --analyze
+
+# Or check the manifest
+cat dist/js/manifest.json
+```
+
+Example manifest output:
+
+```json
+{
+  "name": "my-first-widget",
+  "version": "1.0.0",
+  "entry": "1fe-bundle.js",
+  "size": {
+    "compressed": "45.2kb",
+    "uncompressed": "123.8kb"
+  },
+  "dependencies": {
+    "react": "external",
+    "lodash": "4.17.21"
+  }
+}
+```
+
+## ✅ Contract Validation
+
+Contract validation ensures your widget is compatible with the 1fe platform and follows the expected interface.
+
+### 1. Run Contract Validation
+
+```bash
+# Validate widget contracts
+yarn contracts
+
+# Or with npm
+npm run contracts
+```
+
+### 2. Understanding Contract Errors
+
+Common contract validation errors:
+
+**Missing Required Props:**
+
+```
+Error: Widget contract validation failed
+- Missing required prop: 'widgetId' in WidgetProps interface
+```
+
+**Type Mismatches:**
+
+```
+Error: Widget contract validation failed
+- Expected 'theme' to be 'light' | 'dark' | 'auto', got 'string'
+```
+
+**Platform Compatibility:**
+
+```
+Error: Widget requires platform version ^2.0.0, but current platform is 1.8.0
+```
+
+### 3. Fixing Contract Issues
+
+Update your contract to fix validation errors:
+
+```typescript title="src/contract.ts"
+export interface WidgetProps {
+  // ✅ Required props must be defined
+  widgetId: string;
+
+  // ✅ Use specific types instead of 'any'
+  theme?: "light" | "dark" | "auto";
+
+  // ✅ Optional props should have default values
+  title?: string;
+}
+```
+
+## 🧪 Testing Your Widget
+
+Comprehensive testing ensures your widget works correctly across different scenarios and environments.
+
+### 1. Unit Testing
+
+Create unit tests for your widget components:
+
+```typescript title="src/__tests__/widget.test.tsx"
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import MyWidget from "../app1";
+
+// Mock platform props
+jest.mock("@1fe/shell", () => ({
+  platformProps: {
+    utils: {
+      appLoadTime: {
+        end: jest.fn(),
+      },
+    },
+  },
+}));
+
+describe("MyWidget", () => {
+  const defaultProps = {
+    widgetId: "test-widget",
+    title: "Test Widget",
+  };
+
+  it("renders with default props", () => {
+    render(<MyWidget {...defaultProps} />);
+    expect(screen.getByText("Test Widget")).toBeInTheDocument();
+    expect(screen.getByText("Widget ID: test-widget")).toBeInTheDocument();
+  });
+
+  it("handles theme changes", () => {
+    const { rerender } = render(<MyWidget {...defaultProps} theme="light" />);
+
+    const container = screen.getByText("Test Widget").parentElement;
+    expect(container).toHaveStyle("background-color: #fff");
+
+    rerender(<MyWidget {...defaultProps} theme="dark" />);
+    expect(container).toHaveStyle("background-color: #333");
+  });
+
+  it("calls onAction when feature is clicked", () => {
+    const onAction = jest.fn();
+    render(
+      <MyWidget
+        {...defaultProps}
+        enableFeatures={{ advanced: true }}
+        onAction={onAction}
+      />
+    );
+
+    fireEvent.click(screen.getByText(/Advanced Feature/));
+    expect(onAction).toHaveBeenCalledWith(
+      "feature:advanced",
+      expect.any(Object)
+    );
+  });
+});
+```
+
+### 2. Integration Testing
+
+Test widget integration with the platform:
+
+```typescript title="src/__tests__/integration.test.tsx"
+import React from "react";
+import { render, waitFor } from "@testing-library/react";
+import MyWidget from "../app1";
+
+describe("Widget Integration", () => {
+  it("initializes platform utilities", async () => {
+    const mockAppLoadTime = jest.fn();
+    jest.mock("@1fe/shell", () => ({
+      platformProps: {
+        utils: {
+          appLoadTime: {
+            end: mockAppLoadTime,
+          },
+        },
+      },
+    }));
+
+    render(<MyWidget widgetId="test" />);
+
+    await waitFor(() => {
+      expect(mockAppLoadTime).toHaveBeenCalled();
+    });
+  });
+});
+```
+
+### 3. End-to-End Testing
+
+Test your widget in the actual playground environment:
+
+```typescript title="tests/e2e/widget.spec.ts"
+import { test, expect } from "@playwright/test";
+
+test.describe("Widget E2E Tests", () => {
+  test("loads widget in playground", async ({ page }) => {
+    // Navigate to playground
+    await page.goto("https://demo.1fe.com/playground");
+
+    // Set up widget override
+    await page.click('[data-testid="import-override-button"]');
+    await page.fill(
+      '[data-testid="override-url"]',
+      "http://localhost:8080/js/1fe-bundle.js"
+    );
+    await page.click('[data-testid="apply-override"]');
+
+    // Select widget
+    await page.selectOption(
+      '[data-testid="widget-selector"]',
+      "my-first-widget"
+    );
+
+    // Verify widget loaded
+    await expect(
+      page.locator('[data-testid="widget-container"]')
+    ).toContainText("My Widget");
+  });
+
+  test("props editor updates widget", async ({ page }) => {
+    // ... setup widget loading ...
+
+    // Update props
+    await page.fill(
+      '[data-testid="props-editor"]',
+      JSON.stringify({
+        title: "Updated Title",
+        theme: "dark",
+      })
+    );
+
+    // Verify changes
+    await expect(
+      page.locator('[data-testid="widget-container"]')
+    ).toContainText("Updated Title");
+  });
+});
+```
+
+### 4. Running Tests
+
+```bash
+# Run unit tests
+yarn test
+
+# Run tests with coverage
+yarn test:coverage
+
+# Run E2E tests
+yarn test:e2e
+
+# Run all tests
+yarn test:all
+```
+
+## 📊 Performance Testing
+
+Ensure your widget performs well in production environments.
+
+### 1. Bundle Size Analysis
+
+```bash
+# Analyze bundle composition
+yarn build:widget --analyze
+
+# Check for large dependencies
+npx webpack-bundle-analyzer dist/js/1fe-bundle.js
+```
+
+### 2. Performance Benchmarks
+
+```typescript title="src/__tests__/performance.test.ts"
+import { performance } from "perf_hooks";
+import { render } from "@testing-library/react";
+import MyWidget from "../app1";
+
+describe("Widget Performance", () => {
+  it("renders within performance budget", () => {
+    const start = performance.now();
+
+    render(<MyWidget widgetId="perf-test" />);
+
+    const end = performance.now();
+    const renderTime = end - start;
+
+    // Widget should render in under 16ms (60fps)
+    expect(renderTime).toBeLessThan(16);
+  });
+});
+```
+
+### 3. Memory Usage Testing
+
+```typescript title="src/__tests__/memory.test.ts"
+import { render, cleanup } from "@testing-library/react";
+import MyWidget from "../app1";
+
+describe("Memory Usage", () => {
+  afterEach(cleanup);
+
+  it("cleans up properly on unmount", () => {
+    const { unmount } = render(<MyWidget widgetId="memory-test" />);
+
+    // Force garbage collection (if available)
+    if (global.gc) {
+      global.gc();
+    }
+
+    unmount();
+
+    // Verify no memory leaks
+    // (This is a simplified example - real memory testing is more complex)
+    expect(true).toBe(true);
+  });
+});
+```
+
+## 🚀 Preparing for Deployment
+
+Your widget is now ready for production deployment through your organization's pipeline.
+
+### 1. Pre-Deployment Checklist
+
+<div class="prose">
+
+- [ ] **Build successful** - `yarn build:widget` completes without errors
+- [ ] **Contracts valid** - `yarn contracts` passes validation
+- [ ] **Tests passing** - All unit and integration tests pass
+- [ ] **Performance acceptable** - Bundle size within budget
+- [ ] **Documentation updated** - README and inline docs current
+- [ ] **Version bumped** - package.json version incremented
+
+</div>
+
+### 2. Deployment Artifacts
+
+Your deployment should include:
+
+```
+deployment-package/
+├── dist/                   # Built widget files
+├── package.json           # Widget metadata
+├── README.md              # Widget documentation
+├── CHANGELOG.md           # Version history
+└── .1fe.config.ts        # Configuration reference
+```
+
+### 3. Organization Integration
+
+**Check with your platform team** for organization-specific requirements:
+
+<div class="prose">
+
+- **CI/CD Pipeline** - How to integrate with your deployment pipeline
+- **Widget Registry** - Where to publish your widget
+- **Testing Requirements** - Additional testing standards
+- **Security Scanning** - Required security checks
+- **Approval Process** - Review and approval workflow
+
+</div>
+
+### 4. Deployment Commands
+
+Typical deployment workflow:
+
+```bash
+# 1. Final testing
+yarn test:all
+
+# 2. Build production bundle
+yarn build:widget
+
+# 3. Validate contracts
+yarn contracts
+
+# 4. Version bump (if needed)
+npm version patch
+
+# 5. Deploy (organization-specific)
+# This might be:
+# - git push (triggers CI/CD)
+# - npm publish (to private registry)
+# - Custom deployment script
+```
+
+## 🎉 Congratulations!
+
+You've successfully completed widget development from start to finish! You now know:
+
+**✅ Complete Development Workflow:**
+
+- Set up development environment
+- Use playground for rapid iteration
+- Configure widgets properly
+- Build, test, and deploy widgets
+
+**✅ Best Practices:**
+
+- Contract-driven development
+- Comprehensive testing strategies
+- Performance optimization
+- Production deployment preparation
+
+**✅ Platform Integration:**
+
+- Platform utilities usage
+- Environment configuration
+- Error handling and debugging
+
+## 👉 Next Steps
+
+With your widget development skills mastered, consider:
+
+1. **Explore Advanced Features** - Check out the [How-to Guides](/how-to-guides/) for specific implementation patterns
+2. **Join the Community** - Connect with other 1fe developers in your organization
+3. **Contribute Back** - Share your widget patterns and help improve the platform
+4. **Stay Updated** - Follow 1fe releases and new features
+
+**→ [Return to Tutorial Overview](/tutorials/developing-your-first-widget/)**
+
+Or explore more advanced topics in our documentation.
+
+---
+
+:::tip[Deployment Success]
+Remember to follow your organization's specific deployment process. The concepts you've learned here apply to any deployment pipeline, but each organization may have unique requirements and tools.
+:::

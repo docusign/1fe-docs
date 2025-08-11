@@ -2,24 +2,34 @@
 title: FAQs
 description: Frequently Asked Questions
 sidebar:
-  order: 8
+  order: 12
 ---
 
-### What’s the scope of 1fe?
+import {
+  FcQuestions,
+  FcInfo,
+  FcSettings,
+  FcEngineering,
+  FcSupport,
+} from "react-icons/fc";
+
+## ❓ Frequently Asked Questions
+
+### What's the scope of 1fe?
 
 1fe Platform gives the central team a larger horizontal charter, responsibility, governance, and scope encapsulating the Development, Deployment, and Execution of the entire front-end ecosystem.
 
 ### What is a Widget?
 
-A Widget is ANY snippet of javascript logic that runs in a browser. A Widget lives in its own GitHub repository, owns its own end-to-end CICD pipeline, and release management (all of which is orchestrated by 1fe), and runs perfectly well in the 1fe Playground, a Widget, or a Plugin.
+A Widget is any JavaScript component that runs in the browser within the 1fe ecosystem. For a comprehensive explanation of widgets, their architecture, and how they work, see our dedicated [What is a Widget?](../widgets/) section.
 
 ### What is a Plugin?
 
-A Plugin is a Widget that is TIED to a URL.
+A Plugin is a Widget that is tied to a specific URL route in your 1fe instance. While widgets can be reused anywhere, plugins represent the top-level experiences users navigate to.
 
 ### What is 1fe Playground?
 
-Teams are able to develop their Widgets locally in development mode without any dependency on the 1fe runtime.
+The 1fe Playground is a development sandbox that allows teams to test and validate widgets without requiring the full shell or host plugin setup. For detailed information about the playground and how to use it, see our [Playground](../playground) section.
 
 ### Should an experience be a Reusable/UI Component (@ds/ui) or a Widget?
 
@@ -42,3 +52,43 @@ Plugins/Widgets can expect 3 sets of scoped top-level properties:
 3.  `children` - [Optional] Children props from the host widget if it uses your widget as an HOC/wrapper.
 
 Sample structure of props can be seen in the 1fe Playground's props editor.
+
+### Does 1fe use Single Page Applications (SPA) or Multi Page Applications (MPA)?
+
+1fe uses a **Multi-Page Application** (MPA) architecture where each plugin is served as a separate HTML document, with the browser loading a new page when navigating between plugins.
+
+**Why MPA instead of SPA?**
+
+- **Content Security Policy (CSP)**: CSP is configured per page, providing better security isolation. In SPAs, all plugins share the same CSP, which can expose security concerns and increase risk of regressions.
+
+- **Avoid JS/CSS/Namespace collisions**: Since pages are reloaded between plugins, there's no risk of conflicts between different plugin versions, global variables, CSS class names, or web API namespaces.
+
+- **Flexibility for migrations**: Library versions are loaded per page, so plugins can upgrade major dependencies independently rather than requiring coordinated migrations across all plugins simultaneously.
+
+---
+
+## <FcSupport style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Need More Help?
+
+Can't find what you're looking for? The 1fe community is here to help!
+
+<div class="prose">
+
+- **💬 Ask Questions** - Join our [Community Discussions](https://github.com/docusign/1fe/discussions) to:
+
+  - Get help with implementation challenges
+  - Share best practices and patterns
+  - Connect with other 1fe developers
+  - Discuss feature requests and ideas
+
+- **🐛 Report Issues** - Found a bug or problem? [Create an issue](https://github.com/docusign/1fe/issues) to:
+
+  - Report bugs in 1fe packages or documentation
+  - Request new features or improvements
+  - Get technical support for specific problems
+
+- **📚 Browse Documentation** - Explore our comprehensive guides:
+  - [Tutorials](/tutorials/) for step-by-step learning
+  - [How-to Guides](/how-to-guides/) for specific solutions
+  - [Reference](/reference/) for technical specifications
+
+</div>

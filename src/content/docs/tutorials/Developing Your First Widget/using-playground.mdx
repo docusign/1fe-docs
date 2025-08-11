@@ -1,0 +1,335 @@
+---
+title: "Step 2: Using the Playground for Development"
+description: Learn to use the 1fe Playground as your primary development environment for rapid widget iteration
+sidebar:
+  order: 2
+---
+
+import {
+  SlTarget,
+  SlCheck,
+  SlArrowRight,
+  SlWrench,
+  SlSettings,
+  SlGlobe,
+} from "react-icons/sl";
+
+The 1fe Playground is your most powerful tool for widget development. It provides an isolated environment where you can load, test, and iterate on your widgets with real-time feedback.
+
+## 🎯 What You'll Accomplish
+
+By the end of this step, you'll be able to:
+
+<div class="prose">
+
+- **Access the playground** - Navigate to and use the development environment
+- **Load your local widget** - Override the playground to use your development server
+- **Use the props editor** - Test different widget configurations interactively
+- **Debug effectively** - Use browser dev tools with the playground environment
+
+</div>
+
+## 🛝 Accessing the Playground
+
+### Organization Playground vs Public Playground
+
+**Check with your organization first!** Most organizations provide their own playground instance with:
+
+<div class="prose">
+
+- **Company-specific widgets** - Access to internal widget library
+- **Organization themes** - Company branding and design systems
+- **Custom platform utilities** - Organization-specific platform features
+- **Internal configurations** - Company-specific settings and environments
+
+</div>
+
+**For this tutorial, we'll use the public playground:** [demo.1fe.com/playground](https://demo.1fe.com/playground)
+
+### 1. Navigate to the Playground
+
+Open your browser and go to:
+```
+https://demo.1fe.com/playground
+```
+
+You should see the playground interface with:
+- **Widget browser** - List of available widgets
+- **Props editor** - Configuration panel for widget properties
+- **Widget display area** - Where your widget renders
+- **Developer tools** - Import map overrides and debugging features
+
+## 🔧 Loading Your Local Widget
+
+The playground's superpower is the ability to load widgets from anywhere, including your local development server.
+
+### 1. Find the Import Map Override Button
+
+Look for the **`{...}`** button at the bottom right of the playground. This opens the import map override panel.
+
+### 2. Add Your Widget Override
+
+1. **Click the `{...}` button** to open the import map overrides
+2. **Search for your widget name** (e.g., `@1fe/widget-starter-kit` or your custom name)
+3. **Add your local URL** in the override field:
+   ```
+   http://localhost:8080/js/1fe-bundle.js
+   ```
+4. **Click "Apply Override"**
+
+### 3. Load Your Widget
+
+1. **Select your widget** from the widget browser
+2. **Watch it load** from your local development server
+3. **Verify the console** shows "Hello from my first widget!" (from Step 1)
+
+## 🎛️ Using the Widget Props Editor
+
+The props editor lets you test different widget configurations without changing code.
+
+### Understanding the Props Editor
+
+The props editor shows:
+- **Available props** - Based on your widget contract
+- **Current values** - What's currently passed to your widget
+- **Prop types** - Expected data types (string, number, boolean, etc.)
+
+### 1. Testing Basic Props
+
+Let's test some props with your widget. First, update your widget contract:
+
+```typescript title="src/contract.ts"
+export interface WidgetProps {
+  title?: string;
+  theme?: 'light' | 'dark';
+  showWelcome?: boolean;
+  userCount?: number;
+}
+```
+
+Update your widget to use these props:
+
+```typescript title="src/app1.tsx"
+import React, { useEffect } from 'react';
+import { platformProps } from '@1fe/shell';
+import { WidgetProps } from './contract';
+
+const MyWidget: React.FC<WidgetProps> = ({ 
+  title = 'Default Title',
+  theme = 'light',
+  showWelcome = true,
+  userCount = 0
+}) => {
+  useEffect(() => {
+    platformProps.utils.appLoadTime.end();
+    console.log('Widget props:', { title, theme, showWelcome, userCount });
+  }, [title, theme, showWelcome, userCount]);
+
+  return (
+    <div style={{ 
+      backgroundColor: theme === 'dark' ? '#333' : '#fff',
+      color: theme === 'dark' ? '#fff' : '#333',
+      padding: '20px',
+      borderRadius: '8px'
+    }}>
+      <h1>{title}</h1>
+      {showWelcome && <p>Welcome to 1fe widget development!</p>}
+      <p>Active users: {userCount}</p>
+    </div>
+  );
+};
+
+export default MyWidget;
+```
+
+### 2. Test Props in the Playground
+
+In the playground props editor, try:
+
+```json
+{
+  "title": "My Awesome Widget",
+  "theme": "dark", 
+  "showWelcome": true,
+  "userCount": 42
+}
+```
+
+Watch your widget update in real-time!
+
+## 🔄 Real-Time Development Workflow
+
+This is where the magic happens - the playground + local development combo provides instant feedback.
+
+### The Development Loop
+
+1. **Make code changes** in your editor
+2. **Save the file** - hot reload triggers automatically
+3. **See changes instantly** in the playground
+4. **Test different props** using the props editor
+5. **Debug with browser dev tools** if needed
+6. **Repeat** until satisfied
+
+### Example: Adding Interactive Features
+
+Let's add a button to your widget:
+
+```typescript title="src/app1.tsx"
+import React, { useEffect, useState } from 'react';
+import { platformProps } from '@1fe/shell';
+import { WidgetProps } from './contract';
+
+const MyWidget: React.FC<WidgetProps> = ({ 
+  title = 'Default Title',
+  theme = 'light',
+  showWelcome = true,
+  userCount = 0
+}) => {
+  const [clicks, setClicks] = useState(0);
+
+  useEffect(() => {
+    platformProps.utils.appLoadTime.end();
+  }, []);
+
+  const handleClick = () => {
+    setClicks(prev => prev + 1);
+    console.log('Button clicked!', clicks + 1);
+  };
+
+  return (
+    <div style={{ 
+      backgroundColor: theme === 'dark' ? '#333' : '#fff',
+      color: theme === 'dark' ? '#fff' : '#333',
+      padding: '20px',
+      borderRadius: '8px'
+    }}>
+      <h1>{title}</h1>
+      {showWelcome && <p>Welcome to 1fe widget development!</p>}
+      <p>Active users: {userCount}</p>
+      
+      <button 
+        onClick={handleClick}
+        style={{
+          backgroundColor: theme === 'dark' ? '#555' : '#007bff',
+          color: '#fff',
+          border: 'none',
+          padding: '10px 20px',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}
+      >
+        Clicked {clicks} times
+      </button>
+    </div>
+  );
+};
+
+export default MyWidget;
+```
+
+Save the file and watch it update in the playground instantly!
+
+## 🔍 Debugging with Browser Dev Tools
+
+The playground provides a real browser environment, so you can use all standard debugging tools.
+
+### 1. Open Developer Console
+
+- **Chrome/Edge:** F12 or Ctrl+Shift+I
+- **Firefox:** F12 or Ctrl+Shift+K
+- **Safari:** Cmd+Option+I
+
+### 2. Debugging Techniques
+
+**Console Logging:**
+```typescript
+console.log('Widget props:', props);
+console.error('Something went wrong:', error);
+console.table(userData); // Great for arrays/objects
+```
+
+**React Developer Tools:**
+Install the React DevTools browser extension to inspect:
+- Component state and props
+- Component hierarchy
+- Performance profiling
+
+**Network Tab:**
+- Check if your widget bundle is loading correctly
+- Monitor API calls your widget makes
+- Verify import map overrides are working
+
+### 3. Common Debugging Scenarios
+
+**Widget not loading:**
+- Check the console for errors
+- Verify your development server is running
+- Confirm the override URL is correct
+
+**Props not working:**
+- Check the props editor JSON syntax
+- Verify your widget contract matches
+- Look for TypeScript errors in the console
+
+**Styling issues:**
+- Use the Elements tab to inspect CSS
+- Check for theme prop values
+- Verify style calculations
+
+## 🧪 Advanced Playground Features
+
+### URL Sharing
+
+The playground generates URLs you can share:
+```
+https://demo.1fe.com/playground?widget=my-widget&props={"title":"Test"}
+```
+
+### Widget Browser
+
+Explore other widgets in the playground to:
+- See different implementation patterns
+- Understand common widget structures
+- Learn from existing widget designs
+
+### Import Map Inspection
+
+Click "Show Current Import Map" to see:
+- All loaded dependencies
+- Override status
+- Module resolution paths
+
+## ✅ Validation Checklist
+
+Before moving to the next step, ensure:
+
+<div class="prose">
+
+- [ ] **Widget loads** in playground from your local development server
+- [ ] **Props editor** successfully changes your widget behavior
+- [ ] **Hot reload** works when you make code changes
+- [ ] **Console logging** shows your debug messages
+- [ ] **Interactive features** (like buttons) work correctly
+
+</div>
+
+## 🎉 Development Superpower Unlocked!
+
+You now have the most powerful widget development workflow at your fingertips. The combination of local development + playground testing gives you instant feedback and rapid iteration capabilities.
+
+## 👉 Next Step
+
+Now that you're comfortable with the development workflow, let's dive deeper into widget configuration and understand how widgets integrate with the 1fe platform.
+
+**→ [Step 3: Understanding Widget Configuration](/tutorials/developing-your-first-widget/widget-configuration/)**
+
+In the next step, you'll learn about widget contracts, the .1fe.config.ts file, and how to configure your widget for different environments.
+
+---
+
+:::tip[Playground Pro Tips]
+- **Save URLs** with prop configurations for testing different scenarios
+- **Use multiple browser tabs** to test the same widget with different props
+- **Check the console** regularly - it's your best debugging friend
+- **Explore other widgets** in the browser for inspiration and learning
+:::

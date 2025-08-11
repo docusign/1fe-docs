@@ -34,7 +34,6 @@ import {
 
 **Audience:** Platform teams ready to connect their hosting, configuration, and deployment services with automated pipelines.
 
-
 </div>
 
 <div className="infrastructure-section">
@@ -51,18 +50,17 @@ While this guide shows our specific implementation, **you can adapt it to your n
 
 • <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
 
-• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Hosting Service:** Where your 1fe application will run ([Azure Web App explained here](/infrastructure/hosting-setup/))
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Hosting Service:** Where your 1fe application will run ([Azure Web App explained here](/how-to-guides/infrastructure%20setup/hosting-setup/))
 
-• <FaCloud style={{ display: 'inline', marginRight: '0.5rem', color: '#1F8BF3' }} /> **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/infrastructure/cdn-setup/))
+• <FaCloud style={{ display: 'inline', marginRight: '0.5rem', color: '#1F8BF3' }} /> **Deployment Target:** CDN or cloud storage for hosting widget bundles ([CDN Setup explained here](/how-to-guides/infrastructure%20setup/cdn-setup/))
 
-• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Configuration Management:** Key-value stores for live configuration settings ([Configuration Management explained here](/infrastructure/configuration-setup/))
+• <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Configuration Management:** Key-value stores for live configuration settings ([Configuration Management explained here](/how-to-guides/infrastructure%20setup/configuration-setup/))
 
-• <FaNpm style={{ display: 'inline', marginRight: '0.5rem', color: '#CB3837' }} /> **Private NPM Registry:** Internal registry for publishing and consuming widget packages ([NPM Registry Setup explained here](/infrastructure/npm-registry-setup/))
+• <FaNpm style={{ display: 'inline', marginRight: '0.5rem', color: '#CB3837' }} /> **Private NPM Registry:** Internal registry for publishing and consuming widget packages ([NPM Registry Setup explained here](/how-to-guides/infrastructure%20setup/npm-registry-setup/))
 
 • <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
 
 </div>
-
 
 ## <FcDeployment style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Setup Instructions
 
@@ -73,11 +71,12 @@ This guide assumes you've already completed the setup for each infrastructure co
 - ⚙️ **Updates configuration management** with new widget versions
 - 🔄 **Keeps your hosting service** running smoothly with zero downtime
 - 🧪 **Manages multiple environments** with proper approval workflows
-:::
+  :::
 
 ## Our Suggested Approach
 
 ### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> Quick Start with GitHub Actions
+
 We use GitHub Actions, but your team may choose a different CI/CD platform (see [Alternative Implementations](#alternative-implementations) at the bottom of this page for more options). If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning or forking our complete CI/CD repository to get started quickly:
 
 **🚀 Clone or Fork:** [1fe-ci-cd Repository](https://github.com/docusign/1fe-ci-cd)
@@ -102,9 +101,10 @@ You need to configure these secrets in your repository to enable the CI/CD pipel
 • <FaMicrosoft style={{ display: 'inline', marginRight: '0.3rem', color: '#0078D4' }} /> **Configuration Service Secret** (`AZURE_APP_CONFIG_CONNECTION_STRING`) - Azure App Configuration connection string. This enables the pipeline to update configuration metadata when your widget is deployed.
 
 • <FaNpm style={{ display: 'inline', marginRight: '0.3rem', color: '#CB3837' }} /> **Package Registry Secrets** - Authentication tokens for the internal NPM registry:
-  - `NPM_TOKEN_READONLY_1fe` - For reading packages from the registry
-  - `NPM_TOKEN` - For publishing your widget package to the internal package registry
-:::
+
+- `NPM_TOKEN_READONLY_1fe` - For reading packages from the registry
+- `NPM_TOKEN` - For publishing your widget package to the internal package registry
+  :::
 
 #### Steps to configure secrets
 
@@ -132,9 +132,10 @@ Each widget repository needs environment configuration to control deployment rul
 
 :::note[Our Environment Setup]
 We configured two environments for every widget repository:
+
 - **Integration Environment** - For automated testing and validation of widget changes
 - **Production Environment** - For live user-facing deployments with approval requirements
-:::
+  :::
 
 **What it does:** Creates separate deployment environments with different approval rules for all environments. Some environments allow automated deployments for testing, while others require manual approval to ensure oversight and control.
 
@@ -185,30 +186,31 @@ Our widget repositories contain the necessary CI/CD workflow files in the `.gith
 :::
 
 #### Platform Integration
+
 These workflow files are pre-configured to work with the 1fe platform and call into the centralized CI/CD repository (`1fe-ci-cd`) for the actual pipeline logic.
 
 ### 1.4 Template Workflow Files (1fe-ci-cd Repository)
 
 The centralized `1fe-ci-cd` repository contains pre-built workflow files that handle different aspects of the CI/CD pipeline:
 
-| File Name                             | Purpose                                                                   | Link                                                                                    |
-| ------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `ci-widgets.yml`                      | Main orchestrator workflow - coordinates all build, test, and deploy jobs | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/ci-widgets.yml) |
-| `reusable-rollback-ci.yml`            | Handles rollback procedures with asset verification                       | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-rollback-ci.yml) |
-| `reusable-update-azure-config.yml`    | Updates configuration in external services                                | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-update-azure-config.yml) |
+| File Name                             | Purpose                                                                   | Link                                                                                                                      |
+| ------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `ci-widgets.yml`                      | Main orchestrator workflow - coordinates all build, test, and deploy jobs | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/ci-widgets.yml)                      |
+| `reusable-rollback-ci.yml`            | Handles rollback procedures with asset verification                       | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-rollback-ci.yml)            |
+| `reusable-update-azure-config.yml`    | Updates configuration in external services                                | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-update-azure-config.yml)    |
 | `reusable-widget-test-production.yml` | Production-specific test suite (lint, unit, contract, E2E)                | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-widget-test-production.yml) |
-| `reusable-widget-test.yml`            | Standard test suite for development and integration environments          | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-widget-test.yml) |
+| `reusable-widget-test.yml`            | Standard test suite for development and integration environments          | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/reusable-widget-test.yml)            |
 
 ### 1.5 Template Custom Actions (1fe-ci-cd Repository)
 
 The centralized repository includes reusable actions for common CI/CD operations:
 
-| Action Name            | Purpose                                                       | Link                                                                                    |
-| ---------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `check-cdn-asset`      | Verifies that assets are properly deployed and accessible     | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/check-cdn-asset/action.yml) |
-| `update-azure-config`  | Handles configuration updates in external services            | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/update-azure-config/action.yml) |
-| `widget-build`         | Builds the widget, calculates version, and archives artifacts | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-build/action.yml) |
-| `widget-test-setup`    | Sets up the testing environment and dependencies              | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-test-setup/action.yml) |
+| Action Name            | Purpose                                                       | Link                                                                                                                |
+| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `check-cdn-asset`      | Verifies that assets are properly deployed and accessible     | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/check-cdn-asset/action.yml)      |
+| `update-azure-config`  | Handles configuration updates in external services            | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/update-azure-config/action.yml)  |
+| `widget-build`         | Builds the widget, calculates version, and archives artifacts | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-build/action.yml)         |
+| `widget-test-setup`    | Sets up the testing environment and dependencies              | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-test-setup/action.yml)    |
 | `widget-upload-akamai` | Handles uploading build artifacts to deployment targets       | [View source code](https://github.com/docusign/1fe-ci-cd/blob/main/.github/actions/widget-upload-akamai/action.yml) |
 
 **Note:** Our example uses specific cloud services, but you can adapt this to your preferred deployment platform. We link to official documentation rather than implementation details that can go stale quickly.
@@ -221,11 +223,11 @@ Our workflow files are present in the widget repository and work as follows:
 
 • **`widget-ci.yml`** runs automatically when we:
 
-  • Push code to the main branch
+• Push code to the main branch
 
-  • Create or update pull requests
+• Create or update pull requests
 
-  • No manual intervention needed for normal releases. Deployment to integration is automated.
+• No manual intervention needed for normal releases. Deployment to integration is automated.
 
 **Example Implementation:** [1fe Widget Starter Kit CI Run](https://github.com/docusign/1fe-widget-starter-kit/actions/runs/16732162363?pr=8)
 
@@ -329,12 +331,14 @@ Our example uses GitHub Actions and specific cloud services, but you can impleme
 ### Next Steps
 
 **Complete CI/CD Setup:**
+
 - [ ] Configure your widget repository with the required secrets and environments
 - [ ] Ensure your team has proper access and approval permissions
 - [ ] Test the automated release process in integration environment
 - [ ] Familiarize yourself with the rollback workflow for emergency situations
 
 **Start Building:**
-1. [Configure Widget Development Environment](/tutorials/setup-and-deploy-1fe-poc/develop-locally/)
-2. [Deploy Your First Widget](/tutorials/setup-and-deploy-1fe-poc/deploy-poc/)
+
+1. [Configure Widget Development Environment](/getting-started/local-development/)
+2. [Deploy Your First Widget](/getting-started/deploy-poc/)
 3. [Explore Platform Utilities](/development/Platform%20Utilities/Overview/)

@@ -1,0 +1,452 @@
+---
+title: "Step 2: Setting Up CI/CD Repository"
+description: Establish standardized deployment pipelines for all widget teams
+sidebar:
+  order: 2
+---
+
+import {
+  SlTarget,
+  SlCheck,
+  SlArrowRight,
+  SlWrench,
+  SlCloudUpload,
+  SlSettings,
+} from "react-icons/sl";
+
+One of 1fe's major benefits is **standardizing deployment pipelines** across all widgets. Instead of each team creating their own CI/CD workflows, you provide tested, optimized templates that everyone can use.
+
+## 🎯 What You'll Accomplish
+
+By the end of this step, you'll have:
+
+<div class="prose">
+
+- **Standardized CI/CD templates** - Tested workflows for building, testing, and deploying widgets
+- **Multi-platform support** - Templates for GitHub Actions, Jenkins, Azure DevOps, and more
+- **Security and quality gates** - Built-in scanning, testing, and validation
+- **Automated rollback capabilities** - Quick reversion when issues arise
+
+</div>
+
+## 🚀 Understanding the CI/CD Template Pattern
+
+The [1fe-ci-cd repository](https://github.com/docusign/1fe-ci-cd) provides reusable workflow templates that handle:
+
+<div class="prose">
+
+- **Widget building** - Standardized build processes with optimization
+- **Quality gates** - Automated testing, linting, and security checks
+- **Deployment automation** - Consistent deployment to CDN and environment promotion
+- **Rollback capabilities** - Quick reversion mechanisms when issues arise
+
+</div>
+
+## 🔍 Exploring the 1fe-ci-cd Repository
+
+Let's examine the key files and their purposes:
+
+### GitHub Actions Templates
+
+**Main Build Workflow:**
+
+```yaml title=".github/workflows/widget-ci.yml"
+name: Widget CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run quality checks
+        run: |
+          npm run lint
+          npm run test
+          npm run contracts
+
+      - name: Build widget
+        run: npm run build:widget
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: widget-bundle
+          path: dist/
+```
+
+**Deployment Workflow:**
+
+```yaml title=".github/workflows/deploy.yml"
+name: Deploy Widget
+on:
+  workflow_run:
+    workflows: ["Widget CI"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: widget-bundle
+          path: dist/
+
+      - name: Deploy to CDN
+        run: |
+          # Upload to your CDN
+          aws s3 sync dist/ s3://$CDN_BUCKET/$WIDGET_NAME/$VERSION/
+
+      - name: Update widget versions
+        run: |
+          # Update live configuration
+          curl -X POST $CONFIG_API/widget-versions \
+            -H "Authorization: Bearer $API_TOKEN" \
+            -d '{"widgetId": "$WIDGET_ID", "version": "$VERSION"}'
+```
+
+**Rollback Workflow:**
+
+```yaml title=".github/workflows/rollback-widget.yml"
+name: Rollback Widget
+on:
+  workflow_dispatch:
+    inputs:
+      target_version:
+        description: "Version to rollback to"
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rollback widget version
+        run: |
+          curl -X PATCH $CONFIG_API/widget-versions \
+            -H "Authorization: Bearer $API_TOKEN" \
+            -d '{"widgetId": "$WIDGET_ID", "version": "${{ inputs.target_version }}"}'
+```
+
+## 🏗️ Setting Up Your Organization's CI/CD Repository
+
+### Option 1: Fork and Customize (Recommended for GitHub)
+
+If you're using GitHub Actions:
+
+```bash
+# Fork the repository to your organization
+git clone https://github.com/YOUR-ORG/your-org-ci-cd.git
+cd your-org-ci-cd
+```
+
+Customize the workflows for your environment:
+
+```yaml title=".github/workflows/widget-ci.yml" {8-12}
+name: Widget CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  CDN_BUCKET: your-org-cdn-bucket
+  CONFIG_API: https://api.your-org.com/1fe
+  WIDGET_REGISTRY: your-org-widget-registry
+  NODE_VERSION: "18"
+
+jobs:
+  # ... rest of workflow
+```
+
+### Option 2: Adapt Pattern for Your CI/CD Platform
+
+If you're using Jenkins, Azure DevOps, or GitLab CI, create equivalent templates:
+
+**Jenkins Pipeline Template:**
+
+```groovy title="templates/Jenkinsfile"
+pipeline {
+    agent any
+
+    environment {
+        CDN_BUCKET = 'your-org-cdn-bucket'
+        CONFIG_API = 'https://api.your-org.com/1fe'
+    }
+
+    stages {
+        stage('Install') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+
+        stage('Quality Checks') {
+            parallel {
+                stage('Lint') {
+                    steps { sh 'npm run lint' }
+                }
+                stage('Test') {
+                    steps { sh 'npm run test' }
+                }
+                stage('Contracts') {
+                    steps { sh 'npm run contracts' }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build:widget'
+                archiveArtifacts artifacts: 'dist/**', fingerprint: true
+            }
+        }
+
+        stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                sh './scripts/deploy-to-cdn.sh'
+                sh './scripts/update-widget-versions.sh'
+            }
+        }
+    }
+}
+```
+
+**Azure DevOps Template:**
+
+```yaml title="templates/azure-pipelines.yml"
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  cdnBucket: "your-org-cdn-bucket"
+  configApi: "https://api.your-org.com/1fe"
+
+stages:
+  - stage: BuildAndTest
+    jobs:
+      - job: QualityChecks
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18"
+
+          - script: npm ci
+            displayName: "Install dependencies"
+
+          - script: |
+              npm run lint
+              npm run test
+              npm run contracts
+            displayName: "Run quality checks"
+
+          - script: npm run build:widget
+            displayName: "Build widget"
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: "dist"
+              artifactName: "widget-bundle"
+
+  - stage: Deploy
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: DeployWidget
+        environment: "production"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: ./scripts/deploy-to-cdn.sh
+                  displayName: "Deploy to CDN"
+                - script: ./scripts/update-widget-versions.sh
+                  displayName: "Update widget versions"
+```
+
+## 🔧 Key Infrastructure Scripts
+
+### 1. Deployment Scripts
+
+```bash title="scripts/deploy-to-cdn.sh"
+#!/bin/bash
+set -e
+
+WIDGET_NAME=$(node -p "require('./package.json').name")
+VERSION=$(node -p "require('./package.json').version")
+
+echo "Deploying $WIDGET_NAME version $VERSION to CDN..."
+
+# Upload widget bundle to CDN
+aws s3 sync dist/ s3://$CDN_BUCKET/widgets/$WIDGET_NAME/$VERSION/ \
+  --cache-control "public, max-age=31536000" \
+  --metadata-directive REPLACE
+
+# Upload with latest tag for development
+aws s3 sync dist/ s3://$CDN_BUCKET/widgets/$WIDGET_NAME/latest/ \
+  --cache-control "no-cache" \
+  --metadata-directive REPLACE
+
+echo "Deployment complete!"
+```
+
+### 2. Configuration Update Scripts
+
+```bash title="scripts/update-widget-versions.sh"
+#!/bin/bash
+set -e
+
+WIDGET_ID=$(node -p "require('./package.json').name")
+VERSION=$(node -p "require('./package.json').version")
+ENVIRONMENT=${ENVIRONMENT:-"integration"}
+
+echo "Updating widget version in $ENVIRONMENT environment..."
+
+curl -X POST "$CONFIG_API/environments/$ENVIRONMENT/widget-versions" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $API_TOKEN" \
+  -d "{
+    \"widgetId\": \"$WIDGET_ID\",
+    \"version\": \"$VERSION\",
+    \"updatedBy\": \"ci-cd-pipeline\",
+    \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+  }"
+
+echo "Widget version updated successfully!"
+```
+
+### 3. Quality Gate Configurations
+
+```yaml title="quality-gates/sonar-project.properties"
+# SonarQube configuration for widget quality checks
+sonar.projectKey=your-org-widgets
+sonar.sources=src
+sonar.tests=src
+sonar.test.inclusions=**/*.test.ts,**/*.test.tsx
+sonar.coverage.exclusions=**/*.test.ts,**/*.test.tsx,**/dist/**
+sonar.typescript.lcov.reportPaths=coverage/lcov.info
+```
+
+### 4. Security Scanning
+
+```yaml title="security/npm-audit.yml"
+# Template for npm security auditing
+name: Security Audit
+on:
+  schedule:
+    - cron: "0 2 * * *" # Daily at 2 AM
+  push:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: |
+          npm audit --audit-level moderate
+          npx audit-ci --moderate
+```
+
+## 📦 Using Your CI/CD Templates
+
+Once your CI/CD repository is set up, teams can easily adopt standardized pipelines:
+
+### 1. Widget Repository Setup
+
+```bash
+# In a new widget repository
+curl -O https://raw.githubusercontent.com/YOUR-ORG/your-org-ci-cd/main/.github/workflows/widget-ci.yml
+curl -O https://raw.githubusercontent.com/YOUR-ORG/your-org-ci-cd/main/.github/workflows/rollback-widget.yml
+
+# Or using GitHub's template repository feature
+gh repo create my-widget --template YOUR-ORG/widget-starter-template
+```
+
+### 2. Environment-Specific Configuration
+
+```yaml title=".github/workflows/widget-ci.yml"
+env:
+  CDN_BUCKET: ${{ vars.CDN_BUCKET }}
+  CONFIG_API: ${{ vars.CONFIG_API }}
+  API_TOKEN: ${{ secrets.API_TOKEN }}
+  ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'production' || 'integration' }}
+```
+
+## 🎯 Benefits of Standardized CI/CD
+
+**For Platform Teams:**
+
+- **Consistent deployments** - All widgets follow the same tested deployment pattern
+- **Central maintenance** - Update deployment logic once, benefits all teams
+- **Security compliance** - Built-in security scanning and quality gates
+- **Operational visibility** - Standardized logging and monitoring
+
+**For Development Teams:**
+
+- **Zero CI/CD setup** - Copy template and you're ready to deploy
+- **Battle-tested pipelines** - Pre-validated workflows with error handling
+- **Automatic best practices** - Security scanning, quality checks built-in
+- **Easy rollbacks** - Standardized rollback procedures
+
+## ✅ Validation Checklist
+
+Before moving to the next step, ensure:
+
+<div class="prose">
+
+- [ ] **CI/CD repository created** - Template workflows available for teams
+- [ ] **Platform-specific templates** - Workflows for your CI/CD platform (GitHub, Jenkins, etc.)
+- [ ] **Deployment scripts tested** - CDN upload and configuration update scripts work
+- [ ] **Security scanning enabled** - Automated vulnerability detection in place
+- [ ] **Documentation provided** - Teams know how to adopt and customize templates
+
+</div>
+
+## 👉 Next Step
+
+With standardized CI/CD pipelines in place, you now have consistent deployment automation across all widgets. Next, we'll set up custom shell types to provide widget developers with excellent TypeScript support for your organization's platform utilities.
+
+**→ [Step 3: Setting Up Custom Shell Types](/tutorials/take-ownership/custom-shell-types/)**
+
+In the final step, you'll create TypeScript definitions that give widget developers full IntelliSense and compile-time safety for your custom platform utilities.
+
+---
+
+:::tip[CI/CD Best Practices]
+Start with a basic template and gradually add more sophisticated features like progressive rollouts, automated testing environments, and performance monitoring as teams become comfortable with the standard workflow.
+:::

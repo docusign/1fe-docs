@@ -1,6 +1,6 @@
 ---
-title: 'Configuration Service Setup'
-description: 'Set up configuration management for your 1fe widgets and applications'
+title: "Configuration Service Setup"
+description: "Set up configuration management for your 1fe widgets and applications"
 ---
 
 import {
@@ -9,11 +9,7 @@ import {
   FcDeployment,
   FcWorkflow,
 } from "react-icons/fc";
-import {
-  SiGooglecloud,
-  SiConsul,
-  SiRedis,
-} from "react-icons/si";
+import { SiGooglecloud, SiConsul, SiRedis } from "react-icons/si";
 import {
   FaFileCode,
   FaCog,
@@ -39,11 +35,11 @@ A configuration service is essential for managing 1fe widget data and environmen
 We need to record and manage widget metadata and deployment records.
 
 Our CI/CD pipelines automatically record and manage:
+
 - 📋 **Widget metadata** - Version information, deployment status, change history
 - 📅 **Deployment records** - Timestamps, environment targets
 
 ## <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Azure App Configuration Setup
-
 
 This guide shows how to set up Azure App Configuration, which is what we use for managing widget metadata and configuration data for 1fe applications. While you can choose any configuration management service that fits your needs, we'll focus on Azure App Configuration here. For alternatives, see the [Alternative Configuration Services](#alternative-configuration-services) section at the bottom of this guide.
 
@@ -95,7 +91,7 @@ For a comprehensive overview of Azure App Configuration's capabilities and benef
 The connection string you copied in the last step needs to be configured as an environment variable named `AZURE_APP_CONFIG_CONNECTION_STRING` in your CI/CD pipeline. This enables automated widget metadata management during deployments.
 
 **For GitHub Actions:**
-Add this connection string as a repository secret. For detailed instructions on configuring this and other required secrets, see the [Secrets Management section](/infrastructure/project-setup/#11-secrets-management) in the CI/CD Pipeline setup guide.
+Add this connection string as a repository secret. For detailed instructions on configuring this and other required secrets, see the [Secrets Management section](/how-to-guides/infrastructure%20setup/project-setup/#11-secrets-management) in the CI/CD Pipeline setup guide.
 
 <section>
 
@@ -114,30 +110,54 @@ To view your widget data, go to **Settings** > **Configuration explorer** after 
 
 :::tip[Automated Key Naming Convention]
 Our pipelines automatically use consistent naming patterns:
+
 - `integration:@1fe/playground` - Widget-specific settings (format: `environment:widget-name`)
-:::
+  :::
 
 ## Alternative Configuration Services
 
 While this guide focuses on Azure App Configuration, you can use other configuration management services for your 1fe applications:
 
 **Cloud Provider Services:**
-- <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure App Configuration**
-- <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure Key Vault**
-- <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS Systems Manager Parameter Store**
-- <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS AppConfig**
-- <SiGooglecloud style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Secret Manager**
-- <SiGooglecloud style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Runtime Config**
+
+- <FaMicrosoft
+    style={{ display: "inline", marginRight: "0.5rem", color: "#0078D4" }}
+  /> **Azure App Configuration**
+- <FaMicrosoft
+    style={{ display: "inline", marginRight: "0.5rem", color: "#0078D4" }}
+  /> **Azure Key Vault**
+- <FaAws
+    style={{ display: "inline", marginRight: "0.5rem", color: "#FF9900" }}
+  /> **AWS Systems Manager Parameter Store**
+- <FaAws
+    style={{ display: "inline", marginRight: "0.5rem", color: "#FF9900" }}
+  /> **AWS AppConfig**
+- <SiGooglecloud
+    style={{ display: "inline", marginRight: "0.5rem", color: "#4285F4" }}
+  /> **Google Cloud Secret Manager**
+- <SiGooglecloud
+    style={{ display: "inline", marginRight: "0.5rem", color: "#4285F4" }}
+  /> **Google Cloud Runtime Config**
 
 **Third-Party Services:**
-- <FaLock style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **HashiCorp Vault**
-- <SiConsul style={{ display: 'inline', marginRight: '0.5rem', color: '#CA2171' }} /> **Consul**
-- <FaKey style={{ display: 'inline', marginRight: '0.5rem', color: '#419EDA' }} /> **etcd**
-- <SiRedis style={{ display: 'inline', marginRight: '0.5rem', color: '#DC382D' }} /> **Redis**
+
+- <FaLock
+    style={{ display: "inline", marginRight: "0.5rem", color: "#000000" }}
+  /> **HashiCorp Vault**
+- <SiConsul
+    style={{ display: "inline", marginRight: "0.5rem", color: "#CA2171" }}
+  /> **Consul**
+- <FaKey
+    style={{ display: "inline", marginRight: "0.5rem", color: "#419EDA" }}
+  /> **etcd**
+- <SiRedis
+    style={{ display: "inline", marginRight: "0.5rem", color: "#DC382D" }}
+  /> **Redis**
 
 ## Next Steps
 
 After setting up configuration service:
-1. [Implement CI/CD Integration](/infrastructure/project-setup/)
-2. [Configure Widget Development Environment](/tutorials/setup-and-deploy-1fe-poc/develop-locally/)
-3. [Deploy Your First Widget](/tutorials/setup-and-deploy-1fe-poc/deploy-poc/) 
+
+1. [Implement CI/CD Integration](/how-to-guides/infrastructure%20setup/project-setup/)
+2. [Configure Widget Development Environment](/getting-started/local-development/)
+3. [Deploy Your First Widget](/getting-started/deploy-poc/)

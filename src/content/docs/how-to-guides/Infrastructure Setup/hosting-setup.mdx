@@ -1,14 +1,9 @@
 ---
-title: 'Hosting Service Setup'
-description: 'Deploy your 1fe application to production hosting services'
+title: "Hosting Service Setup"
+description: "Deploy your 1fe application to production hosting services"
 ---
 
-import {
-  FcGlobe,
-  FcSettings,
-  FcDeployment,
-  FcSupport,
-} from "react-icons/fc";
+import { FcGlobe, FcSettings, FcDeployment, FcSupport } from "react-icons/fc";
 import {
   FaMicrosoft,
   FaGithub,
@@ -16,10 +11,7 @@ import {
   FaGoogle,
   FaServer,
 } from "react-icons/fa";
-import {
-  SiVercel,
-  SiNetlify,
-} from "react-icons/si";
+import { SiVercel, SiNetlify } from "react-icons/si";
 
 <div className="infrastructure-header">
 
@@ -49,13 +41,12 @@ A hosting service provides:
 
 This guide provides instructions for creating and configuring an Azure Web App for your 1fe application.
 
-
-
 #### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 1: Introduction to Azure App Service
 
 Azure App Service is a Platform-as-a-Service (PaaS) for hosting web applications, REST APIs, and mobile backends. See the [official Azure App Service documentation](https://docs.microsoft.com/en-us/azure/app-service/) for a comprehensive overview.
 
-**Official Documentation:** 
+**Official Documentation:**
+
 - [Create a Node.js web app in Azure](https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs)
 - [Azure App Service pricing](https://azure.microsoft.com/en-us/pricing/details/app-service/)
 
@@ -65,18 +56,17 @@ To begin, follow the official Azure documentation to create a new Web App: [Quic
 
 Use the following template configuration values to match the recommended setup for your 1fe application:
 
-
 **Template Configuration Values:**
 
-| Setting | Example Value | Description |
-|---------|---------------|-------------|
-| **Subscription** | Choose from dropdown | Select your Azure subscription |
-| **Resource Group** | `1fe-demo-rg` | Logical container for resources |
-| **Web App Name** | `1fe-demo` | Globally unique name |
-| **Publish** | `Code` | Publishing method |
-| **Runtime Stack** | `Node 22-LTS` | Node.js runtime version |
-| **Operating System** | `Linux` | Recommended for Node.js |
-| **Region** | `Central US` | Choose region close to users |
+| Setting              | Example Value        | Description                     |
+| -------------------- | -------------------- | ------------------------------- |
+| **Subscription**     | Choose from dropdown | Select your Azure subscription  |
+| **Resource Group**   | `1fe-demo-rg`        | Logical container for resources |
+| **Web App Name**     | `1fe-demo`           | Globally unique name            |
+| **Publish**          | `Code`               | Publishing method               |
+| **Runtime Stack**    | `Node 22-LTS`        | Node.js runtime version         |
+| **Operating System** | `Linux`              | Recommended for Node.js         |
+| **Region**           | `Central US`         | Choose region close to users    |
 
 **Setup Instructions:**
 
@@ -87,9 +77,11 @@ Use the following template configuration values to match the recommended setup f
    Click **+ Create a resource** on the home page.
 
 3. **Select Your Subscription**
+
    - Choose your Azure subscription from the dropdown
 
 4. **Configure Resource Group**
+
    - Select an existing resource group or create a new one (e.g., `1fe-demo-rg`)
 
 5. **Set Web App Name**
@@ -100,15 +92,19 @@ The name you choose will be part of the default URL (e.g., `1fe-demo.azurewebsit
 :::
 
 6. **Configure Publishing Method**
+
    - **Publish**: Select `Code`
 
 7. **Select Runtime Stack**
+
    - **Runtime stack**: Select the appropriate runtime (e.g., `Node 22-LTS`)
 
 8. **Choose Operating System**
+
    - **Operating System**: Select `Linux`
 
 9. **Select Region**
+
    - **Region**: Select a region close to your users (e.g., `Central US`)
 
 10. **Proceed to Deployment Configuration**
@@ -118,9 +114,8 @@ The name you choose will be part of the default URL (e.g., `1fe-demo.azurewebsit
 
 To enable continuous deployment from a GitHub repository, follow the steps in the [official Azure documentation](https://learn.microsoft.com/en-us/azure/app-service/deploy-continuous-deployment) for connecting your web app to GitHub. This ensures your app is automatically updated with every push.
 
-
-
 **Setup Instructions:**
+
 <section>
 
 1. **Navigate to Deployment Tab**  
@@ -159,7 +154,6 @@ To enable continuous deployment from a GitHub repository, follow the steps in th
 
 ### Example Implementation: [1fe Starter App CI Workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml)
 
-
 ##### GitHub Secrets Configuration for the 1fe Starter App CI Workflow
 
 Your CI/CD workflow requires several secrets to deploy to Azure Web App hosting. These secrets are referenced in the [1fe-starter-app CI workflow](https://github.com/docusign/1fe-starter-app/blob/main/.github/workflows/ci.yml#L24-L30):
@@ -179,16 +173,19 @@ NPM_TOKEN_READONLY: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
 <section>
 
 **Azure Web App Deployment:**
+
 - `AZUREAPPSERVICE_CLIENTID` - Service Principal Client ID for Azure authentication
 - `AZUREAPPSERVICE_TENANTID` - Azure AD Tenant ID
 - `AZUREAPPSERVICE_SUBSCRIPTIONID` - Your Azure Subscription ID
 - `AZURE_RESOURCE_GROUP` - Resource group containing your Azure Web App
 
 **SSH Keys:**
+
 - `SSH_PRIVATE_1FE` - Private SSH key for deployment access
 - `AKAMAI_NS_SSH_PRIVATE_KEY` - Akamai NetStorage SSH private key for CDN uploads
 
 **Package Registry:**
+
 - `NPM_TOKEN_READONLY` - Read-only NPM token for accessing private packages
 
 </section>
@@ -210,6 +207,7 @@ NPM_TOKEN_READONLY: ${{ secrets.NPM_TOKEN_READONLY_1FE }}
 To get the Azure secrets, you need to create a Service Principal and gather Azure subscription information:
 
 **Via Azure CLI:**
+
 ```bash
 # Login to Azure
 az login
@@ -217,7 +215,7 @@ az login
 # Get your subscription ID
 az account show --query id --output tsv
 
-# Get your tenant ID  
+# Get your tenant ID
 az account show --query tenantId --output tsv
 
 # Create Service Principal with Contributor role
@@ -229,14 +227,16 @@ az ad sp create-for-rbac --name "1fe-deployment-sp" \
 This command outputs JSON containing your `AZUREAPPSERVICE_CLIENTID` (`appId`) and creates the service principal.
 
 **Via Azure Portal:**
+
 1. **Subscription ID**: Azure Portal → Subscriptions → Copy your subscription ID
-2. **Tenant ID**: Azure Portal → Azure Active Directory → Properties → Directory ID  
+2. **Tenant ID**: Azure Portal → Azure Active Directory → Properties → Directory ID
 3. **Service Principal**: Azure Portal → Azure Active Directory → App registrations → New registration
 4. **Resource Group**: The name of your existing Azure resource group containing your Web App
 
 **Other Credentials:**
-   - **SSH keys**: Generate using `ssh-keygen -t rsa -b 4096` or obtain from your infrastructure team
-   - **NPM token**: Create in NPM registry settings or obtain from your DevOps team
+
+- **SSH keys**: Generate using `ssh-keygen -t rsa -b 4096` or obtain from your infrastructure team
+- **NPM token**: Create in NPM registry settings or obtain from your DevOps team
 
 </section>
 
@@ -247,7 +247,6 @@ These secrets may already be configured by your DevOps or infrastructure team. C
 #### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 4: Add and Configure a Custom Domain
 
 Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you will likely want to use a custom domain. Refer to **Official Documentation:** [Set up an existing custom domain name for your app](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain)
-
 
 **Setup Instructions:**
 
@@ -286,23 +285,21 @@ Your Web App has a default domain (e.g., `1fe-demo.azurewebsites.net`), but you 
 Your App Service plan must be a paid tier (e.g., Basic, Standard, Premium) to add a custom domain. The Free (F1) and Shared (D1) tiers do not support custom domains.
 :::
 
-
 #### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Step 5: Configure Environment Variables
 
 Environment variables (known as "Application settings" in Azure) are a secure way to manage configuration values, such as API keys or database connection strings, without hard-coding them into your application. **Official Documentation:** [Configure an App Service App - Environment variables](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings)
 
 **Required Environment Variables for 1FE Starter App in Azure Web App:**
-   
-   | Environment Variable Name | Example Value | Purpose & Meaning |
-   |------|---------------|-------------------|
-   | `APPLICATIONINSIGHTS_CONNECTION_STRING` | `InstrumentationKey=12345678-1234-5678-9abc-123456789012;IngestionEndpoint=https://...` | **Application Insights**: Connection string for telemetry and performance monitoring in Azure |
-   | `ApplicationInsightsAgent_EXTENSION_VERSION` | `~3` | **App Service Extension**: Version of Application Insights agent extension for automatic telemetry collection |
-   | `AZURE_APPCONFIG_CONNECTION_STRING` | `Endpoint=https://yourconfig.azconfig.io;Id=...;Secret=...` | **Configuration Service**: Connection string to Azure App Configuration for dynamic widget settings |
-   | `BUILD_NUMBER` | `20241201.1` | **Deployment Tracking**: Build identifier for tracking which version is deployed, typically set by CI/CD pipeline |
-   | `GITHUB_RUN_ID` | `123456789` | **CI/CD Tracking**: GitHub Actions run identifier for deployment traceability and debugging |
-   | `NODE_ENV` | `production` | **Runtime Environment**: Tells Node.js to run in production mode, enabling performance optimizations |
-   | `XDT_MicrosoftApplicationInsights_Mode` | `Recommended` | **Application Insights**: Configures the monitoring level for Azure Application Insights integration |
 
+| Environment Variable Name                    | Example Value                                                                           | Purpose & Meaning                                                                                                 |
+| -------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `APPLICATIONINSIGHTS_CONNECTION_STRING`      | `InstrumentationKey=12345678-1234-5678-9abc-123456789012;IngestionEndpoint=https://...` | **Application Insights**: Connection string for telemetry and performance monitoring in Azure                     |
+| `ApplicationInsightsAgent_EXTENSION_VERSION` | `~3`                                                                                    | **App Service Extension**: Version of Application Insights agent extension for automatic telemetry collection     |
+| `AZURE_APPCONFIG_CONNECTION_STRING`          | `Endpoint=https://yourconfig.azconfig.io;Id=...;Secret=...`                             | **Configuration Service**: Connection string to Azure App Configuration for dynamic widget settings               |
+| `BUILD_NUMBER`                               | `20241201.1`                                                                            | **Deployment Tracking**: Build identifier for tracking which version is deployed, typically set by CI/CD pipeline |
+| `GITHUB_RUN_ID`                              | `123456789`                                                                             | **CI/CD Tracking**: GitHub Actions run identifier for deployment traceability and debugging                       |
+| `NODE_ENV`                                   | `production`                                                                            | **Runtime Environment**: Tells Node.js to run in production mode, enabling performance optimizations              |
+| `XDT_MicrosoftApplicationInsights_Mode`      | `Recommended`                                                                           | **Application Insights**: Configures the monitoring level for Azure Application Insights integration              |
 
 **Setup Instructions:**
 
@@ -317,9 +314,7 @@ Environment variables (known as "Application settings" in Azure) are a secure wa
 3. **Open Application Settings Tab**  
    On the **Application settings** tab, click **+ New application setting**.
 
-4. **Enter Variable Name and Value**  
-   
-   
+4. **Enter Variable Name and Value**
 5. **Confirm Variable Addition**  
    Click **OK** to confirm the new setting.
 
@@ -342,10 +337,19 @@ If you are using a different hosting provider, you can follow the same steps to 
 
 Here are some other hosting providers you can consider:
 
-- <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS (Amazon Web Services)** - EC2, Elastic Beanstalk, and Lambda deployment guides
-- <FaGoogle style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Cloud Platform** - App Engine and Compute Engine setup  
-- <SiVercel style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **Vercel** - Serverless deployment for 1fe applications
-- <SiNetlify style={{ display: 'inline', marginRight: '0.5rem', color: '#00C7B7' }} /> **Netlify** - Static site hosting with CI/CD integration
+- <FaAws
+    style={{ display: "inline", marginRight: "0.5rem", color: "#FF9900" }}
+  /> **AWS (Amazon Web Services)** - EC2, Elastic Beanstalk, and Lambda deployment
+  guides
+- <FaGoogle
+    style={{ display: "inline", marginRight: "0.5rem", color: "#4285F4" }}
+  /> **Google Cloud Platform** - App Engine and Compute Engine setup{" "}
+- <SiVercel
+    style={{ display: "inline", marginRight: "0.5rem", color: "#000000" }}
+  /> **Vercel** - Serverless deployment for 1fe applications
+- <SiNetlify
+    style={{ display: "inline", marginRight: "0.5rem", color: "#00C7B7" }}
+  /> **Netlify** - Static site hosting with CI/CD integration
 
 Check back soon for detailed setup guides for these platforms.
 :::
@@ -353,8 +357,8 @@ Check back soon for detailed setup guides for these platforms.
 ## Next Steps
 
 After setting up hosting:
-1. [Configure CDN for Widget Bundles](/infrastructure/cdn-setup/)
-2. [Set up Configuration Service](/infrastructure/configuration-setup/)
-3. [Set up NPM Registry](/infrastructure/npm-registry-setup/)
-4. [Set up CI/CD Pipeline](/infrastructure/project-setup/)
 
+1. [Configure CDN for Widget Bundles](/how-to-guides/infrastructure%20setup/cdn-setup/)
+2. [Set up Configuration Service](/how-to-guides/infrastructure%20setup/configuration-setup/)
+3. [Set up NPM Registry](/how-to-guides/infrastructure%20setup/npm-registry-setup/)
+4. [Set up CI/CD Pipeline](/how-to-guides/infrastructure%20setup/project-setup/)
