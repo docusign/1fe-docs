@@ -1,0 +1,137 @@
+---
+title: "Take Ownership"
+description: Essential infrastructure setup for platform teams to take full control of their 1fe ecosystem
+sidebar:
+  order: 2
+---
+
+import { FcEngineering, FcSettings, FcOrganization } from "react-icons/fc";
+
+## 🎯 Overview
+
+This tutorial series is designed specifically for **platform teams** who need to take full ownership and control of their 1fe ecosystem. While the [Setup and Deploy 1fe POC](/tutorials/setup-and-deploy-1fe-poc/) tutorial gets you up and running quickly, this series focuses on the essential infrastructure that enables your organization to scale 1fe across multiple teams and products.
+
+## 🏢 Who This Tutorial Is For
+
+**Platform Teams** who need to:
+
+- Establish organization-wide standards and tooling
+- Control deployment pipelines and quality gates
+- Provide custom platform utilities to widget developers
+- Scale 1fe across multiple development teams
+
+## ⚡ What You'll Build
+
+By completing this tutorial series, your platform team will have:
+
+<div class="prose">
+
+- **Centralized configuration management** - Shared ESLint, TypeScript, and build configurations
+- **Standardized CI/CD infrastructure** - Template workflows for consistent deployments
+- **Custom platform utilities** - Organization-specific tools with full TypeScript support
+- **Complete organizational control** - Infrastructure that scales with your teams
+
+</div>
+
+## 📚 Tutorial Steps
+
+### 🔧 Step 1: Setting Up Shared Configurations
+
+Learn how to create and manage centralized configurations that all widgets in your organization inherit, ensuring consistency and making organization-wide updates effortless.
+
+**Key Topics:**
+
+- Base configuration pattern using npm packages
+- Custom ESLint and TypeScript rules for your organization
+- Automated publishing and distribution
+- Integration with @1fe/cli
+
+**→ [Start with Step 1: Shared Configurations](/tutorials/take-ownership/shared-configurations/)**
+
+### 🚀 Step 2: Setting Up CI/CD Repository
+
+Establish standardized deployment pipelines that all widget teams can adopt, providing consistent quality gates, security scanning, and deployment automation.
+
+**Key Topics:**
+
+- CI/CD template patterns and reusable workflows
+- Multi-platform support (GitHub Actions, Jenkins, Azure DevOps)
+- Automated deployment scripts and rollback capabilities
+- Security scanning and quality gates
+
+**→ [Continue to Step 2: CI/CD Setup](/tutorials/take-ownership/cicd-setup/)**
+
+### 🔧 Step 3: Setting Up Custom Shell Types
+
+Create TypeScript definitions for your organization's custom platform utilities, providing widget developers with excellent IntelliSense and compile-time safety.
+
+**Key Topics:**
+
+- Custom platform utility development
+- Automated TypeScript definition generation
+- Shell types publishing pipeline
+- Enhanced developer experience for widget teams
+
+**→ [Complete with Step 3: Shell Types](/tutorials/take-ownership/custom-shell-types/)**
+
+## 🔗 Prerequisites
+
+Before starting this tutorial series, ensure you have:
+
+<div class="prose">
+
+- **Completed the POC tutorial** - [Setup and Deploy 1fe POC](/tutorials/setup-and-deploy-1fe-poc/) should be finished
+- **Platform team authority** - Ability to create organization repositories and publish npm packages
+- **Infrastructure access** - CI/CD platform access and CDN/hosting permissions
+- **npm registry access** - Ability to publish packages to your organization's npm registry
+
+</div>
+
+## 🎯 Success Criteria
+
+After completing this tutorial series, you'll have:
+
+**✅ Infrastructure Ownership:**
+
+- Complete control over 1fe configurations and standards
+- Automated deployment pipelines for all widget teams
+- Custom platform utilities tailored to your organization
+
+**✅ Team Enablement:**
+
+- Standardized tooling that teams can adopt immediately
+- Self-service deployment workflows with built-in quality gates
+- Excellent developer experience with full TypeScript support
+
+**✅ Organizational Scale:**
+
+- Foundation for scaling 1fe across multiple teams
+- Governance controls and compliance built into the platform
+- Clear upgrade paths and maintenance strategies
+
+## 👉 Ready to Begin?
+
+Platform ownership is the key to successful 1fe adoption at scale. Let's start building the infrastructure that will enable your organization to harness the full power of the 1fe platform.
+
+**→ [Step 1: Setting Up Shared Configurations](/tutorials/take-ownership/shared-configurations/)**
+
+---
+
+## 🤝 Need Help?
+
+Platform infrastructure can be complex - the 1fe community is here to support you:
+
+<div class="prose">
+
+- **💬 Platform Questions** - Join our [Community Discussions](https://github.com/docusign/1fe/discussions) for architecture and implementation guidance
+- **🐛 Infrastructure Issues** - Report problems on [GitHub Issues](https://github.com/docusign/1fe/issues)
+- **📚 Technical References** - Check our [How-to Guides](/how-to-guides/) and [Reference](/reference/) sections
+- **❓ General Questions** - Visit our [FAQs](/learning/faqs/) for common platform team questions
+
+</div>
+
+---
+
+:::tip[Platform Team Success]
+The infrastructure you'll build in this tutorial series forms the backbone of a scalable, maintainable 1fe ecosystem. Take your time with each step - the foundation you build here will benefit every team in your organization.
+:::
