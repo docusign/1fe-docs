@@ -54,7 +54,7 @@ Ensure you have the following installed:
 # Check Node.js version (22+ required)
 node --version
 
-# Check yarn version
+# Check yarn version(4.x.x)
 yarn --version
 ```
 
@@ -105,26 +105,22 @@ my-first-widget/
 This is your main widget component:
 
 ```typescript title="src/app1.tsx"
-import React, { useEffect } from "react";
 import { platformProps } from "@1fe/shell";
+import React, { useEffect } from "react";
+import { Router as Widget } from "./components/router";
+import { withProvider } from "./withProvider";
 import { WidgetProps } from "./contract";
 
-const MyWidget: React.FC<WidgetProps> = (props) => {
+const RootWrapper: React.FC<WidgetProps> = (props) => {
   useEffect(() => {
-    // Widget initialization
     platformProps.utils.appLoadTime.end();
-    console.log("Hello from my first widget!");
+    console.log("props", props);
   }, []);
 
-  return (
-    <div>
-      <h1>My First Widget</h1>
-      <p>Welcome to 1fe widget development!</p>
-    </div>
-  );
+  return <Widget {...props} />;
 };
 
-export default MyWidget;
+export default withProvider(RootWrapper);
 ```
 
 ### Widget Contract (`src/contract.ts`)
@@ -132,12 +128,14 @@ export default MyWidget;
 Defines the interface between your widget and the platform:
 
 ```typescript title="src/contract.ts"
-export interface WidgetProps {
-  // Define the props your widget expects
-  title?: string;
-  theme?: "light" | "dark";
-  // Add more props as needed
-}
+import { PlatformPropsType } from "@1fe/shell";
+
+export type HostPropsContract = Record<string, unknown>;
+
+export type WidgetProps = {
+  host: HostPropsContract;
+  platform: PlatformPropsType;
+};
 ```
 
 ### Configuration (`.1fe.config.ts`)
@@ -145,44 +143,53 @@ export interface WidgetProps {
 Controls how your widget is built and deployed:
 
 ```typescript title=".1fe.config.ts"
-import { defineConfig } from "@1fe/cli";
+import { OneFeConfiguration } from "@1fe/cli";
+import { getBaseConfig } from "@1fe/sample-widget-base-config"; // this is the redistributed package for the organization
 
-export default defineConfig({
-  widget: {
-    name: "my-first-widget",
-    entry: "src/app1.tsx",
-  },
-  // Additional configuration options
-});
+const configuration: OneFeConfiguration = {
+  baseConfig: getBaseConfig,
+};
+
+export default configuration;
 ```
 
 ## 🚀 Starting the Development Server
+
+:::note[1fe Instance Required]
+**Important:** This command requires a running 1fe instance to work properly. If your organization doesn't have a 1fe instance set up yet, you'll need to follow [Tutorial 1: Setup and Deploy a 1fe POC](/tutorials/setup-and-deploy-1fe-poc/) to get your 1fe instance up and running locally first.
+:::
 
 Now let's get your widget running locally:
 
 ```bash
 # Start the development server
 yarn dev
-
-# Or with npm
-npm run dev
 ```
 
 You should see output similar to:
 
 ```
-✓ Widget development server started
-✓ Widget bundle available at: http://localhost:8080/js/1fe-bundle.js
-✓ Ready for development!
+✔ Webpack
+  Compiled successfully in 3.82s
+
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://127.0.0.1:8080/
+<i> [webpack-dev-server] 404s will fallback to '/index.html'
+post action hook executed
+[dev] Opening the widget in the playground with the URL:
+        http://localhost:3001/playground?widgetUrl=http%3A%2F%2F127.0.0.1%3A8080%2Fjs%2F1fe-bundle.js
 ```
 
 **What just happened?**
+
+<div class="prose">
 
 - The 1fe CLI compiled your widget
 - Started a local development server
 - Made your widget available at a local URL
 - Enabled hot reloading for development
 
+</div>
 ## 🔍 Verifying Your Setup
 
 Let's make sure everything is working:
@@ -197,28 +204,49 @@ http://localhost:8080/js/1fe-bundle.js
 
 You should see JavaScript code (the compiled widget bundle).
 
-### 2. Check Development Logs
+### 2. Open in playground
 
-In your terminal, you should see:
+If your team doesn't have their own 1fe instance, you can open the widget in our demo 1fe instances playground by visiting:
 
-- No TypeScript errors
-- Successful compilation messages
-- Hot reload ready status
+```
+http://demo.1fe.com/playground?widgetUrl=http%3A%2F%2F127.0.0.1%3A8080%2Fjs%2F1fe-bundle.js
+```
 
 ### 3. Make a Test Change
 
 Edit `src/app1.tsx` and change the heading:
 
-```typescript title="src/app1.tsx" {8}
-return (
-  <div>
-    <h1>My Awesome First Widget!</h1>
-    <p>Welcome to 1fe widget development!</p>
-  </div>
-);
+```typescript title="src/app1.tsx" {3, 16-21}
+import { platformProps } from "@1fe/shell";
+import React, { useEffect } from "react";
+import { Alert } from "antd";
+import { Router as Widget } from "./components/router";
+import { withProvider } from "./withProvider";
+import { WidgetProps } from "./contract";
+
+const RootWrapper: React.FC<WidgetProps> = (props) => {
+  useEffect(() => {
+    platformProps.utils.appLoadTime.end();
+    console.log("Widget loaded with props:", props);
+  }, [props]);
+
+  return (
+    <div>
+      <Alert
+        message="🎉 Widget Ready!"
+        type="success"
+        style={{ margin: "8px" }}
+        closable
+      />
+      <Widget {...props} />
+    </div>
+  );
+};
+
+export default withProvider(RootWrapper);
 ```
 
-Save the file and watch your terminal - you should see the widget recompile automatically.
+Save the file and watch your terminal - you should see the widget recompile automatically and your browser should show a pretty banner at the top of the page with a close button.
 
 ## 📁 Understanding Widget Architecture
 
@@ -244,20 +272,6 @@ The typical development cycle is:
 3. **Build** - Compile with `yarn build:widget`
 4. **Deploy** - Push to your organization's deployment pipeline
 
-## ✅ Validation Checklist
-
-Before moving to the next step, ensure:
-
-<div class="prose">
-
-- [ ] **Node.js 18+** installed and working
-- [ ] **Widget starter kit** cloned and dependencies installed
-- [ ] **Development server** running without errors
-- [ ] **Bundle URL** accessible at http://localhost:8080/js/1fe-bundle.js
-- [ ] **Hot reloading** working when you make code changes
-
-</div>
-
 ## 🎉 Success!
 
 Congratulations! You now have a fully functional widget development environment. Your widget is compiled, served locally, and ready for development.
@@ -268,10 +282,6 @@ Now that your development environment is ready, let's learn how to use the 1fe P
 
 **→ [Step 2: Using the Playground for Development](/tutorials/developing-your-first-widget/using-playground/)**
 
-In the next step, you'll load your widget in the playground and start the interactive development workflow.
+In the next step, we will explore the playground to learn more of it's features.
 
 ---
-
-:::tip[Organization Integration]
-Once you're comfortable with this standard workflow, ask your platform team about organization-specific development tools. The concepts you're learning here apply to any custom tooling your organization provides!
-:::

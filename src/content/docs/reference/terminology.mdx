@@ -20,15 +20,15 @@ This section provides definitions for common terms used throughout the 1fe ecosy
 
 ### 1fe
 
-A micro-frontend platform that standardizes development, deployment, and execution of frontend experiences. 1fe provides shared utilities and governance controls through a centralized platform team while allowing individual teams to focus on creating unique user experiences.
+A micro-frontend platform that standardizes development, deployment, and execution of frontend experiences. 1fe provides shared utilities and governance controls through a centralized platform team while allowing individual teams to focus on creating unique user experiences. The main repository is available on [GitHub](https://github.com/docusign/1fe).
 
-### 1fe Instance [[memory:5051784]]
+### 1fe Instance
 
-A hosted application that runs the 1fe platform for your organization. This is the main application that serves as the runtime environment for all widgets and plugins in your ecosystem.
+A hosted application that runs the 1fe platform for your organization. This is the main application that serves as the runtime environment for all widgets and plugins in your ecosystem. You can get started with the [1fe-starter-app](https://github.com/docusign/1fe-starter-app) template.
 
 ### CI/CD
 
-Continuous Integration/Continuous Deployment. 1fe provides standardized pipeline templates through `1fe-ci-cd` to ensure consistent building, testing, and deployment processes across all widgets and plugins.
+Continuous Integration/Continuous Deployment. 1fe provides standardized pipeline templates through [1fe-ci-cd](https://github.com/docusign/1fe-ci-cd) to ensure consistent building, testing, and deployment processes across all widgets and plugins.
 
 ### CDN
 
@@ -36,17 +36,15 @@ Content Delivery Network. A distributed network of servers used to deliver widge
 
 ### CLI
 
-Command Line Interface. The `@1fe/cli` package provides the primary tool for building, developing, and validating widgets and plugins in the 1fe ecosystem.
+Command Line Interface. The [@1fe/cli](https://www.npmjs.com/package/@1fe/cli) package provides the primary tool for building, developing, and validating widgets and plugins in the 1fe ecosystem.
 
 ### Contextual Injection
 
-A mechanism where the `@1fe/shell` package is intercepted at runtime and replaced with platform-specific utilities contextualized to each widget. This enables widgets to access platform utilities without prop drilling.
+A mechanism where the [@1fe/shell](https://www.npmjs.com/package/@1fe/shell) package is intercepted at runtime and replaced with platform-specific utilities contextualized to each widget. This enables widgets to access platform utilities without prop drilling.
 
 ### Ecosystem
 
 The complete set of packages, repositories, tools, and standards that make up the 1fe platform, including core packages, starter kits, templates, and community widgets.
-
-## Component Types
 
 ### Widget
 
@@ -60,15 +58,15 @@ A widget that is tied to a specific URL route. Plugins represent full page exper
 
 A widget where the version can be locked to a specific version by the host widget or plugin. If not pinned, the latest version is automatically used.
 
-### Design System Component
+### Live Configurations
 
-A simple, atomic presentation component with minimal logic that can be widely reused from a design perspective. These are typically part of a shared design system rather than independent widgets.
+Dynamic configuration files that specify widget versions, CDN locations, and deployment status. These enable runtime updates without server restarts.
 
 ## 🔧 Technical Components
 
 ### Shell
 
-The main application shell provided by `@1fe/shell` that includes common UI components (headers, navigation) and shared platform utilities. The shell is delivered as part of the initial HTML response and provides the foundation for all widget execution.
+The main application shell provided by [@1fe/shell](https://www.npmjs.com/package/@1fe/shell) that includes common UI components (headers, navigation) and shared platform utilities. The shell is delivered as part of the initial HTML response and provides the foundation for all widget execution.
 
 ### Sandbox
 
@@ -82,23 +80,15 @@ Props provided by the 1fe platform to widgets, including environment information
 
 Optional props passed from a parent widget to a child widget for integration purposes. These enable feature flags, configuration APIs, and data sharing between widgets.
 
-### Monorepo
-
-A single repository containing multiple related packages. The core 1fe packages are maintained in a monorepo structure for easier development and coordination.
-
 ## 🛠️ Development Tools
 
 ### 1fe Playground
 
-A special plugin that provides a sandbox environment for developing and testing widgets in isolation during local development. It allows developers to mock platform props and test widget behavior before deployment.
+A special plugin that provides a sandbox environment for developing and testing widgets in isolation during local development. It allows developers to mock platform props and test widget behavior before deployment. Available in the [1fe-playground](https://github.com/docusign/1fe-playground) repository.
 
-### Starter Kit
+### 1fe Widget Starter Kit
 
-Template repositories (like `1fe-widget-starter-kit`) that provide pre-configured setups for creating new widgets and plugins, including build scripts, CI/CD configurations, and best practices.
-
-### Live Configurations
-
-Dynamic configuration files that specify widget versions, CDN locations, and deployment status. These enable runtime updates without server restarts.
+Template repository ([1fe-widget-starter-kit](https://github.com/docusign/1fe-widget-starter-kit)) that provides a template for building widgets within the 1fe ecosystem. This starter kit provides the foundation, examples, and best practices for developing production-ready widgets.
 
 ## Development Patterns
 
@@ -110,10 +100,6 @@ An architectural approach where frontend applications are decomposed into smalle
 
 The import pattern used to access platform utilities: `import { platformProps } from "@1fe/shell"`. This syntax is intercepted and replaced with actual platform utilities at runtime.
 
-### Lazy Loading
-
-The practice of loading widgets on-demand rather than upfront. 1fe automatically lazy-loads all widgets to improve initial page load performance.
-
 ### Guest Development
 
 Development work done by teams outside the core platform team. 1fe aims to reduce guest development friction by providing standardized tools and clear boundaries.
@@ -122,19 +108,19 @@ Development work done by teams outside the core platform team. 1fe aims to reduc
 
 ### @1fe/cli
 
-The command-line tool for building, developing, and validating widgets. Key commands include `build`, `contracts`, and `dev`.
+The command-line tool for building, developing, and validating widgets. Key commands include `build`, `contracts`, and `dev`. Available on [npm](https://www.npmjs.com/package/@1fe/cli) and [GitHub](https://github.com/docusign/1fe/tree/main/packages/cli).
 
 ### @1fe/server
 
-The core Express.js server package that provides the runtime backbone for 1fe instances, including configuration polling and asset serving.
+The core Express.js server package that provides the runtime backbone for 1fe instances, including configuration polling and asset serving. Available on [npm](https://www.npmjs.com/package/@1fe/server) and [GitHub](https://github.com/docusign/1fe/tree/main/packages/1fe-server).
 
 ### @1fe/shell
 
-Provides the application shell, layout components, and shared platform utilities that are available to all widgets at runtime.
+Provides the application shell, layout components, and shared platform utilities that are available to all widgets at runtime. Available on [npm](https://www.npmjs.com/package/@1fe/shell) and [GitHub](https://github.com/docusign/1fe/tree/main/packages/1fe-shell).
 
-### create-1fe-app
+### @1fe/create-1fe-app
 
-A scaffolding tool for quickly creating new 1fe instances by answering setup questions in the terminal.
+A scaffolding tool for quickly creating new 1fe instances by answering setup questions in the terminal. Available on [npm](https://www.npmjs.com/package/@1fe/create-1fe-app) and [GitHub](https://github.com/docusign/1fe/tree/main/packages/create-1fe-app).
 
 ---
 
