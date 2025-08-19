@@ -48,7 +48,7 @@ While this guide shows our specific implementation, **you can adapt it to your n
 
 #### Essential Components required before you can start building
 
-• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
+• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: 'var(--sl-color-text)' }} /> **Version Control:** To track code changes and enable collaboration (we use `GitHub`)
 
 • <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Hosting Service:** Where your 1fe application will run ([Azure Web App explained here](/how-to-guides/infrastructure%20setup/hosting-setup/))
 
@@ -58,7 +58,7 @@ While this guide shows our specific implementation, **you can adapt it to your n
 
 • <FaNpm style={{ display: 'inline', marginRight: '0.5rem', color: '#CB3837' }} /> **Private NPM Registry:** Internal registry for publishing and consuming widget packages ([NPM Registry Setup explained here](/how-to-guides/infrastructure%20setup/npm-registry-setup/))
 
-• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
+• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: 'var(--sl-color-text)' }} /> **CI/CD Automation platform:** CI/CD platforms for automation (we use `GitHub Actions`)
 
 </div>
 
@@ -75,7 +75,7 @@ This guide assumes you've already completed the setup for each infrastructure co
 
 ## Our Suggested Approach
 
-### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> Quick Start with GitHub Actions
+### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: 'var(--sl-color-text)' }} /> Quick Start with GitHub Actions
 
 We use GitHub Actions, but your team may choose a different CI/CD platform (see [Alternative Implementations](#alternative-implementations) at the bottom of this page for more options). If you're using **GitHub Actions** as your CI/CD platform, we recommend cloning or forking our complete CI/CD repository to get started quickly:
 
@@ -89,7 +89,7 @@ We use GitHub Actions, but your team may choose a different CI/CD platform (see 
 
 For a production setup, you need proper repository configuration to enable automated workflows. This involves setting up secrets, environments, and permissions for taking local development work to production.
 
-### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> 1.1 Secrets Management
+### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: 'var(--sl-color-text)' }} /> 1.1 Secrets Management
 
 We use GitHub's secret management system to store sensitive credentials securely. All secrets are stored as repository secrets, never hardcoded in files.
 
@@ -298,9 +298,9 @@ Here's our specific implementation stack with all the tools and services we use:
 
 Our example uses GitHub Actions and specific cloud services, but you can implement the same philosophy with different tools:
 
-### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#181717' }} /> CI/CD Platforms
+### <FaGithub style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: 'var(--sl-color-text)' }} /> CI/CD Platforms
 
-• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: '#181717' }} /> **GitHub Actions:** [GitHub Actions Documentation](https://docs.github.com/en/actions) (recommended)
+• <FaGithub style={{ display: 'inline', marginRight: '0.5rem', color: 'var(--sl-color-text)' }} /> **GitHub Actions:** [GitHub Actions Documentation](https://docs.github.com/en/actions) (recommended)
 
 • <SiGitlab style={{ display: 'inline', marginRight: '0.5rem', color: '#FC6D26' }} /> **GitLab CI/CD:** [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
 
@@ -316,7 +316,7 @@ Our example uses GitHub Actions and specific cloud services, but you can impleme
 
 • <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', color: '#0078D4' }} /> **Azure Blob Storage + CDN:** [Azure Storage Documentation](https://docs.microsoft.com/en-us/azure/storage/)
 
-• <SiVercel style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **Vercel** / <SiNetlify style={{ display: 'inline', marginRight: '0.5rem', color: '#00C7B7' }} /> **Netlify:** [Vercel Documentation](https://vercel.com/docs), [Netlify Documentation](https://docs.netlify.com/)
+• <SiVercel style={{ display: 'inline', marginRight: '0.5rem', color: 'var(--sl-color-text)' }} /> **Vercel** / <SiNetlify style={{ display: 'inline', marginRight: '0.5rem', color: '#00C7B7' }} /> **Netlify:** [Vercel Documentation](https://vercel.com/docs), [Netlify Documentation](https://docs.netlify.com/)
 
 ### <FaMicrosoft style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle', color: '#0078D4' }} /> Configuration Management
 
@@ -324,7 +324,7 @@ Our example uses GitHub Actions and specific cloud services, but you can impleme
 
 • <FaAws style={{ display: 'inline', marginRight: '0.5rem', color: '#FF9900' }} /> **AWS Parameter Store:** [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
 
-• <FaLock style={{ display: 'inline', marginRight: '0.5rem', color: '#000000' }} /> **HashiCorp Vault:** [Vault Documentation](https://www.vaultproject.io/docs)
+• <FaLock style={{ display: 'inline', marginRight: '0.5rem', color: 'var(--sl-color-text)' }} /> **HashiCorp Vault:** [Vault Documentation](https://www.vaultproject.io/docs)
 
 • <FaGoogle style={{ display: 'inline', marginRight: '0.5rem', color: '#4285F4' }} /> **Google Secret Manager:** [Google Secret Manager Documentation](https://cloud.google.com/secret-manager/docs)
 
