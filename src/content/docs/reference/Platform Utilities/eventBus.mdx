@@ -3,7 +3,7 @@ title: Event Bus
 description: "Event Bus implementation"
 ---
 
-_Asyncronously emit events with `platform.utils.eventBus`_
+_Asynchronously emit events with `platform.utils.eventBus`_
 
 :::tip[Data management]
 Before using Event Bus, make sure to consider other ways to transmit information that could be more appropriate for your use case. Below are a couple of suggestions in ascending level of complexity.
@@ -59,10 +59,10 @@ useSubscribe<EventMap, K extends keyof EventMap>({
 ### Example
 
 ```ts
-useSubscribe({ 
-  eventName: 'event-name', 
-  listener: (data) => {} 
-})
+useSubscribe({
+  eventName: "event-name",
+  listener: (data) => {},
+});
 ```
 
 ### `subscribe`
@@ -128,24 +128,24 @@ To be called from the publishing widget to send data to a subscribed widget.
 // PublisherWidget1.tsx
 type WidgetEvents = {
   event1: { param1: string };
-  event2: { param1: string, param2: number };
+  event2: { param1: string; param2: number };
 };
 
 // In your component
 <Button
   onClick={() => {
-    platformProps.utils.eventBus.publish<WidgetEvents, 'event2'>({
-      targetWidgetId: '@example/widget2',
-      eventName: 'event2',
-      data: { param1: 'Testing Testing', param2: 123 },
+    platformProps.utils.eventBus.publish<WidgetEvents, "event2">({
+      targetWidgetId: "@example/widget2",
+      eventName: "event2",
+      data: { param1: "Testing Testing", param2: 123 },
     });
   }}
-/>
+/>;
 ```
 
 ```ts
 // SubscriberWidget2.tsx
-type event2Type = { param1: string, param2: number };
+type event2Type = { param1: string; param2: number };
 
 type WidgetEvents = {
   event1: { param1: string };
@@ -158,13 +158,11 @@ const listener = (data: event2Type) => setEvent2Data(data);
 // Subscribe to event2
 // A hook wrapper around subscribe that handles React lifecycle
 // Will auto unsubscribe when the component is unmounted
-useSubscribe<WidgetEvents, 'event2'>({
-  eventName: 'event2',
+useSubscribe<WidgetEvents, "event2">({
+  eventName: "event2",
   listener,
 });
 
 // In your component
-<>
-  Result: {event2Data}
-</>
+<>Result: {event2Data}</>;
 ```
