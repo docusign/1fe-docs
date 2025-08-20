@@ -62,7 +62,7 @@ yarn --version
 
 We're going to clone the **widget starter kit** to begin developing your first **widget**.
 
-Wait, what's a **[widget](/learning/widgets/)**? 🤔 And what's this **[starter kit](https://github.com/docusign/1fe-widget-starter-kit)** all about? Click to find out!
+Wait, what's a **[widget](/learning/widgets/)**? 🤔 It's a self-contained piece of JavaScript that runs in the 1fe ecosystem - like a mini-app! And the **[starter kit](https://github.com/docusign/1fe-widget-starter-kit)** is your pre-configured template with all the tooling you need.
 
 ### 1. Clone the Repository
 
@@ -125,11 +125,11 @@ const RootWrapper: React.FC<WidgetProps> = (props) => {
 export default withProvider(RootWrapper);
 ```
 
-Notice that `platformProps` in there? That's your widget's toolkit! 🧰 **[Discover all the cool utilities](/reference/platform-utilities/overview/)** you get for free.
+Notice that `platformProps` in there? That's your widget's toolkit - built-in utilities for things like app load time tracking, context management, event communication, and more! 🧰 **[Discover all the cool utilities](/reference/platform-utilities/overview/)** you get for free.
 
 ### Widget Contract (`src/contract.ts`)
 
-This is your **widget contract** - think of it as the "handshake" between your widget and the platform. Curious about **[how contracts work](/learning/widgets/#contracts)**? 🤝
+This is your **widget contract** - it defines what data your widget expects to receive and what it promises to provide. Think of it as the "handshake" between your widget and the platform. Curious about **[how contracts work](/learning/widgets/#contracts)**? 🤝
 
 ```typescript title="src/contract.ts"
 import { PlatformPropsType } from "@1fe/shell";
@@ -144,7 +144,7 @@ export type WidgetProps = {
 
 ### Configuration (`.1fe.config.ts`)
 
-This little file is actually quite powerful - it controls how your widget is built and deployed! Want to know **[what else it can do](/reference/1fe-config-reference/)**? ⚙️
+This little file is actually quite powerful - it controls how your widget is built, bundled, and deployed! It tells the 1fe CLI how to process your widget and what dependencies it needs. Want to know **[what else it can do](/reference/1fe-config-reference/)**? ⚙️
 
 ```typescript title=".1fe.config.ts"
 import { OneFeConfiguration } from "@1fe/cli";
@@ -160,7 +160,7 @@ export default configuration;
 ## 🚀 Starting the Development Server
 
 :::note[1fe Instance Required]
-**Important:** This command needs a running **1fe instance** to work. Don't have one yet? No worries! Check out **[what a 1fe instance is](/learning/what-is-1fe/)** 🏗️ and then follow [Tutorial 1: Setup and Deploy a 1fe POC](/tutorials/setup-and-deploy-1fe-poc/) to get your instance up and running locally.
+**Important:** This command needs a running **1fe instance** to work. A 1fe instance is your deployed ecosystem - the shell application that hosts and orchestrates widgets. Don't have one yet? No worries! Check out **[what a 1fe instance is](/learning/what-is-1fe/)** 🏗️ and then follow [Tutorial 1: Setup and Deploy a 1fe POC](/tutorials/setup-and-deploy-1fe-poc/) to get your instance up and running locally.
 :::
 
 Now let's get your widget running locally:
@@ -184,7 +184,7 @@ post action hook executed
         http://localhost:3001/playground?widgetUrl=http%3A%2F%2F127.0.0.1%3A8080%2Fjs%2F1fe-bundle.js
 ```
 
-And there it is - your widget will open in the **1fe Playground**! Think of it as your widget's sandbox where it can play safely. Want to explore **[what the playground can do](/learning/playground/)**? 🛝
+And there it is - your widget will open in the **1fe Playground**! The playground is a development sandbox that provides an isolated environment for testing widgets without needing the full application setup. Think of it as your widget's sandbox where it can play safely. Want to explore **[what the playground can do](/learning/playground/)**? 🛝
 
 **What just happened?**
 

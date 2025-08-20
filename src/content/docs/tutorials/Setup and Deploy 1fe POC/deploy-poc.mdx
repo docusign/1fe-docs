@@ -55,7 +55,7 @@ We have already learnt how to host assets locally in the previous guide. Let's d
 
 For this section, lets assume that you are going to use a git tag for your CDN assets like `v1.0.2`. You can pick any tag you like, but make sure to use the same tag in the next steps. We will use `<tag>` to refer to this tag in the rest of this guide. Based on this information (and with some more steps that you will take later), you need to make the following changes to your 1fe instance files.
 
-1.  Point your 1fe instance to the new CDN assets for **live configurations**. What are those? **[They're pretty neat](/learning/live-configurations/)** - you can update things without redeploying! 🔄 These files will be checked in in the next step but we prepare the 1fe instance for it now.
+1.  Point your 1fe instance to the new CDN assets for **live configurations**. Live configurations let you update widget versions, library versions, and dynamic settings without redeploying your 1fe instance - the configs are fetched at runtime! **[Find out more here](/learning/live-configurations/)**
 
     ```tsx title="src/config/ecosystem-configs.ts" {4,7,10}
     // ...
