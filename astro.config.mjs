@@ -30,6 +30,22 @@ export default defineConfig({
       },
       sidebar: sidebarConfig,
       disable404Route: true,
+      head: [
+        {
+          tag: "script",
+          attrs: {
+            src: "/custom-sidebar-behavior.js",
+            defer: true,
+          },
+        },
+        {
+          tag: "link",
+          attrs: {
+            rel: "stylesheet",
+            href: "/custom-sidebar.css",
+          },
+        },
+      ],
       expressiveCode: {
         // You can optionally override the plugin's default settings here
         frames: {},

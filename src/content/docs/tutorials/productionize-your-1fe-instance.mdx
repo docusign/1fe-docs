@@ -1,0 +1,449 @@
+---
+title: "Productionize Your 1fe Instance"
+description: Transform your development setup into production infrastructure with hosting, CDN, and CI/CD
+sidebar:
+  order: 3
+---
+
+Let's transform your 1fe development setup into enterprise-grade production infrastructure. You'll set up hosting, CDN, NPM registry, configuration service, and CI/CD pipeline.
+
+This tutorial is for platform teams who have completed the [Setup and Deploy a 1fe POC](/tutorials/setup-and-deploy-1fe-poc/) tutorial and are ready to move to production.
+
+**Prerequisites:** A working 1fe instance with at least one widget, administrative access to cloud infrastructure, and understanding of CI/CD concepts.
+
+## What We're Building
+
+**[🏢 Production Hosting](#🏢-production-hosting)** - Scalable hosting service for your 1fe instance (~45 min)  
+**[☁️ CDN Setup](#☁️-cdn-setup)** - Content delivery network for widget bundles (~30 min)  
+**[📦 NPM Registry](#📦-npm-registry)** - Private package management and distribution (~20 min)  
+**[🗄 Configuration Service](#🗄-configuration-service)** - Dynamic settings and metadata management (~25 min)  
+**[🔄 CI/CD Pipeline](#🔄-cicd-pipeline)** - Automated deployments and rollbacks (~60 min)
+
+Let's start building production infrastructure.
+
+---
+
+## 🏢 Production Hosting
+
+Set up production hosting for your 1fe application shell. This will handle user traffic and serve your application globally with proper scaling and monitoring.
+
+### Setup Production Hosting
+
+Follow our detailed hosting setup guide:
+
+**[→ Hosting Service Setup Guide](/how-to-guides/infrastructure-setup/hosting-setup/)**
+
+This covers:
+
+<div class="prose">
+
+- Production hosting service (Azure Web App, AWS, etc.)
+- Environment variables for production configuration
+- SSL/TLS security and monitoring
+
+</div>
+
+### Verify Setup
+
+After completing the setup:
+
+<div class="prose">
+
+- Your 1fe instance loads from the production URL
+- SSL certificate is properly configured
+- Environment variables are accessible
+- Monitoring is collecting logs and metrics
+
+</div>
+
+---
+
+## ☁️ CDN Setup
+
+You need a Content Delivery Network (CDN) to efficiently deliver your widget bundles to users worldwide with fast loading times and global caching.
+
+### What You'll Set Up
+
+<div class="prose">
+
+- **Global CDN infrastructure** for widget bundle delivery
+- **Caching policies** and compression settings
+- **SSL/TLS security** for content delivery
+- **Cache invalidation** for deploying updates
+
+</div>
+
+### Complete Setup Guide
+
+Follow our detailed step-by-step guide for CDN setup:
+
+**[→ CDN Setup Guide](/how-to-guides/infrastructure-setup/cdn-setup/)**
+
+### Verification
+
+After completing the setup, verify:
+
+<div class="prose">
+
+- Widget bundles load quickly from global CDN
+- Caching policies are working correctly
+- SSL certificates are properly configured
+- Cache invalidation works for updates
+
+</div>
+
+### Key Benefits
+
+**Performance**: Faster loading times for users worldwide
+**Scalability**: Handle traffic spikes automatically
+**Reliability**: Redundant infrastructure reduces downtime
+**Cost Efficiency**: Reduced bandwidth costs from origin servers
+
+---
+
+## 📦 NPM Registry
+
+A private NPM registry is essential for managing your 1fe widget packages securely and efficiently in a production environment.
+
+### What You'll Set Up
+
+<div class="prose">
+
+- **Private NPM registry** for internal widget packages
+- **Access controls** and authentication
+- **CI/CD integration** for automated publishing
+- **Package versioning** with changesets
+
+</div>
+
+### Complete Setup Guide
+
+Follow our detailed step-by-step guide for NPM registry setup:
+
+**[→ NPM Registry Setup Guide](/how-to-guides/infrastructure-setup/npm-registry-setup/)**
+
+### Verification
+
+After completing the setup, verify:
+
+<div class="prose">
+
+- Widgets can be published to private registry
+- Access controls are working properly
+- CI/CD pipeline can authenticate and publish
+- Package versioning follows organization standards
+
+</div>
+
+### Registry Benefits
+
+**Security**: Keep internal packages private and secure
+**Control**: Manage access and permissions centrally
+**Performance**: Faster package installation for teams
+**Compliance**: Meet enterprise security requirements
+
+---
+
+## 🗄 Configuration Service
+
+1fe requires a configuration service to manage **widget metadata** including version information, deployment status, and dependencies without code changes.
+
+### What You'll Set Up
+
+<div class="prose">
+
+- **Configuration service** (Azure App Configuration, AWS Parameter Store, etc.)
+- **Environment-specific configurations** for different deployment stages
+- **Live configuration updates** without application restarts
+- **Version management** for widget deployments
+
+</div>
+
+### Complete Setup Guide
+
+Follow our detailed step-by-step guide for configuration service setup:
+
+**[→ Configuration Service Setup Guide](/how-to-guides/infrastructure-setup/configuration-setup/)**
+
+### Configuration Structure
+
+**Widget Versions** (`widget-versions.json`):
+
+```json
+[
+  {
+    "widgetId": "@company/user-dashboard",
+    "version": "1.2.3"
+  },
+  {
+    "widgetId": "@company/analytics-widget",
+    "version": "2.1.0"
+  }
+]
+```
+
+**Live Configuration** (`live.json`):
+
+```json
+{
+  "libraries": {
+    "basePrefix": "https://cdn.company.com/libs/"
+  },
+  "widgets": {
+    "basePrefix": "https://cdn.company.com/widgets/",
+    "configs": [
+      {
+        "widgetId": "@company/user-dashboard",
+        "plugin": {
+          "enabled": true,
+          "route": "/dashboard"
+        }
+      }
+    ]
+  }
+}
+```
+
+### Verification
+
+After completing the setup, verify:
+
+<div class="prose">
+
+- Configuration service responds correctly
+- Environment-specific configs load properly
+- Widget versions update without restarts
+- Configuration changes deploy automatically
+
+</div>
+
+### Configuration Benefits
+
+**Dynamic Updates**: Change widget versions without code deployment
+**Environment Management**: Separate configs for dev/staging/prod
+**Feature Flags**: Enable/disable widgets dynamically
+**Rollback Capability**: Quick revert to previous configurations
+
+---
+
+## 🔄 CI/CD Pipeline
+
+1fe uses a centralized CI/CD system to manage deployments across all widgets with automated testing, building, and deployment processes.
+
+### What You'll Set Up
+
+<div class="prose">
+
+- **Automated build pipelines** for your 1fe instance and widgets
+- **Multi-environment deployment** with approval workflows
+- **Automated rollback capabilities** for quick issue resolution
+- **Testing automation** and quality gates
+
+</div>
+
+### Complete Setup Guide
+
+Follow our detailed step-by-step guide for CI/CD pipeline setup:
+
+**[→ CI/CD Pipeline Setup Guide](/how-to-guides/infrastructure-setup/project-setup/)**
+
+### Pipeline Architecture
+
+**1fe Instance Pipeline**:
+
+```yaml
+# .github/workflows/1fe-instance.yml
+name: Deploy 1fe Instance
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
+      - name: Deploy to staging
+        run: # Deploy commands
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: # Production deploy commands
+```
+
+**Widget Pipeline**:
+
+```yaml
+# .github/workflows/widget.yml
+name: Deploy Widget
+on:
+  push:
+    paths: ["widgets/**"]
+jobs:
+  build-widget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build widget
+        run: yarn build:widget
+      - name: Publish to CDN
+        run: # Upload to CDN
+      - name: Update configuration
+        run: # Update widget versions
+```
+
+### Verification
+
+After completing the setup, verify:
+
+<div class="prose">
+
+- Pipelines trigger on code changes
+- Automated tests run successfully
+- Deployments work across environments
+- Rollback mechanisms function properly
+
+</div>
+
+### Pipeline Benefits
+
+**Automation**: Reduce manual deployment errors
+**Quality**: Automated testing and validation
+**Speed**: Faster deployment cycles
+**Reliability**: Consistent deployment processes
+**Visibility**: Clear deployment status and history
+
+### Advanced Features
+
+**Blue-Green Deployments**: Zero-downtime deployments
+**Canary Releases**: Gradual rollout to users
+**Feature Flags**: Toggle features without deployment
+**Automated Rollbacks**: Quick recovery from issues
+
+---
+
+## 🎉 Congratulations! Production Infrastructure Complete!
+
+You've successfully set up enterprise-grade production infrastructure for your 1fe instance! Your organization now has a robust, scalable platform for micro-frontend development.
+
+### What You've Accomplished
+
+<div class="prose">
+
+- ✅ **Production-ready hosting environment** with proper scaling and monitoring
+- ✅ **Global CDN infrastructure** for efficient widget bundle delivery
+- ✅ **Private NPM registry** for secure package management
+- ✅ **Configuration service** for dynamic settings management
+- ✅ **Automated CI/CD pipeline** for seamless deployments and rollbacks
+
+</div>
+
+### Production Architecture Overview
+
+Your 1fe instance now has:
+
+**Infrastructure Layer**:
+
+<div class="prose">
+
+- Scalable hosting (Azure/AWS/GCP)
+- Global CDN for widget delivery
+- Private NPM registry for packages
+
+</div>
+
+**Configuration Layer**:
+
+<div class="prose">
+
+- Dynamic configuration service
+- Environment-specific settings
+- Live widget version management
+
+</div>
+
+**Deployment Layer**:
+
+<div class="prose">
+
+- Automated CI/CD pipelines
+- Multi-environment deployment
+- Rollback capabilities
+
+</div>
+
+### What's Next?
+
+**For Operational Excellence**:
+
+<div class="prose">
+
+- **Monitoring & Alerting**: Set up comprehensive monitoring for your infrastructure
+- **Security Hardening**: Implement additional security measures and compliance
+- **Performance Optimization**: Fine-tune performance and scaling policies
+- **Disaster Recovery**: Establish backup and recovery procedures
+
+</div>
+
+**For Team Enablement**:
+
+<div class="prose">
+
+- **Developer Onboarding**: Create guides for teams to deploy widgets
+- **Best Practices**: Establish coding standards and deployment workflows
+- **Training Programs**: Educate teams on 1fe development patterns
+- **Support Processes**: Set up help desk and troubleshooting resources
+
+</div>
+
+**For Advanced Features**:
+
+<div class="prose">
+
+- **[Authentication Integration](/how-to-guides/authentication/)** - Implement SSO and user management
+- **[Custom Shell Components](/how-to-guides/override-shell-components/)** - Customize the platform experience
+- **[Advanced Monitoring](/how-to-guides/monitoring/)** - Set up detailed analytics and performance tracking
+- **[Custom Utilities](/how-to-guides/custom-utilities/)** - Build organization-specific platform utilities
+
+</div>
+
+### Success Metrics
+
+Monitor these key indicators for your production 1fe instance:
+
+**Performance**:
+
+<div class="prose">
+
+- Widget load times < 2 seconds
+- 99.9% uptime across all environments
+- CDN cache hit ratio > 90%
+
+</div>
+
+**Developer Experience**:
+
+<div class="prose">
+
+- Deployment time < 10 minutes
+- Zero-downtime deployments
+- Automated rollback success rate > 95%
+
+</div>
+
+**Business Value**:
+
+<div class="prose">
+
+- Reduced development cycle time
+- Increased team independence
+- Improved feature delivery velocity
+
+</div>
+
+**Your 1fe instance is now ready to support multiple development teams with enterprise-grade infrastructure. Welcome to production-ready micro-frontend development!** 🚀
