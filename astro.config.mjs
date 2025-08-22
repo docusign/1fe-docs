@@ -21,7 +21,8 @@ export default defineConfig({
   site: isLocalDevelopment ? `http://localhost:${DEV_PORT}` : "https://1fe.com",
   integrations: [
     starlight({
-      title: "Docs",
+      title: "1fe Documentation",
+      description: "Micro-frontend platform",
       social: {
         github: "https://github.com/docusign/1fe",
       },
@@ -30,6 +31,66 @@ export default defineConfig({
       },
       sidebar: sidebarConfig,
       disable404Route: true,
+      head: [
+        // Open Graph meta tags
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:type",
+            content: "website",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:site_name",
+            content: "1fe Documentation",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:locale",
+            content: "en_US",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "/favicon.svg",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:width",
+            content: "467",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:height",
+            content: "467",
+          },
+        },
+        // Twitter Card meta tags
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:card",
+            content: "summary_large_image",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:image",
+            content: "/favicon.svg",
+          },
+        },
+      ],
       expressiveCode: {
         // You can optionally override the plugin's default settings here
         frames: {},
