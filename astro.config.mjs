@@ -21,7 +21,8 @@ export default defineConfig({
   site: isLocalDevelopment ? `http://localhost:${DEV_PORT}` : "https://1fe.com",
   integrations: [
     starlight({
-      title: "Docs",
+      title: "1fe Documentation",
+      description: "Micro-frontend platform",
       social: {
         github: "https://github.com/docusign/1fe",
       },
@@ -31,18 +32,69 @@ export default defineConfig({
       sidebar: sidebarConfig,
       disable404Route: true,
       head: [
+        // Open Graph meta tags
         {
-          tag: "script",
+          tag: "meta",
           attrs: {
-            src: "/custom-sidebar-behavior.js",
-            defer: true,
+            property: "og:type",
+            content: "website",
           },
         },
         {
-          tag: "link",
+          tag: "meta",
           attrs: {
-            rel: "stylesheet",
-            href: "/custom-sidebar.css",
+            property: "og:site_name",
+            content: "1fe Documentation",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:locale",
+            content: "en_US",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "https://1fe.com/og-image.svg",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:type",
+            content: "image/svg+xml",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:width",
+            content: "600",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:height",
+            content: "600",
+          },
+        },
+        // Twitter Card meta tags
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:card",
+            content: "summary_large_image",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:image",
+            content: "https://1fe.com/og-image.svg",
           },
         },
       ],

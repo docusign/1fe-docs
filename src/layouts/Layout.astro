@@ -29,6 +29,29 @@ const makeTitle = "1fe - Configuration-driven Front End Development";
     <SEO
       title={makeTitle}
       description="1fe - Configuration-driven Front End Development"
+      canonical={canonicalURL}
+      openGraph={{
+        basic: {
+          title: "1fe - Configuration-driven Front End Development",
+          type: "website",
+          image: "https://1fe.com/og-image.svg",
+          url: "https://1fe.com",
+        },
+        optional: {
+          description: "Micro-frontend platform for modern development teams",
+          siteName: "1fe Documentation",
+          locale: "en_US",
+        },
+        image: {
+          type: "image/svg+xml",
+          width: 600,
+          height: 600,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        image: "https://1fe.com/og-image.svg",
+      }}
     />
     <style is:global>
       /* Improve Page speed */
