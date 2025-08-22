@@ -58,21 +58,28 @@ export default defineConfig({
           tag: "meta",
           attrs: {
             property: "og:image",
-            content: "/favicon.svg",
+            content: "https://1fe.com/og-image.svg",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:type",
+            content: "image/svg+xml",
           },
         },
         {
           tag: "meta",
           attrs: {
             property: "og:image:width",
-            content: "467",
+            content: "600",
           },
         },
         {
           tag: "meta",
           attrs: {
             property: "og:image:height",
-            content: "467",
+            content: "600",
           },
         },
         // Twitter Card meta tags
@@ -87,7 +94,7 @@ export default defineConfig({
           tag: "meta",
           attrs: {
             name: "twitter:image",
-            content: "/favicon.svg",
+            content: "https://1fe.com/og-image.svg",
           },
         },
       ],
