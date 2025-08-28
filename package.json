@@ -9,7 +9,12 @@
     "build": "astro build",
     "deploy": "npm run build && touch ./dist/.nojekyll && npx gh-pages -d dist --dotfiles",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "check:links": "node scripts/check-links.js",
+    "check:links:external": "astro build && linkinator ./dist --recurse",
+    "validate": "npm run check && npm run check:links",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -41,6 +46,14 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "gh-pages": "^6.3.0",
+    "husky": "^9.1.7",
+    "linkinator": "^6.1.4",
+    "lint-staged": "^16.1.5",
     "sharp": "^0.33.2"
+  },
+  "lint-staged": {
+    "*.{md,mdx}": [
+      "echo 'Markdown files changed. Remember to run npm run check:links before pushing to verify all links are working.'"
+    ]
   }
 }

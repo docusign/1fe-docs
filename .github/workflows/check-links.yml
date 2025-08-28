@@ -1,0 +1,90 @@
+name: Check Links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Monday at 9am UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run TypeScript check
+        run: npm run check
+        
+      - name: Build site
+        run: npm run build
+        
+      - name: Check internal links
+        run: |
+          npx linkinator ./dist \
+            --recurse \
+            --silent \
+            --skip "github.com/docusign/1fe-docs/pull/new" \
+            --skip "github.com/docusign/1fe/discussions" \
+            --skip "github.com/docusign/1fe/issues" \
+            --skip "linkedin.com" \
+            --skip "twitter.com" \
+            --skip "localhost" \
+            --skip "127.0.0.1"
+        
+      - name: Upload link check results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: broken-links-report
+          path: linkinator-results.txt
+          
+  check-external-links:
+    runs-on: ubuntu-latest
+    # Only run external link checks on schedule or manual trigger
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build site
+        run: npm run build
+        
+      - name: Check all links (including external)
+        continue-on-error: true
+        run: |
+          npx linkinator ./dist \
+            --recurse \
+            --skip "linkedin.com" \
+            --skip "twitter.com" \
+            > external-links-report.txt 2>&1
+          
+      - name: Upload external links report
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-links-report
+          path: external-links-report.txt

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "🔍 Checking TypeScript types..."
+npm run check
+
+echo "🔗 Validating links in documentation..."
+echo "Note: This will build the site and check all links. It may take a few minutes..."
+
+# Run the link check but only fail on broken internal links
+npm run check:links || {
+    echo "⚠️  Warning: Some links may be broken. Please review the output above."
+    echo "If the broken links are external and temporarily down, you can still push."
+    echo "However, please fix any broken internal links before pushing."
+    read -p "Do you want to continue pushing? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        exit 1
+    fi
+}
+
+echo "✅ All checks passed!"
