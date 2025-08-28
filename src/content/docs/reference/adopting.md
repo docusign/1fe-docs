@@ -9,10 +9,10 @@ The typical setup for hosting your own instance of 1fe requires the hosting and 
 
 ### Requirements
 
-1. A Hosted isomorphic NodeJS App. 1fe App demo source is available [here]().
+1. A Hosted isomorphic NodeJS App. 1fe App demo source is available [here](https://github.com/docusign/1fe-starter-app).
 2. A CDN provider (optional, but **highly** recommended).
-3. CICD Pipelines that run the [CLI Build command]() and Deploy assets to a publicly available read-only storage (S3 or Netstorage or Blob). Samples [here]().
-4. A Source Control platform used across your company. Eg. [GitHub](), [GitLab](), [BitBucket](), [Bazaar](), etc.
+3. CICD Pipelines that run the [CLI Build command](/reference/1fe-config-reference/#-cli-usage) and Deploy assets to a publicly available read-only storage (S3 or Netstorage or Blob). Samples [here](https://github.com/docusign/1fe-ci-cd).
+4. A Source Control platform used across your company. Eg. [GitHub](https://github.com), [GitLab](https://gitlab.com), [BitBucket](https://bitbucket.org), [Bazaar](https://bazaar-vcs.org), etc.
 
 ### Coming Soon
 
