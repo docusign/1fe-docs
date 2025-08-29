@@ -27,7 +27,7 @@ export default defineConfig({
         github: "https://github.com/docusign/1fe",
       },
       logo: {
-        src: "./src/assets/1fe-logo.svg",
+        src: "./src/assets/1fe-logo-light.svg",
       },
       sidebar: sidebarConfig,
       disable404Route: true,

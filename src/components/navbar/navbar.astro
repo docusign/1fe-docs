@@ -6,7 +6,10 @@ import Link from "@components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { StickyHeader, Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
-import logo from "../../assets/1fe-logo.svg" 
+import logo from "../../assets/1fe-logo-light.svg" 
+import githubLogo from "../../assets/github-light.svg"
+import discordLogo from "../../assets/discord-light.svg" 
+import calendarLogo from "../../assets/calendar-light.svg"
 
 const menuitems = [
 ];
@@ -72,6 +75,33 @@ const menuitems = [
         </Astronav>
         <div>
           <div class="hidden lg:flex items-center gap-4">
+            <a href="https://discord.gg/aHdTFYnT">
+              <Image
+                src={discordLogo}
+                alt="Discord Logo"
+                width="35"
+                class="object-contain"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://github.com/docusign/1fe">
+              <Image
+                src={githubLogo}
+                alt="Github Logo"
+                width="35"
+                class="object-contain"
+                loading="lazy"
+              />
+            </a>
+            <a href="https://calendar.app.google/Vi9XigVmhfzdNywv7">
+              <Image
+                src={calendarLogo}
+                alt="Calendar Logo"
+                width="40"
+                class="object-contain"
+                loading="lazy"
+              />
+            </a>
             <Link
               href="/start-here/"
               size="sm"
