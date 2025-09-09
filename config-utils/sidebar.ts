@@ -1,4 +1,6 @@
-export const sidebarConfig = [
+import { StarlightUserConfig } from "@astrojs/starlight/types";
+
+export const sidebarConfig: StarlightUserConfig["sidebar"] = [
   {
     label: "Start Here",
     autogenerate: { directory: "start-here" },
@@ -7,8 +9,31 @@ export const sidebarConfig = [
   },
   {
     label: "Tutorials",
-    autogenerate: { directory: "tutorials" },
     collapsed: true,
+    items: [
+      {
+        label: "Tutorials",
+        link: "tutorials/",
+      },
+      {
+        label: "Setup and Deploy 1fe POC",
+        autogenerate: { directory: "tutorials/Setup and Deploy 1fe POC" },
+      },
+      {
+        label: "Developing Your First Widget",
+        autogenerate: { directory: "tutorials/Developing Your First Widget" },
+      },
+      {
+        label: "Take Ownership",
+        autogenerate: { directory: "tutorials/Take Ownership" },
+      },
+      {
+        label: "Productionize your 1fe instance",
+        autogenerate: {
+          directory: "tutorials/Productionize your 1fe instance",
+        },
+      },
+    ],
     // attrs: { style: "text-transform: 'capitalized'" },
   },
   {

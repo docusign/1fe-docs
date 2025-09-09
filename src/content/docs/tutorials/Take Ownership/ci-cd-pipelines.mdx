@@ -1,0 +1,55 @@
+---
+title: "Step 2: Automate with CI/CD Pipelines"
+description: Build reusable CI/CD templates for widgets and your 1fe app with quality gates and deployment automation
+sidebar:
+  order: 2
+---
+
+import { SlRocket, SlCheck, SlArrowRight } from "react-icons/sl";
+import { FcFlowChart } from "react-icons/fc";
+
+# <SlRocket style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} /> Step 2: Automate with CI/CD Pipelines
+
+A robust CI/CD pipeline is essential for a healthy and scalable 1fe ecosystem. You'll create reusable CI/CD templates that ensure consistent quality and deployment processes across all your widgets and your 1fe app.
+
+## 📦 For Widget Repositories
+
+Create a standardized CI/CD pipeline that all widget repositories can use:
+
+<div class="prose">
+
+- **Code Quality** - Automated linting, unit tests, and security scans
+- **Build Process** - Consistent widget building using the 1fe CLI
+- **Asset Publishing** - Automated publishing of widget bundles to your CDN
+- **Release Management** - Automated updates to your configuration provider
+- **Rollback Capability** - Safe deployment practices with easy rollback options
+
+</div>
+
+**→ [Explore example CI/CD templates for widgets](https://github.com/docusign/1fe-ci-cd)**
+
+## 🏗️ For Your 1fe App
+
+Your 1fe app needs its own specialized CI/CD pipeline:
+
+<div class="prose">
+
+- **Quality Assurance** - Linting, unit tests, integration tests, and security scanning
+- **Shell Deployment** - Build and deploy the shell application to your CDN
+- **Server Deployment** - Build and deploy the server to your hosting provider
+- **Type Publishing** - Publish updated shell types to your private NPM registry
+- **Environment Management** - Deploy to staging and production environments safely
+
+</div>
+
+**→ [See example CI/CD pipeline for 1fe apps](https://github.com/docusign/1fe-ci-cd/blob/main/.github/workflows/ci-starter-app.yml)**
+
+:::tip[Start Simple, Scale Up]
+Begin with basic CI/CD pipelines that cover the essentials, then gradually add more sophisticated features like automated testing, security scanning, and advanced deployment strategies as your team grows comfortable with the processes.
+:::
+
+---
+
+## 👉 Next Step
+
+**→ [Step 3: Customize with Shell Types](/tutorials/take-ownership/custom-shell-types/)**

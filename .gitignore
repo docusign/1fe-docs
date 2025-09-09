@@ -20,3 +20,12 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 .vercel
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
