@@ -53,6 +53,12 @@ const makeTitle = "1fe - Configuration-driven Front End Development";
         image: "https://1fe.com/og-image.svg",
       }}
     />
+    
+    <!-- PostHog Analytics - Production Only -->
+    {import.meta.env.PROD && (
+      <script is:inline src="/posthog.js"></script>
+    )}
+    
     <style is:global>
       /* Improve Page speed */
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
