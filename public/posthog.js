@@ -46,6 +46,7 @@
 })(document, window.posthog || []);
 
 posthog.init("phc_4ioBsad3Csq8p3y6C1jiVMDaxsOuqhamQSwInt6EItj", {
+  cookieless_mode: "always", // We don't want to use cookies to be on the right side of privacy regulations: https://posthog.com/tutorials/cookieless-tracking
   api_host: "https://us.i.posthog.com",
   defaults: "2025-05-24",
   person_profiles: "identified_only",
